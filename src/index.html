@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Dhvani Blog</title>
+		<link
+			href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css"
+			rel="stylesheet"
+		/>
+	</head>
+	<body>
+		<load src="./shared/navbar.html" />
+		<main class="flex justify-center min-h-screen bg-gray-100 mx-20">
+			<div class="rounded-lg shadow-lg p-6 w-full">
+				<h1 class="text-2xl font-bold mb-4">Welcome to the dhvani blog!</h1>
+				<p class="text-gray-700">
+					I am putting down all my thoughts and learnings from my journey into
+					modular synthesizers. I am a software engineer by profession and have
+					been exploring sounds for the past
+					<span id="time-elapsed"></span> spending a lot of time just reading
+					and researching on the topic.
+				</p>
+				<p class="text-gray-700">Let's start with some basics first.</p>
+
+				<section>
+					<blockquote
+						class="p-4 my-4 border-s-4 border-gray-300 bg-gray-50 dark:border-gray-500 dark:bg-gray-800"
+					>
+						<p
+							class="text-base italic font-medium leading-relaxed text-gray-900 dark:text-white"
+						>
+							"How did you know how to do that?" he asks.<br />
+							"You just have to figure it out." <br />
+							"I wouldn't know where to start," he says.<br />
+							I think to myself, That's the problem, all right, where to
+							start.<br />
+							To reach him you have to back up and back up.<br />
+							And the further back you go, the further back you see you have to
+							go,<br />
+							until what looked like a small problem of communication turns into
+							a major philosophic enquiry.<br />
+							- Robert M. Pirsig, Zen and the Art of Motorcycle Maintenance
+						</p>
+					</blockquote>
+				</section>
+				<section class="mt-8">
+					<h2 class="text-3xl">What is sound?</h2>
+					<p>
+						Sound is nothing but the changes in the air pressure caused by any
+						kind of disturbance in our surrounding. For eg. if you hit a tuning
+						fork it creates a disturbance in the air pressure and when that
+						disturbance reaches us our brains translate that change in pressure
+						to sound. Sound is a natural accoustic phenomenon of vibrations
+						moving usually through air (or any kind of medium) to our ears.
+					</p>
+					<p>
+						Ok let's try to visualise what happens when a tuning fork is hit.
+					</p>
+					<div class="flex justify-center">
+						<img
+							src="/assets/tuning_fork.png"
+							alt="tuning fork compression and rarefaction"
+							class="max-w-full h-auto"
+						/>
+					</div>
+					<p>
+						When the prongs of a tuning fork vibrate, they disturb the air
+						particles around them. When the prongs move apart, they push against
+						the neighboring air particles, causing compression. In this
+						compressed region, the particles are forced closer together,
+						increasing the air pressure. This compression represents the "push"
+						of the wave but does not involve air particles traveling with the
+						wave—only their vibrations about their mean positions. When the
+						prongs move back to their original position, the compressed air
+						expands, causing the air particles to move slightly away from each
+						other, resulting in rarefaction—a region of lower pressure. The
+						particles return to their original positions but continue to
+						oscillate, contributing to the wave's propagation. Air particles
+						don't move with the sound wave because sound is a mechanical wave
+						(meaning it needs a medium to travel), and mechanical waves transfer
+						<span class="font-bold">energy</span>, not matter.
+					</p>
+					<div class="flex justify-center">
+						<img
+							src="/assets/tuning_fork_2.gif"
+							alt="tuning fork compression and rarefaction gif"
+							class="max-w-full h-auto"
+						/>
+					</div>
+					<p>
+						Because of this motion of the air particles due to the vibrations
+						from the tuning fork there are regions where the air particles are
+						compressed together and other regions where the air particles are
+						spread apart. These regions are called compressions and rarefactions
+						respectively. The alternate compression and rarefaction form on the
+						same point, there is no migration of the particles. Sound results
+						from this mechanical wave caused by the back and forth movement of
+						the particles through a medium.
+					</p>
+					<div class="flex">
+						<a
+							href="https://musiclab.chromeexperiments.com/Sound-Waves/"
+							target="_blank"
+							class="text-blue-600 underline"
+							>Check out this interactive demo of how sound travels through air
+						</a>
+						<svg
+							xmlns="http://www.w3.org/2000/svg"
+							width="24"
+							height="24"
+							fill="none"
+							viewBox="0 0 24 24"
+							stroke="currentColor"
+						>
+							<path
+								stroke-linecap="round"
+								stroke-linejoin="round"
+								stroke-width="2"
+								d="M14 3H21v7m0-7l-8.5 8.5M5 13v7h7"
+							/>
+						</svg>
+					</div>
+					<p class="mt-2">
+						If you could see sound waves, it would look more like what happens
+						when you blow up a large beach ball. Imagine that you blow into a
+						beach ball and it expands outwards in a spherical shape. When you
+						take your mouth off the nozzle to take another breath the ball
+						slightly deflates. As you blow the next breath into it the ball
+						expands again and slightly deflates when you take the next breath,
+						and so on until the ball is completely inflated. In a similar manner
+						sound propagates away from the source in a sphere moving outward and
+						then recoiling inward and then outward and so on.
+					</p>
+				</section>
+				<section class="mt-8">
+					<h1 class="text-3xl">How do we perceive sounds?</h1>
+					<p>
+						On the level of physics what we call sound is a vibration or
+						referring an old word "verberation". This is a wave that following
+						the shaking movement of one or more sources propagate and reaches
+						our ears where it gives rise to auditory sensations. Physically
+						speaking sound is the shaking movement of the medium in question.
+						Sound propagates in concentric cirlces similar to ripples seen on
+						throwing a rock into calm waters. In the air the verberation
+						propagates at a speed of approximately 343 meters per second. It was
+						only at the beginning of the nineteenth century that this average
+						speed of sound which varies slightly relative to pressure and
+						temperature was able to be calculated. In water the wave propagates
+						considerably faster (15oo m/s). Sound also travels through hard
+						material and this is the reason why it is so hard to soundproof
+						apartments that are located on top of the other. Sound in the
+						<span class="italic">physical</span> sense has only two
+						characteristics: <span class="underline">frequency</span> the number
+						of oscillations (or vibrations) per second and
+						<span class="underline">pressure amplitude</span> which correlates
+						to the magnitude of the oscillation. Frequency is perceived as pitch
+						and the amplitude is perceived as sonic intensity (loudness).
+					</p>
+					<aside class="mt-10">
+						<h1 class="text-xl">
+							Calculating the speed of sound has an interesting history......
+						</h1>
+						<div class="flex">
+							<a
+								href="./aside/index.html"
+								target="_blank"
+								class="text-blue-600 underline"
+								>Check out this article on a brief history of it on my blog.</a
+							>
+							<svg
+								xmlns="http://www.w3.org/2000/svg"
+								width="24"
+								height="24"
+								fill="none"
+								viewBox="0 0 24 24"
+								stroke="currentColor"
+							>
+								<path
+									stroke-linecap="round"
+									stroke-linejoin="round"
+									stroke-width="2"
+									d="M14 3H21v7m0-7l-8.5 8.5M5 13v7h7"
+								/>
+							</svg>
+						</div>
+					</aside>
+					<p></p>
+				</section>
+			</div>
+		</main>
+		<script type="module" src="./main.ts"></script>
+	</body>
+</html>

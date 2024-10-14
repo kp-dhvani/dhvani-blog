@@ -8,12 +8,15 @@
 			href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css"
 			rel="stylesheet"
 		/>
+		<link href="./style.css" rel="stylesheet" />
 	</head>
-	<body>
+	<body class="font-spaceMono">
 		<load src="./shared/navbar.html" />
 		<main class="flex justify-center min-h-screen bg-gray-100 md:mx-20">
 			<div class="rounded-lg shadow-lg p-6 w-full">
-				<h1 class="text-2xl font-bold mb-4">Welcome to the dhvani blog!</h1>
+				<h1 class="text-2xl font-bold mb-4">
+					Welcome to the <span class="underline">dhvani</span> blog.
+				</h1>
 				<p class="text-gray-700">
 					I am putting down all my thoughts and learnings from my journey into
 					modular synthesizers. I am a software engineer by profession and have
@@ -45,7 +48,9 @@
 					</blockquote>
 				</section>
 				<section class="mt-8">
-					<h2 class="text-3xl mb-5 underline">What is sound?</h2>
+					<h2 class="text-3xl mb-5 border border-black rounded-lg p-2">
+						What is sound?
+					</h2>
 					<p>
 						Sound is nothing but the changes in the air pressure caused by any
 						kind of disturbance in our surrounding. For eg. if you hit a tuning
@@ -134,7 +139,9 @@
 					</p>
 				</section>
 				<section class="mt-8">
-					<h1 class="text-3xl mb-5 underline">How do we perceive sounds?</h1>
+					<h1 class="text-3xl mb-5 border border-black rounded-lg p-2">
+						How do we perceive sounds?
+					</h1>
 					<p>
 						On the level of physics what we call sound is a vibration or
 						referring an old word "verberation". This is a wave that following
@@ -142,12 +149,13 @@
 						our ears where it gives rise to auditory sensations. Physically
 						speaking sound is the shaking movement of the medium in question.
 						Sound propagates in concentric cirlces similar to ripples seen on
-						throwing a rock into calm waters. In the air the verberation
+						throwing a rock into calm waters. In the air the
+						<span class="italic">verberation</span>
 						propagates at a speed of approximately 343 meters per second. It was
 						only at the beginning of the nineteenth century that this average
 						speed of sound which varies slightly relative to pressure and
 						temperature was able to be calculated. In water the wave propagates
-						considerably faster (15oo m/s). Sound also travels through hard
+						considerably faster (1500 m/s). Sound also travels through hard
 						material and this is the reason why it is so hard to soundproof
 						apartments that are located on top of the other. Sound in the
 						<span class="italic">physical</span> sense has only two
@@ -155,7 +163,21 @@
 						of oscillations (or vibrations) per second and
 						<span class="underline">pressure amplitude</span> which correlates
 						to the magnitude of the oscillation. Frequency is perceived as pitch
-						and the amplitude is perceived as sonic intensity (loudness).
+						and the amplitude is perceived as sonic intensity (loudness). All of
+						the other perceived characteristics of sound are produced by
+						variations of frequency and amplitude over time. The sound
+						propagation takes place in every direction and it weakens in
+						proportion to thr square of the distance traveled. There is a
+						reflection when the
+						<span class="italic">verberation</span> encounters a surface that
+						does not absorb it completely and returns a portion of it like a
+						bouncing ball. Weh we hear sound via direct propagation from the
+						source and a reflected sound the lag between the direct sound and
+						reflected sound combine to produce
+						<span class="italic">reverberations</span>. When a sound wave
+						encounters an obstacle a portion will bypass it and this is called
+						diffraction. Diffraction is what makes acoustic isolation difficult
+						to achieve.
 					</p>
 					<aside class="mt-10">
 						<h1 class="text-xl">
@@ -185,6 +207,96 @@
 							</svg>
 						</div>
 					</aside>
+					<div class="flex justify-center my-10">
+						<img
+							src="/assets/ear_structure.jpg"
+							alt="ear structure"
+							class="max-w-full h-auto"
+						/>
+					</div>
+					<p class="mb-10">
+						The ears detect, analyse, and classify biologically interesting
+						sounds and construct a model of auditory scene that surrounds us.
+						The auditory system is attuned not only to listen to certain sounds
+						but to ignore sounds that are not biologically relevant. Such sounds
+						include ambient noises and the effects of sound reflection,
+						refraction, diffusion which can distort the incoming sound. Imagine
+						that you stretch a pillowcase tightly across the opening of a bucket
+						and people throw balls at it from different distances. Each person
+						can throw as many balls as they like and as often they like. Now
+						your job is to figure out just by looking at how the pillowcase
+						moves uop and down, how many people are there, who they are, and
+						whether they are walking towards you, away from you or are standing
+						still. This is what our auditory system has to do when making
+						identification of auditory objects in the world using only the
+						movement of the eardrum as a guide. (Of course the brain combines
+						the data received through the eyes to form a holistic model of the
+						current environment.)
+					</p>
+					<p class="mb-10">
+						Human ear is an organ which is external and internal at the same
+						time. The ear as an organ is divided into outer, middle and inner.
+						The outer ear consist if the <span class="italic">pinna</span>, the
+						auditory or the ear canal and the eardrum.
+						<span class="italic">Pinna</span> helps with protection (from wind
+						and other things that might interfere with audition) and
+						<span class="italic">resonance</span>. The funnel shaped
+						<span class="italic">pinna</span> collects sound from the
+						environment and its shape modifies the arriving frequency
+						information depending on the direction of the source. The
+						<span class="italic">pinna</span> directs the waves towards the
+						tympanic membrane and its form favours frequencies that we use in
+						verbal communication. The ear canal of the human adult is on average
+						7 to 8 millimeters in diameter and 2.5 to 3 centimeters deep. Its
+						structure also tends to attenuate sounds that impede verbal
+						communication mainly bass frequencies. Frequencies around 3000Hz are
+						transferred more efficiently by the canal and we are more sensitive
+						to this range of frequencies. The eardrum is bent by the force of
+						arriving sound and transmits the motion to the middle ear. It
+						vibrates more easily between 1-3.5kHz frequency range but transmits
+						sounds to the inner ear over the entire audible frequency range. The
+						ear drum and the middle ear play a crucial role in overcoming the
+						mismatch between the low density air in the outer ear and the much
+						of the denser fluid in the inner ear with a process called impedance
+						matching. Impedance refers to the resistance a medium offers to the
+						flow of energy. Air has low impedance while the fluid in the inner
+						ear has high impedance. Without a mechanism to fix this mismatch
+						sound waves sound waves mostly be reflected back when they hit the
+						fluid in the inner ear. This would reduce the amount of sound energy
+						entering the inner ear making hearing inefficient. Normally, when
+						sound travels from a low impedance medium like air to a high
+						impedance medium like water almost all of the acoustical energy is
+						reflected. We still have very low understanding of how the eardrum
+						accomplishes this task over such a wide frequency range.
+					</p>
+					<p class="mb-10">
+						The middle ear is primarily made up of tympanic membrane and the
+						series of tiny bones called
+						<span class="italic">ossicles</span> that go by the names of
+						"hammer" (incus), "anvil" (malleus), and "stirrup" (stapes). The
+						bones function to transfer the pressure vibrations into mechanical
+						vibrations which are passed along to the entrance of cochlea which
+						is called the oval window. The tympanic membrane (eardrum)
+						approximately one centimeter in diameter is an elastic membrane is
+						in contact with these ossicles. This series of little bones transmit
+						the vibrations from the tympanic membrane to the inner ear while
+						amplifying the frequencies between 1000 and 4000Hz. It is here that
+						the bones protect against the sounds that are too loud with a
+						mechanism called acoustic reflex (also called the stapedius reflex
+						or middle ear reflex). Not only does this mechanism protect us from
+						loud sounds, it also dulls the loudness of our own voices when we
+						speak. It involves tiny muscles attached to the ossicles that
+						respond to the loud sounds by reducing the movement of the bones
+						thus limiting the amount of energy transmitted to the inner ear. The
+						stapedius muscle and the tensor tympani muscle contract reflexively
+						with in 10-20 ms in response to loud sound pressures exceeding
+						70-100dB SPL (Sound Pressure Level). When these muscles contract
+						they dampen the movement of the ossciles which stiffens the
+						ossicular chain reducing the transmission of the sound vibrations
+						reaching the inner ear. By stiffening the ossicles, the reflex
+						reduces the intensity of the sound that reaches the cochlea by
+						approximately 20 decibels.
+					</p>
 					<p></p>
 				</section>
 			</div>

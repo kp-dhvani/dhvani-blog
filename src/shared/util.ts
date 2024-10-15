@@ -4,7 +4,6 @@ export const highlightCurrentPageInNav = function () {
 	if (currentPathName) {
 		const allNavigationLinks: NodeListOf<HTMLAnchorElement> =
 			document.querySelectorAll(".article-link");
-		console.log("allNavigationLinks", allNavigationLinks);
 		allNavigationLinks.forEach((link) => {
 			if (link.text.toLocaleLowerCase() === currentPathName) {
 				link.className += " bg-gray-900";

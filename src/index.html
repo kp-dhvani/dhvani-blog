@@ -15,16 +15,23 @@
 		<main class="flex justify-center min-h-screen bg-gray-100 md:mx-20">
 			<div class="rounded-lg shadow-lg p-6 w-full">
 				<h1 class="text-2xl font-bold mb-4">
-					Welcome to the <span class="underline">dhvani</span> blog.
+					Welcome to the <span class="underline">ध्वनि</span> blog.
 				</h1>
-				<p class="text-gray-700">
-					I am putting down all my thoughts and learnings from my journey into
-					modular synthesizers. I am a software engineer by profession and have
-					been exploring sounds for the past
-					<span id="time-elapsed"></span> spending a lot of time just reading
-					and researching on the topic.
-				</p>
-				<p class="text-gray-700">Let's start with some basics first.</p>
+				<section>
+					<h3 class="mb-5 text-xl italic">
+						ध्वनि the Sanskrit word for sound: from Proto-Indo-Aryan *dʰwaníṣ,
+						from Proto-Indo-Iranian *dʰwaníš, from Proto-Indo-European *dʰwen-
+						(“to make a noise”).
+					</h3>
+					<p class="text-gray-700">
+						I am putting down all my thoughts and learnings from my journey into
+						modular synthesizers. I am a software engineer by profession and
+						have been exploring sounds for the past
+						<span id="time-elapsed"></span> spending a lot of time just reading
+						and researching on the topic.
+					</p>
+					<p class="text-gray-700">Let's start with some basics first.</p>
+				</section>
 
 				<section>
 					<blockquote
@@ -50,12 +57,13 @@
 						What is sound?
 					</h2>
 					<p>
-						Sound is nothing but the changes in the air pressure caused by any
-						kind of disturbance in our surrounding. For eg. if you hit a tuning
-						fork it creates a disturbance in the air pressure and when that
-						disturbance reaches us our brains translate that change in pressure
-						to sound. Sound is a natural accoustic phenomenon of vibrations
-						moving usually through air (or any kind of medium) to our ears.
+						Sound is nothing result of pressure variations in the air (or any
+						medium), caused by disturbances such as vibrations in our
+						surroundings. For eg. if you hit a tuning fork it creates a
+						disturbance in the air pressure and when that disturbance reaches us
+						our brains translate that change in pressure to sound. Sound is a
+						natural accoustic phenomenon of vibrations moving usually through
+						air (or any kind of medium) to our ears.
 					</p>
 					<p>
 						Ok let's try to visualise what happens when a tuning fork is hit.
@@ -101,12 +109,35 @@
 						from this mechanical wave caused by the back and forth movement of
 						the particles through a medium.
 					</p>
-					<div class="flex">
+					<div class="flex my-2">
 						<a
 							href="https://musiclab.chromeexperiments.com/Sound-Waves/"
 							target="_blank"
 							class="text-blue-600 underline"
 							>Check out this interactive demo of how sound travels through air
+						</a>
+						<svg
+							xmlns="http://www.w3.org/2000/svg"
+							width="24"
+							height="24"
+							fill="none"
+							viewBox="0 0 24 24"
+							stroke="currentColor"
+						>
+							<path
+								stroke-linecap="round"
+								stroke-linejoin="round"
+								stroke-width="2"
+								d="M14 3H21v7m0-7l-8.5 8.5M5 13v7h7"
+							/>
+						</svg>
+					</div>
+					<div class="flex my-2">
+						<a
+							href="https://www.youtube.com/watch?v=1kjAkuwYx2M"
+							target="_blank"
+							class="text-blue-600 underline"
+							>Also, an amazing video on sound propagation
 						</a>
 						<svg
 							xmlns="http://www.w3.org/2000/svg"
@@ -142,21 +173,20 @@
 					</h1>
 					<p>
 						On the level of physics what we call sound is a vibration or
-						referring an old word "verberation". This is a wave that following
-						the shaking movement of one or more sources propagate and reaches
-						our ears where it gives rise to auditory sensations. Physically
-						speaking sound is the shaking movement of the medium in question.
-						Sound propagates in concentric cirlces similar to ripples seen on
-						throwing a rock into calm waters. In the air the
-						<span class="italic">verberation</span>
-						propagates at a speed of approximately 343 meters per second. It was
-						only at the beginning of the nineteenth century that this average
-						speed of sound which varies slightly relative to pressure and
-						temperature was able to be calculated. In water the wave propagates
-						considerably faster (1500 m/s). Sound also travels through hard
-						material and this is the reason why it is so hard to soundproof
-						apartments that are located on top of the other. Sound in the
-						<span class="italic">physical</span> sense has only two
+						referring an old word <span class="italic">verberation</span>. This
+						is a wave that following the shaking movement of one or more sources
+						propagate and reaches our ears where it gives rise to auditory
+						sensations. Physically speaking sound is the shaking movement of the
+						medium in question. Sound propagates in concentric cirlces similar
+						to ripples seen on throwing a rock into calm waters. In the air the
+						verberation propagates at a speed of approximately 343 meters per
+						second. It was only at the beginning of the nineteenth century that
+						this average speed of sound which varies slightly relative to
+						pressure and temperature was able to be calculated. In water the
+						wave propagates considerably faster (1500 m/s). Sound also travels
+						through hard material and this is the reason why it is so hard to
+						soundproof apartments that are located on top of the other. Sound in
+						the <span class="italic">physical</span> sense has only two
 						characteristics: <span class="underline">frequency</span> the number
 						of oscillations (or vibrations) per second and
 						<span class="underline">pressure amplitude</span> which correlates
@@ -166,16 +196,14 @@
 						variations of frequency and amplitude over time. The sound
 						propagation takes place in every direction and it weakens in
 						proportion to thr square of the distance traveled. There is a
-						reflection when the
-						<span class="italic">verberation</span> encounters a surface that
-						does not absorb it completely and returns a portion of it like a
-						bouncing ball. Weh we hear sound via direct propagation from the
-						source and a reflected sound the lag between the direct sound and
-						reflected sound combine to produce
-						<span class="italic">reverberations</span>. When a sound wave
-						encounters an obstacle a portion will bypass it and this is called
-						diffraction. Diffraction is what makes acoustic isolation difficult
-						to achieve.
+						reflection when the verberation encounters a surface that does not
+						absorb it completely and returns a portion of it like a bouncing
+						ball. Weh we hear sound via direct propagation from the source and a
+						reflected sound the lag between the direct sound and reflected sound
+						combine to produce <span class="italic">reverberations</span>. When
+						a sound wave encounters an obstacle a portion will bypass it and
+						this is called diffraction. Diffraction is what makes acoustic
+						isolation difficult to achieve.
 					</p>
 					<aside class="mt-10">
 						<h1 class="text-xl">
@@ -236,14 +264,12 @@
 						Human ear is an organ which is external and internal at the same
 						time. The ear as an organ is divided into outer, middle and inner.
 						The outer ear consist if the <span class="italic">pinna</span>, the
-						auditory or the ear canal and the eardrum.
-						<span class="italic">Pinna</span> helps with protection (from wind
-						and other things that might interfere with audition) and
-						<span class="italic">resonance</span>. The funnel shaped
-						<span class="italic">pinna</span> collects sound from the
-						environment and its shape modifies the arriving frequency
-						information depending on the direction of the source. The
-						<span class="italic">pinna</span> directs the waves towards the
+						auditory or the ear canal and the eardrum. Pinna helps with
+						protection (from wind and other things that might interfere with
+						audition) and <span class="italic">resonance</span>. The funnel
+						shaped pinna collects sound from the environment and its shape
+						modifies the arriving frequency information depending on the
+						direction of the source. The pinna directs the waves towards the
 						tympanic membrane and its form favours frequencies that we use in
 						verbal communication. The ear canal of the human adult is on average
 						7 to 8 millimeters in diameter and 2.5 to 3 centimeters deep. Its
@@ -315,18 +341,17 @@
 						audition. The audition is handled by
 						<span class="italic">cochlea</span> Greek for "snail" due to its
 						coiled shape. The stapes connects to the
-						<span class="italic">oval window</span> at one end of the
-						<span class="italic">cochlea</span> a fluid filled tube that
-						connects to the auditory nerve. The other end is called a
-						<span class="italic">round window</span>. The side of the oval
-						window is called the <span class="italic">scala vestibuli</span> and
-						the side of round window is called
-						<span class="italic">scala tympani</span> The two scala are filled
-						with <span class="italic">perilymph</span> a fluid similar to spinal
-						fluid. The vibrations from the stapes to the oval window moves the
-						fluid back and forth. The round window has a flexible membrane and
-						acts as a pressure release point bulging outward when the fluid
-						moves. The two scala enclose the
+						<span class="italic">oval window</span> at one end of the cochlea a
+						fluid filled tube that connects to the auditory nerve. The other end
+						is called a <span class="italic">round window</span>. The side of
+						the oval window is called the
+						<span class="italic">scala vestibuli</span> and the side of round
+						window is called <span class="italic">scala tympani</span> The two
+						scala are filled with <span class="italic">perilymph</span> a fluid
+						similar to spinal fluid. The vibrations from the stapes to the oval
+						window moves the fluid back and forth. The round window has a
+						flexible membrane and acts as a pressure release point bulging
+						outward when the fluid moves. The two scala enclose the
 						<span class="italic">scala media</span> filled with
 						<span class="italic">endolymph</span> which is similar to
 						intracellular fluid. Within the scala media is the organ of
@@ -441,6 +466,108 @@
 						for interconnections and the fact that brains are serial processors
 						unlike computers which are parallel processors.
 					</p>
+					<p class="mb-10">
+						This is how the auditory system processes sound: it doesn't have to
+						wait to find out what the pitch of sound is to determine where the
+						sound coming from. There are neural networks who dedicated to this
+						process are separate. If one of the circuits is done processing it
+						can send the information to other parts of the brain and they can
+						start using that information. If the late arriving information
+						affects the interpretation of the previous information our brains
+						just "change their mind" and update the model of what they think of
+						the incoming sound. This is called
+						<span class="italic">Predictive coding</span>. As per the theory the
+						brain constantly generating and updating the mental model of the
+						environment to predict incoming sensory information. The theory is
+						part of broader framework of
+						<span class="italic">Bayesian inference</span> is the fundamental
+						mechanism for perception, cognition, and action. The brain doesn't
+						just passively receives information from the world but actively
+						predicts it and uses incoming data to correct or refine its
+						predictions.
+					</p>
+					<p class="mb-10">
+						How does the brain figure out from the disorganised mixture of
+						molecules beating again the eardrum what's out there in the
+						world?<br />
+						The brain uses something called as
+						<span class="italic">feature extraction</span> followed by this
+						other process called
+						<span class="italic">feature integration</span>. The brain extracts
+						low level features using specialised neural networks that decompose
+						the incoming signal into information about pitch, timbre, spacial
+						location, loudness, etc. Frequency (pitch) is processed by specific
+						regions of the auditory cortex that correspond to different
+						frequencies, known as tonotopic organization. Neurons at various
+						levels in the auditory pathway are topographically arranged by their
+						response to different frequencies. This organization is referred to
+						as tonotopy or cochleotopy. The primary auditory cortex located in
+						the temporal lobe is tonotopically organised just like cochlea for
+						detecting the frequencies in the sound. Neurons in the different
+						regions of the auditory cortex are sensitive to specific
+						frequencies. Cells that respond to low frequencies are located in
+						one region of the cortex. Cells that respond to high frequencies are
+						located in another region. As we have noted previously the same
+						structure is followed by cochlea to detect the frequencies in the
+						sound. Volume (loudness) is perceived based on the intensity of
+						neural firing in response to the electrical signals. These
+						operations are carried out in parallel and can operate somewhat
+						independently of one another. This sort of processing where only the
+						information contained in the stimulus is considered by the neural
+						circuits is called bottom up processing. In the brain these
+						attributes of music/sound are separable. The term low level refers
+						to the perception of the building block attributes of sensory
+						stimulus. <br />
+						At the same time as feature extraction is taking place in the
+						cochlea, auditory cortex, and brain stem thr higher level centers of
+						the brain are receiving a constant flow of information about what
+						has been processed so far and this information os continuously
+						updated and rewritten if needed. Centers for processing higher
+						thought mostly in the frontal cortex keep receiving these updates
+						and they working quickly to predict what will come next in the
+						music/sound. The enjoyment we experience from music stems from the
+						brain's ability to predict upcoming musical patterns, such as
+						rhythm, melody, and harmony. When these predictions are confirmed,
+						it creates a sense of satisfaction, making the music feel rewarding.
+						This interplay between expectation and fulfillment is a key reason
+						why music is so pleasurable to our brains. <br />
+						The frontal lobe calculations are called top down processing and it
+						can influence the lower level circuits while they are doing bottom
+						up processing. The top down and bottom up processes communicate with
+						each other in an ongoing fashion. Features extracted at the lower
+						levels are integrated at higher levels to form a cohesive perceptual
+						whole. Top down and bottom up processing is one of the key concepts
+						in predictive coding helping us to form an accurate model of our
+						surroundings.
+					</p>
+				</section>
+				<section class="mb-10">
+					<p>
+						The transformation of electrical signals into the conscious
+						experience of sound in the brain is still one of the great mysteries
+						of neuroscience. While much is known about the neural pathways
+						involved in hearing the exact mechanism by which electrical signals
+						are turned into the subjective perception of sound—what we call
+						qualia—remains elusive. This phenomenon is part of the broader "hard
+						problem of consciousness" a concept introduced by philosopher David
+						Chalmers. But hopefully this article gives you a holistic view of
+						how we perceive sound as soon as we start hearing it. I'll keep
+						adding more stuff to this article depending on my further research
+						into the topic.
+					</p>
+				</section>
+				<section>
+					<p>References:</p>
+					<ul class="list-disc">
+						<li class="underline">
+							This is your brain on music - Daniel Levitian
+						</li>
+						<li class="underline">
+							Sound an acoulogical treatise - Michel Chion
+						</li>
+						<li class="underline">Musimathics - Gareth Loy</li>
+						<li class="underline">Refining sound - Brian Shepard</li>
+					</ul>
 				</section>
 			</div>
 		</main>

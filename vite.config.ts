@@ -31,6 +31,11 @@ export default defineConfig({
 		rollupOptions: {
 			input: {
 				main: resolve(root, "index.html"),
+				oscillator: resolve(root, "/oscillator/index.html"),
+				amplifier: resolve(root, "/amplifier/index.html"),
+				lfo: resolve(root, "/lfo/index.html"),
+				filter: resolve(root, "/filter/index.html"),
+				aside: resolve(root, "/aside/index.html"),
 			},
 		},
 	},

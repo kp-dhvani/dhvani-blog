@@ -36,6 +36,7 @@ export default defineConfig({
 				lfo: resolve(root, "/lfo/index.html"),
 				filter: resolve(root, "/filter/index.html"),
 				aside: resolve(root, "/aside/index.html"),
+				timbre: resolve(root, "/aside/timbre/index.html"),
 			},
 		},
 	},

@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<link rel="icon" type="image/svg+xml" href="/vite.svg" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>A brief history of sound of speed</title>
+		<link
+			href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css"
+			rel="stylesheet"
+		/>
+		<link href="../../style.css" rel="stylesheet" />
+	</head>
+	<body class="font-spaceMono">
+		<load src="../../shared/navbar.html" />
+		<main class="flex justify-center min-h-screen bg-gray-100 mx-5 md:mx-20">
+			<div class="rounded-lg shadow-lg p-6 w-full">
+				<section>
+					<h2 class="text-3xl mb-5 border border-black rounded-lg p-2">
+						What is timbre?
+					</h2>
+					<div class="flex">
+						<div class="sound-buttons">
+							<button id="piano-c4">Play Piano C4</button>
+						</div>
+						<div class="sound-visualise">
+							<canvas id="visualiser" width="600" height="200"></canvas>
+						</div>
+					</div>
+				</section>
+			</div>
+		</main>
+		<script type="module" src="./main.ts"></script>
+	</body>
+</html>

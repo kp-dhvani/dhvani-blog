@@ -19,12 +19,37 @@
 					<h2 class="text-3xl mb-5 border border-black rounded-lg p-2">
 						What is timbre?
 					</h2>
-					<div class="flex">
-						<div class="sound-buttons">
-							<button id="piano-c4">Play Piano C4</button>
+					<div class="flex flex-col lg:flex-row justify-between content-center">
+						<div
+							class="sound-buttons flex flex-col justify-between items-start mb-4 md:mb-0"
+						>
+							<button id="piano-C4" class="mb-2 md:mb-0">Play Piano C4</button>
+							<button id="trumpet-C4" class="mb-2 md:mb-0">
+								Play Trumpet C4
+							</button>
+							<button id="violin-C4" class="mb-2 md:mb-0">
+								Play Violin C4
+							</button>
+							<button id="flute-C4" class="mb-2 md:mb-0">Play Flute C4</button>
 						</div>
-						<div class="sound-visualise">
-							<canvas id="visualiser" width="600" height="200"></canvas>
+						<div
+							class="sound-visualise flex flex-col md:flex-row w-full md:w-auto"
+						>
+							<div class="waveform mb-4 md:mb-0 mr-0 md:mr-4 w-full">
+								<canvas
+									id="visualiser-waveform"
+									height="200"
+									style="border: 1px solid black"
+								></canvas>
+							</div>
+
+							<div class="fft w-full">
+								<canvas
+									id="visualiser-fft"
+									height="200"
+									style="border: 1px solid black"
+								></canvas>
+							</div>
 						</div>
 					</div>
 				</section>

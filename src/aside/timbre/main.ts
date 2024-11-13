@@ -1,41 +1,104 @@
-import { Analyser, Player } from "tone";
+import { Analyser, Player, Context } from "tone";
 
-const canvas = document.getElementById("visualiser") as HTMLCanvasElement;
-const ctx = canvas.getContext("2d");
+const canvasWaveform = document.getElementById(
+	"visualiser-waveform"
+) as HTMLCanvasElement;
+const canvasFFT = document.getElementById(
+	"visualiser-fft"
+) as HTMLCanvasElement;
 
-const pianoC4Sound = new Player("../../assets/piano-C4.wav").toDestination();
-const pianoC4Button = document.getElementById("piano-c4");
+const canvasWaveformContext = canvasWaveform.getContext("2d");
+const canvasFFTContext = canvasFFT.getContext("2d");
 
-const analyser = new Analyser("fft", 256);
-pianoC4Sound.connect(analyser);
+const waveFormAnalyser = new Analyser("waveform", 4096);
+const fftAnalyser = new Analyser("fft", 2048);
 
-pianoC4Button?.addEventListener("click", () => {
-	if (pianoC4Sound.state === "started") {
-		pianoC4Sound.stop();
-	} else {
-		pianoC4Sound.start();
-		visualiseSounds();
-	}
+const allSoundButtons = document.querySelectorAll(".sound-buttons button");
+allSoundButtons.forEach((button) => {
+	const id = button.getAttribute("id");
+	const wavSound = new Player(`../../assets/${id}.wav`).toDestination();
+	wavSound.connect(waveFormAnalyser);
+	wavSound.connect(fftAnalyser);
+	button.addEventListener("click", () => {
+		if (wavSound.state === "started") {
+			wavSound.stop();
+		} else {
+			wavSound.start();
+			visualiseWaveform(wavSound);
+			visualiseFFT(wavSound);
+		}
+	});
 });
 
-function visualiseSounds() {
-	if (pianoC4Sound.state === "stopped") return;
-	console.log("here");
-	if (!ctx) return;
-	const values = analyser.getValue();
-	ctx.clearRect(0, 0, canvas.width, canvas.height);
-	// console.log(values);
-	const barWidth = canvas.width / values.length;
-	const barHeightMultiplier = canvas.height / 2;
-	for (let i = 0; i < values.length; i++) {
-		const barHeight = (values[i] as number) * barHeightMultiplier;
-		const x = i * barWidth;
+function visualiseWaveform(player: Player) {
+	if (!canvasWaveformContext) return;
+	if (player.state === "stopped") return;
 
-		// Set bar color (can be adjusted as desired)
-		ctx.fillStyle = `red`;
-		ctx.fillRect(x, canvas.height - barHeight, barWidth, barHeight);
+	const width = canvasWaveform.width;
+	const height = canvasWaveform.height;
+	const dataArray = waveFormAnalyser.getValue() as Float32Array;
+	canvasWaveformContext.clearRect(0, 0, width, height);
+	canvasWaveformContext.lineWidth = 2;
+	canvasWaveformContext.strokeStyle = "#FF6577";
+	canvasWaveformContext.beginPath();
+
+	const sliceWidth = width / dataArray.length;
+	let x = 0;
+
+	for (let i = 0; i < dataArray.length; i++) {
+		const value = dataArray[i];
+		const y = (value * height * 10) / 2 + height / 2;
+
+		if (i === 0) {
+			canvasWaveformContext.moveTo(x, y);
+		} else {
+			canvasWaveformContext.lineTo(x, y);
+		}
+
+		x += sliceWidth;
 	}
 
-	// Loop the draw function at the next animation frame
-	requestAnimationFrame(visualiseSounds);
+	canvasWaveformContext.lineTo(width, height / 2);
+	canvasWaveformContext.stroke();
+	requestAnimationFrame(() => visualiseWaveform(player));
 }
+
+function visualiseFFT(player: Player) {
+	if (!canvasFFTContext) return;
+	if (player.state === "stopped") return;
+
+	const width = canvasFFT.width;
+	const height = canvasFFT.height;
+	const dataArray = fftAnalyser.getValue();
+	const barWidth = width / dataArray.length;
+	canvasFFTContext.clearRect(0, 0, width, height);
+	canvasFFTContext.lineWidth = 5;
+	let x = 0;
+
+	for (let i = 0; i < dataArray.length; i++) {
+		let frequencyMagnitude = dataArray[i];
+		frequencyMagnitude =
+			frequencyMagnitude === -Infinity
+				? 0
+				: Math.max(0, ((frequencyMagnitude as number) + 100) / 100);
+		const barHeight = frequencyMagnitude * height * 1.5;
+		canvasFFTContext.fillStyle = "#FF6577";
+		canvasFFTContext.fillRect(x, height - barHeight, barWidth, barHeight);
+		x += barWidth;
+	}
+
+	requestAnimationFrame(() => visualiseFFT(player));
+}
+
+window.addEventListener("resize", resizeCanvas);
+
+function resizeCanvas() {
+	const viewportWidth = window.innerWidth;
+	if (viewportWidth <= 1024) {
+		canvasWaveform.width = 300;
+	} else {
+		canvasWaveform.width = 400;
+	}
+}
+
+resizeCanvas();

@@ -31,10 +31,12 @@ export default defineConfig({
 		rollupOptions: {
 			input: {
 				main: resolve(root, "index.html"),
-				oscillator: resolve(root, "/oscillator/index.html"),
-				amplifier: resolve(root, "/amplifier/index.html"),
-				lfo: resolve(root, "/lfo/index.html"),
-				filter: resolve(root, "/filter/index.html"),
+				"mod-synth": resolve(root, "/mod-synth/index.html"),
+				nada: resolve(root, "/nada/index.html"),
+				oscillator: resolve(root, "/mod-synth/oscillator/index.html"),
+				amplifier: resolve(root, "/mod-synth/amplifier/index.html"),
+				lfo: resolve(root, "/mod-synth/lfo/index.html"),
+				filter: resolve(root, "/mod-synth/filter/index.html"),
 				aside: resolve(root, "/aside/index.html"),
 				timbre: resolve(root, "/aside/timbre/index.html"),
 			},

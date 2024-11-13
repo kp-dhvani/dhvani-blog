@@ -1,10 +1,12 @@
 export const highlightCurrentPageInNav = function () {
 	const splitPath = window.location.pathname.split("/");
 	const currentPathName = splitPath[1];
+	console.log("currentPathName", currentPathName);
 	if (currentPathName) {
 		const allNavigationLinks: NodeListOf<HTMLAnchorElement> =
 			document.querySelectorAll(".article-link");
 		allNavigationLinks.forEach((link) => {
+			console.log(link.text.toLocaleLowerCase());
 			if (link.text.toLocaleLowerCase() === currentPathName) {
 				link.className += " bg-gray-900";
 			}

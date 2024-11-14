@@ -1,5 +1,9 @@
 import { Analyser, Player, Context } from "tone";
+import { highlightCurrentPageInNav } from "../../shared/util";
 
+document.addEventListener("DOMContentLoaded", () => {
+	highlightCurrentPageInNav();
+});
 const canvasWaveform = document.getElementById(
 	"visualiser-waveform"
 ) as HTMLCanvasElement;

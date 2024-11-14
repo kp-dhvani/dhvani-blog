@@ -1,21 +1,19 @@
 export const highlightCurrentPageInNav = function () {
-	const splitPath = window.location.pathname.split("/");
-	const currentPathName = splitPath[1];
-	console.log("currentPathName", currentPathName);
-	if (currentPathName) {
-		const allNavigationLinks: NodeListOf<HTMLAnchorElement> =
-			document.querySelectorAll(".article-link");
-		allNavigationLinks.forEach((link) => {
-			console.log(link.text.toLocaleLowerCase());
-			if (link.text.toLocaleLowerCase() === currentPathName) {
-				link.className += " bg-gray-900";
-			}
-		});
-	} else {
-		const homeAnchorTag: NodeListOf<HTMLAnchorElement> =
-			document.querySelectorAll('a[href="/"]');
-		homeAnchorTag.forEach((link) => {
-			link.className += " bg-gray-900";
-		});
-	}
+	const currentPath = window.location.pathname;
+	const basePath = currentPath.split("/")[1];
+
+	// Select all navigation links
+	const allNavigationLinks =
+		document.querySelectorAll<HTMLAnchorElement>(".article-link");
+
+	allNavigationLinks.forEach((link) => {
+		const linkHref = link.getAttribute("href") || "";
+		const linkBasePath = linkHref.split("/")[1];
+
+		if (currentPath === linkHref || basePath === linkBasePath) {
+			link.classList.add("bg-gray-900");
+		} else {
+			link.classList.remove("bg-gray-900");
+		}
+	});
 };

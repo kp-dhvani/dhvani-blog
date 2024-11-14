@@ -1,3 +1,5 @@
 import { highlightCurrentPageInNav } from "../../shared/util";
 
-highlightCurrentPageInNav();
+document.addEventListener("DOMContentLoaded", () => {
+	highlightCurrentPageInNav();
+});

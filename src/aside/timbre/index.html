@@ -17,7 +17,7 @@
 			<div class="rounded-lg shadow-lg p-6 w-full">
 				<h2 class="text-3xl mb-5 border border-black rounded-lg p-2">
 					What is timbre?
-					<span class="hidden text-xs">Start: 12th November 2024</span>
+					<span class="text-xs">published: 15th November 2024</span>
 				</h2>
 				<section>
 					<div class="flex flex-col lg:flex-row justify-between content-center">
@@ -74,7 +74,7 @@
 						sound creates: how much air it displaces when the sound is made.
 						When I say psychological construct what I mean is they only exist in
 						our minds and do not exist in nature on their own. Our minds bring
-						pitch and loudness to reality.
+						pitch and loudness in to reality.
 						<br />
 						The sounds you just played specifically middle C4 is a musical note
 						with a frequency of <span class="italic">261.63Hz</span>. C4 has a
@@ -88,11 +88,9 @@
 						<br />
 						<span class="italic">Why?</span>
 						<br />
-						Let's find out why?
+						Let's find out
 					</p>
 					<p class="mb-5">
-						<span class="italic underline">Harmonic content</span>
-						<br />
 						Nearly all objects when hit, pluck, strummed or somehow disturbed
 						vibrate. The frequency at which the objects vibrate is called its
 						<span class="italic">natural frequency</span>. Let's take an example
@@ -134,9 +132,33 @@
 						In between two nodes there has to be an
 						<span class="italic">antinode</span>. The fundamental frequency of
 						the string is associated with one antinode between the two nodes.
-						The string vibrates in such a way that the displacement is zero at both ends (nodes), and there is a maximum displacement at the center of the string (an antinode).
-						The string vibrates with the lowest frequency possible, corresponding to the longest wavelength that fits within the string's length.
+						The string vibrates in such a way that the displacement is zero at
+						both ends (nodes), and there is a maximum displacement at the center
+						of the string (an antinode). The string vibrates with the lowest
+						frequency possible, corresponding to the longest wavelength that
+						fits within the string's length.
 					</p>
+					<p class="mb-5">
+						In comes <span class="italic">resonance</span>. The string has a
+						natural set of frequencies at which it vibrates most strongly. These
+						natural frequencies are the
+						<span class="font-bold">fundamental</span> and its
+						<span class="font-bold">harmonics</span>. Every string has specific
+						frequencies at which it naturally vibrates based on its:
+					</p>
+					<ol class="mb-5 list-decimal px-8">
+						<li>
+							Length: The longer the string, the lower the fundamental
+							frequency.
+						</li>
+						<li>
+							Tension: The tighter the string, the higher the frequencies.
+						</li>
+						<li>
+							Mass per unit length: Heavier strings vibrate at lower
+							frequencies.
+						</li>
+					</ol>
 					<div class="wave-container flex justify-center items-center mb-5">
 						<canvas
 							id="standing-wave"
@@ -144,24 +166,19 @@
 							style="border: 1px solid black"
 						></canvas>
 					</div>
-					<p class="mb-5">
-						In comes <span class="italic">resonance</span>. The string has a natural set of frequencies at which it vibrates most strongly. These natural frequencies are the <span class="font-bold">fundamental</span> and its <span class="font-bold">harmonics</span>.
-						Every string has specific frequencies at which it naturally vibrates based on its:
-						<ol class="mb-5 list-decimal px-8">
-							<li>
-								Length: The longer the string, the lower the fundamental frequency.
-							</li>
-							<li>
-								Tension: The tighter the string, the higher the frequencies.
-							</li>
-							<li>
-								Mass per unit length: Heavier strings vibrate at lower frequencies.
-							</li>
-						</ol>
-						These are called the string's resonant frequencies. When you pluck the string, it will vibrate at one or more of these resonant frequencies, and this is where resonance occurs.
-						The string has natural resonant frequencies that it <span class="italic">“prefers”</span> to vibrate at. These are not just at the fundamental frequency, but at integer multiples of that frequency.
-						These higher frequencies are called harmonics or <span class="italic">overtones</span>. The string can also vibrate in more complex modes by dividing the string into sections. Each section vibrates independently at a higher frequency.
-						These modes of vibration occur at specific frequencies where the string fits an integer number of half-wavelengths along its length.
+					<p>
+						These are called the string's resonant frequencies. When you pluck
+						the string, it will vibrate at one or more of these resonant
+						frequencies, and this is where resonance occurs. The string has
+						natural resonant frequencies that it
+						<span class="italic">“prefers”</span> to vibrate at. These are not
+						just at the fundamental frequency, but at integer multiples of that
+						frequency. These higher frequencies are called harmonics or
+						<span class="italic">overtones</span>. The string can also vibrate
+						in more complex modes by dividing the string into sections. Each
+						section vibrates independently at a higher frequency. These modes of
+						vibration occur at specific frequencies where the string fits an
+						integer number of half-wavelengths along its length.
 					</p>
 					<div class="wave-container flex justify-center items-center mb-5">
 						<canvas
@@ -170,13 +187,104 @@
 							style="border: 1px solid black"
 						></canvas>
 					</div>
-					<div class="wave-container flex justify-center items-center mb-5">
+					<p class="mb-5">
+						So when a guitar string is plucked it's vibrating at a fundamental
+						frequency and also at its resonating frequencies giving rise to
+						harmonics and a rich set of frequencies.
+					</p>
+					<p class="my-5">
+						For a string fixed at both ends:
+						<br />
+						<span class="underline"
+							>Fundamental Frequency (1<sup>st</sup> harmonic):</span
+						>
+						The standing wave has 1 antinode in the middle and 2 nodes at the
+						ends. The wavelength is twice the length of the string. Relation:
+						λ<sub>1</sub> = 2L
+						<br />
+						<span class="underline">2<sup>nd</sup> harmonic:</span>
+						The standing wave has 2 antinodes and 3 nodes (nodes at both ends,
+						one in the middle, and two between them). The wavelength is the
+						length of the string. Relation: λ<sub>2</sub> = L
+						<br />
+						<span class="underline">3<sup>rd</sup> harmonic:</span>
+						The standing wave has 3 antinodes and 4 nodes The wavelength is the
+						length of the string. Relation: λ<sub>3</sub> = 2L/3
+						<br />
+						<span class="underline">n<sup>th</sup> Harmonic:</span>
+						The standing wave has n antinodes and n+1 nodes. The wavelength for
+						the nth harmonic is given by:
+						<span class="italic">λ<sub>n</sub> = 2L/n</span>
+					</p>
+					<div
+						class="wave-container flex flex-col xl:flex-row justify-between items-center gap-5 mb-5"
+					>
 						<canvas
 							id="standing-wave-third-harmonic"
 							height="200"
 							style="border: 1px solid black"
 						></canvas>
+						<canvas
+							id="standing-wave-fourth-harmonic"
+							height="200"
+							style="border: 1px solid black"
+						></canvas>
+						<canvas
+							id="standing-wave-fifth-harmonic"
+							height="200"
+							style="border: 1px solid black"
+						></canvas>
 					</div>
+					<p class="mb-10">
+						The same logic can be applied to the wind instruments. Open pipes
+						(e.g. flutes, recorders) open at both ends, these instruments
+						produce all harmonics (1st, 2nd, 3rd, etc.). The fundamental
+						frequency (f<sub>1</sub>) is supported, along with integer
+						multiples:
+						<span class="italic">f<sub>2</sub> = 2f<sub>1</sub></span>
+						<span class="italic">f<sub>3</sub> = 3f<sub>1</sub></span> and so
+						on. In an open pipe, both ends act as antinodes, where the air
+						vibrates with maximum amplitude. The relationship between the
+						wavelength (λ), frequency (f), and the length (L) of the pipe is
+						given by: <span class="italic">L = nλ/2</span>
+						<span class="italic">f = nv/L</span> where: <br />
+						n = Harmonic number (1st harmonic, 2nd harmonic, etc.).
+						<br />
+						v = Speed of sound in air (≈343 m/s at room temperature)
+						<br />
+						<br />
+						Closed pipes (e.g. clarinets, organ pipes) closed at one end, these
+						instruments produce only odd harmonics (1st, 3rd, 5th, etc.). The
+						fundamental frequency (f<sub>1</sub>) is supported, and higher
+						harmonics are odd multiples:
+						<span class="italic">f<sub>3</sub> = 3f<sub>1</sub></span>
+						<span class="italic">f<sub>5</sub> = 5f<sub>1</sub></span> and so
+						on. In a closed pipe, the closed end acts as a node (no air
+						movement), and the open end acts as an antinode (maximum air
+						movement). The relationship between the wavelength (λ), frequency
+						(f), and the length (L) is: <span class="italic">L = nλ/4</span>
+						<span class="italic">f = nv/4L</span> where: <br />
+						n = Harmonic number (1st harmonic, 2nd harmonic, etc.).
+						<br />
+						v = Speed of sound in air
+						<br />
+						<br />
+						Brass instruments with valves or slides (e.g., Trumpets, Trombones)
+						rely on the player's lips to excite the air column, producing a mix
+						of harmonics. The harmonic series depends on the length of the tube,
+						which is modified by valves or slides.
+					</p>
+				</section>
+				<section>
+					<p class="underline">
+						So when you're playing a piano C4 or a trumpet C4 or a violin C4 or
+						a flute C4 which is a frequency of 261.63Hz there are innumerable
+						frequencies being generated which are called harmonics. If you look
+						at the second visualisation at the start and play one of the sounds
+						you can see all the harmonics being generated and represented as a
+						graph. These rich set of harmonics give an instrument its
+						<span class="font-bold">timbre</span>.
+					</p>
 				</section>
 			</div>
 		</main>

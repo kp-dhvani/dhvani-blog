@@ -27,16 +27,35 @@ const standingWaveThirdHarmonicCanvas = document.getElementById(
 	"standing-wave-third-harmonic"
 ) as HTMLCanvasElement;
 
+const standingWaveFourthHarmonicCanvas = document.getElementById(
+	"standing-wave-fourth-harmonic"
+) as HTMLCanvasElement;
+
+const standingWaveFifthHarmonicCanvas = document.getElementById(
+	"standing-wave-fifth-harmonic"
+) as HTMLCanvasElement;
+
 const canvasWaveformContext = canvasWaveform.getContext("2d");
+
 const canvasFFTContext = canvasFFT.getContext("2d");
+
 const fundamentalFrequencyWaveformContext =
 	fundamentalFrequencyWaveformCanvas.getContext("2d");
+
 const standingWaveOneAntinodeCanvasContext =
 	standingWaveOneAntinodeCanvas.getContext("2d");
+
 const standingWaveSecondHarmonicContext =
 	standingWaveSecondHarmonicCanvas.getContext("2d");
+
 const standingWaveThirdHarmonicContext =
 	standingWaveThirdHarmonicCanvas.getContext("2d");
+
+const standingWaveFourthHarmonicCanvasContext =
+	standingWaveFourthHarmonicCanvas.getContext("2d");
+
+const standingWaveFifthHarmonicCanvasContext =
+	standingWaveFifthHarmonicCanvas.getContext("2d");
 
 const waveFormAnalyser = new Analyser("waveform", 4096);
 const fftAnalyser = new Analyser("fft", 2048);
@@ -160,142 +179,6 @@ if (fundamentalFrequencyWaveformContext) {
 	drawFundamentalFrequencyStandingWave();
 }
 
-// if (standingWaveOneAntinodeCanvasContext) {
-// 	const canvasWidth = standingWaveOneAntinodeCanvas.width;
-// 	const canvasHeight = standingWaveOneAntinodeCanvas.height;
-
-// 	const amplitude = 50; // Maximum amplitude of the wave
-// 	const wavelength = canvasWidth; // Distance between two nodes (full wave)
-// 	const centerY = canvasHeight / 2;
-// 	let time = 0;
-// 	const waveSpeed = 0.05;
-
-// 	function drawWave() {
-// 		standingWaveOneAntinodeCanvasContext!.clearRect(
-// 			0,
-// 			0,
-// 			canvasWidth,
-// 			canvasHeight
-// 		);
-// 		standingWaveOneAntinodeCanvasContext!.beginPath();
-// 		standingWaveOneAntinodeCanvasContext!.strokeStyle = "#FF6577";
-// 		standingWaveOneAntinodeCanvasContext!.lineWidth = 2;
-
-// 		for (let x = 0; x <= canvasWidth; x++) {
-// 			// Standing wave equation: y = A * sin(π * x / L) * cos(ωt)
-// 			const y =
-// 				centerY +
-// 				amplitude * Math.sin((Math.PI * x) / wavelength) * Math.cos(time);
-
-// 			if (x === 0) {
-// 				standingWaveOneAntinodeCanvasContext!.moveTo(x, y);
-// 			} else {
-// 				standingWaveOneAntinodeCanvasContext!.lineTo(x, y);
-// 			}
-// 		}
-
-// 		standingWaveOneAntinodeCanvasContext!.stroke();
-// 		time += waveSpeed;
-// 		requestAnimationFrame(drawWave);
-// 	}
-
-// 	drawWave();
-// }
-
-// if (standingWaveSecondHarmonicContext) {
-// 	const canvasWidth = standingWaveSecondHarmonicCanvas.width;
-// 	const canvasHeight = standingWaveSecondHarmonicCanvas.height;
-
-// 	const amplitude = 50; // Maximum amplitude of the wave
-// 	const wavelength = canvasWidth; // Full wavelength fits in the canvas width (not divided by 2 as previously)
-// 	const centerY = canvasHeight / 2;
-// 	let time = 0;
-// 	const waveSpeed = 0.05;
-
-// 	function drawWave() {
-// 		// Clear the previous wave before drawing the new one
-// 		standingWaveSecondHarmonicContext!.clearRect(
-// 			0,
-// 			0,
-// 			canvasWidth,
-// 			canvasHeight
-// 		);
-
-// 		// Begin a new wave drawing path
-// 		standingWaveSecondHarmonicContext!.beginPath();
-// 		standingWaveSecondHarmonicContext!.strokeStyle = "#FF6577";
-// 		standingWaveSecondHarmonicContext!.lineWidth = 2;
-
-// 		// Loop through each pixel in the width of the canvas
-// 		for (let x = 0; x <= canvasWidth; x++) {
-// 			// Standing wave equation for second harmonic: y = A * sin(2π * x / λ) * cos(ωt)
-// 			// This equation ensures that there are 2 antinodes (max points) and 2 nodes (zero displacement points).
-// 			const y =
-// 				centerY +
-// 				amplitude * Math.sin((2 * Math.PI * x) / wavelength) * Math.cos(time);
-
-// 			// Move to the first point and start drawing the wave
-// 			if (x === 0) {
-// 				standingWaveSecondHarmonicContext!.moveTo(x, y);
-// 			} else {
-// 				standingWaveSecondHarmonicContext!.lineTo(x, y);
-// 			}
-// 		}
-
-// 		// Stroke the path to draw the wave
-// 		standingWaveSecondHarmonicContext!.stroke();
-
-// 		// Update time to animate the wave
-// 		time += waveSpeed;
-// 		requestAnimationFrame(drawWave);
-// 	}
-
-// 	// Start drawing the wave
-// 	drawWave();
-// }
-
-// if (standingWaveThirdHarmonicContext) {
-// 	const canvasWidth = standingWaveThirdHarmonicCanvas.width;
-// 	const canvasHeight = standingWaveThirdHarmonicCanvas.height;
-
-// 	const amplitude = 50; // Maximum amplitude of the wave
-// 	const centerY = canvasHeight / 2;
-// 	const wavelength = canvasWidth / 3; // Third harmonic has 3 antinodes and 4 nodes
-// 	let time = 0;
-// 	const waveSpeed = 0.05;
-
-// 	function drawWave() {
-// 		standingWaveThirdHarmonicContext!.clearRect(
-// 			0,
-// 			0,
-// 			canvasWidth,
-// 			canvasHeight
-// 		);
-// 		standingWaveThirdHarmonicContext!.beginPath();
-// 		standingWaveThirdHarmonicContext!.strokeStyle = "#FF6577";
-// 		standingWaveThirdHarmonicContext!.lineWidth = 2;
-
-// 		for (let x = 0; x <= canvasWidth; x++) {
-// 			// Correct equation for third harmonic: y = A * sin(3 * pi * x / L) * cos(omega * t)
-// 			const y =
-// 				centerY +
-// 				amplitude * Math.sin((3 * Math.PI * x) / canvasWidth) * Math.cos(time);
-
-// 			if (x === 0) {
-// 				standingWaveThirdHarmonicContext!.moveTo(x, y);
-// 			} else {
-// 				standingWaveThirdHarmonicContext!.lineTo(x, y);
-// 			}
-// 		}
-
-// 		standingWaveThirdHarmonicContext!.stroke();
-// 		time += waveSpeed;
-// 		requestAnimationFrame(drawWave);
-// 	}
-
-// 	drawWave();
-// }
-
 function drawStandingWave(
 	canvas: HTMLCanvasElement,
 	context: CanvasRenderingContext2D | null,
@@ -305,29 +188,29 @@ function drawStandingWave(
 	const canvasWidth = canvas.width;
 	const canvasHeight = canvas.height;
 
-	const amplitude = 50; // Maximum amplitude of the wave
-	const wavelength = canvasWidth / numberOfAntinodes; // Distance between 2 nodes (1 full wavelength)
+	const amplitude = 50;
+	const wavelength =
+		canvasWidth / (numberOfAntinodes >= 2 ? numberOfAntinodes - 1 : 1);
 	const centerY = canvasHeight / 2;
 	let time = 0;
 	const waveSpeed = 0.05;
 
 	// Wave equation for n antinodes: k = 2πn / L
-	const k = (2 * Math.PI) / wavelength; // Adjust wave frequency for n antinodes
-	console.log({ numberOfAntinodes, k, wavelength, canvasWidth });
+	const k = (2 * Math.PI) / wavelength;
+
 	function drawWave() {
 		context!.clearRect(0, 0, canvasWidth, canvasHeight);
 		context!.beginPath();
 		context!.strokeStyle = "#FF6577";
 		context!.lineWidth = 2;
 
-		// Loop through the canvas width to calculate and draw the wave
 		for (let x = 0; x <= canvasWidth; x++) {
 			// Standing wave equation: y = A * sin(nπx / L) * cos(ωt)
 			const y =
 				numberOfAntinodes === 1
 					? centerY +
 					  amplitude * Math.sin((Math.PI * x) / wavelength) * Math.cos(time)
-					: centerY + amplitude * Math.sin(k * x) * Math.cos(time); // For n antinodes
+					: centerY + amplitude * Math.sin(k * x) * Math.cos(time);
 
 			if (x === 0) {
 				context!.moveTo(x, y);
@@ -336,17 +219,13 @@ function drawStandingWave(
 			}
 		}
 
-		// Apply the stroke to render the wave
 		context!.stroke();
 
-		// Increment time for animation
 		time += waveSpeed;
 
-		// Repeat the drawing for the animation effect
 		requestAnimationFrame(drawWave);
 	}
 
-	// Start drawing the wave
 	drawWave();
 }
 
@@ -366,6 +245,18 @@ drawStandingWave(
 	standingWaveThirdHarmonicCanvas,
 	standingWaveThirdHarmonicContext,
 	3
+);
+
+drawStandingWave(
+	standingWaveFourthHarmonicCanvas,
+	standingWaveFourthHarmonicCanvasContext,
+	4
+);
+
+drawStandingWave(
+	standingWaveFifthHarmonicCanvas,
+	standingWaveFifthHarmonicCanvasContext,
+	5
 );
 
 window.addEventListener("resize", resizeCanvas);

@@ -4,7 +4,7 @@
 		<meta charset="UTF-8" />
 		<link rel="icon" type="image/svg+xml" href="/vite.svg" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-		<title>A brief history of sound of speed</title>
+		<title>What is timbre?</title>
 		<link
 			href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css"
 			rel="stylesheet"
@@ -15,10 +15,11 @@
 		<load src="../../shared/navbar.html" />
 		<main class="flex justify-center min-h-screen bg-gray-100 mx-5 md:mx-20">
 			<div class="rounded-lg shadow-lg p-6 w-full">
+				<h2 class="text-3xl mb-5 border border-black rounded-lg p-2">
+					What is timbre?
+					<span class="hidden text-xs">Start: 12th November 2024</span>
+				</h2>
 				<section>
-					<h2 class="text-3xl mb-5 border border-black rounded-lg p-2">
-						What is timbre?
-					</h2>
 					<div class="flex flex-col lg:flex-row justify-between content-center">
 						<div
 							class="sound-buttons flex flex-col justify-between items-start mb-4 md:mb-0"
@@ -51,6 +52,130 @@
 								></canvas>
 							</div>
 						</div>
+					</div>
+				</section>
+				<section>
+					<p class="my-10">
+						<span class="italic">Timbre</span> comes from old French meaning
+						"bell" or "drum," which later came to mean "sound" or "tone" and is
+						pronounced \TAM-ber\ with a more French influenced second syllable
+						\TAM-bruh\. Timbre initially meant a drum and came to French from
+						Greek word <span class="italic">τύμπανον (týmpanon)</span> meaning
+						“kettledrum”.
+						<br />
+						Sound has 2 (among some others) really basic characteristics:
+						<span class="underline"
+							>Pitch (frequency) and Loudness (amplitude)</span
+						>.
+						<br />
+						Pitch is purely psychological construct which relates to the actual
+						frequency of a particular sound. Loudness too is a purely
+						psychological construct that relates to how much energy a source of
+						sound creates: how much air it displaces when the sound is made.
+						When I say psychological construct what I mean is they only exist in
+						our minds and do not exist in nature on their own. Our minds bring
+						pitch and loudness to reality.
+						<br />
+						The sounds you just played specifically middle C4 is a musical note
+						with a frequency of <span class="italic">261.63Hz</span>. C4 has a
+						scientific frequency of <span class="italic">256Hz</span> which uses
+						mathematical ways to measure the frequency while the musical pitch
+						of 261.63Hz is used my musicians for tuning their instruments. All
+						the 4 instruments piano, trumpet, violin, and flute are playing the
+						same frequency of 261.63Hz but yet they sound different. When they
+						play the note the sound vibrations are oscillating at approximately
+						262Hz and yet they sound different.
+						<br />
+						<span class="italic">Why?</span>
+						<br />
+						Let's find out why?
+					</p>
+					<p class="mb-5">
+						<span class="italic underline">Harmonic content</span>
+						<br />
+						Nearly all objects when hit, pluck, strummed or somehow disturbed
+						vibrate. The frequency at which the objects vibrate is called its
+						<span class="italic">natural frequency</span>. Let's take an example
+						of a string instrument like a guitar. When you pluck a guitar string
+						it vibrates along it full length at a frequency called the
+						<span class="italic">fundamental frequency</span> also called as the
+						<span class="italic">first harmonic</span>. So in case of a middle
+						C4 the string vibrates approximately 262 times per second (Hertz).
+						This vibration at the fundamental frequency gives the guitar string
+						it's base pitch which we hear. The frequency is determined by
+						various factors and each of the factors affect either the wavelength
+						of the object since
+						<span class="italic">frequency = speed / wavelength</span>. For a
+						guitar with 6 strings the factors include the linear density of the
+						strings (wider strings are more dense), different tension of the
+						strings, and the different length of the strings. The speed at which
+						a wave travels through a string depends on the properties of the
+						medium -- tension and linear density. Changes in these properties
+						affect the natural frequency of the string.
+					</p>
+					<div class="waveform flex justify-center items-center mb-5">
+						<canvas
+							id="fundamental-frequency-waveform"
+							height="200"
+							style="border: 1px solid black"
+						></canvas>
+					</div>
+					<p class="mb-10">
+						So when a guitarist plucks a string of a guitar the plucking
+						transfers energy to the string and it starts to vibrate. The
+						disturbance travels in both the directions. Since the string is
+						fixed by the frets on one side and the bridge on the other the
+						string is unable to move and once the disturbance travels from one
+						end to the other and is reflected back to travel in the opposite
+						direction. When the disturbance travels back it
+						<span class="italic">interferes</span> with the forward moving
+						disturbance (wave). These points are called
+						<span class="italic">nodes</span> -- the points of no displacement.
+						In between two nodes there has to be an
+						<span class="italic">antinode</span>. The fundamental frequency of
+						the string is associated with one antinode between the two nodes.
+						The string vibrates in such a way that the displacement is zero at both ends (nodes), and there is a maximum displacement at the center of the string (an antinode).
+						The string vibrates with the lowest frequency possible, corresponding to the longest wavelength that fits within the string's length.
+					</p>
+					<div class="wave-container flex justify-center items-center mb-5">
+						<canvas
+							id="standing-wave"
+							height="200"
+							style="border: 1px solid black"
+						></canvas>
+					</div>
+					<p class="mb-5">
+						In comes <span class="italic">resonance</span>. The string has a natural set of frequencies at which it vibrates most strongly. These natural frequencies are the <span class="font-bold">fundamental</span> and its <span class="font-bold">harmonics</span>.
+						Every string has specific frequencies at which it naturally vibrates based on its:
+						<ol class="mb-5 list-decimal px-8">
+							<li>
+								Length: The longer the string, the lower the fundamental frequency.
+							</li>
+							<li>
+								Tension: The tighter the string, the higher the frequencies.
+							</li>
+							<li>
+								Mass per unit length: Heavier strings vibrate at lower frequencies.
+							</li>
+						</ol>
+						These are called the string's resonant frequencies. When you pluck the string, it will vibrate at one or more of these resonant frequencies, and this is where resonance occurs.
+						The string has natural resonant frequencies that it <span class="italic">“prefers”</span> to vibrate at. These are not just at the fundamental frequency, but at integer multiples of that frequency.
+						These higher frequencies are called harmonics or <span class="italic">overtones</span>. The string can also vibrate in more complex modes by dividing the string into sections. Each section vibrates independently at a higher frequency.
+						These modes of vibration occur at specific frequencies where the string fits an integer number of half-wavelengths along its length.
+					</p>
+					<div class="wave-container flex justify-center items-center mb-5">
+						<canvas
+							id="standing-wave-second-harmonic"
+							height="200"
+							style="border: 1px solid black"
+						></canvas>
+					</div>
+					<div class="wave-container flex justify-center items-center mb-5">
+						<canvas
+							id="standing-wave-third-harmonic"
+							height="200"
+							style="border: 1px solid black"
+						></canvas>
 					</div>
 				</section>
 			</div>

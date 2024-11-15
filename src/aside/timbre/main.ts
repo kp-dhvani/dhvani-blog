@@ -4,6 +4,7 @@ import { highlightCurrentPageInNav } from "../../shared/util";
 document.addEventListener("DOMContentLoaded", () => {
 	highlightCurrentPageInNav();
 });
+
 const canvasWaveform = document.getElementById(
 	"visualiser-waveform"
 ) as HTMLCanvasElement;
@@ -63,17 +64,20 @@ const fftAnalyser = new Analyser("fft", 2048);
 const allSoundButtons = document.querySelectorAll(".sound-buttons button");
 allSoundButtons.forEach((button) => {
 	const id = button.getAttribute("id");
-	const wavSound = new Player(`../../assets/${id}.wav`).toDestination();
-	wavSound.connect(waveFormAnalyser);
-	wavSound.connect(fftAnalyser);
-	button.addEventListener("click", () => {
-		if (wavSound.state === "started") {
-			wavSound.stop();
-		} else {
-			wavSound.start();
-			visualiseWaveform(wavSound);
-			visualiseFFT(wavSound);
-		}
+	// Use dynamic imports for the wav files
+	import(`@/assets/${id}.wav`).then((file) => {
+		const wavSound = new Player(file.default).toDestination();
+		wavSound.connect(waveFormAnalyser);
+		wavSound.connect(fftAnalyser);
+		button.addEventListener("click", () => {
+			if (wavSound.state === "started") {
+				wavSound.stop();
+			} else {
+				wavSound.start();
+				visualiseWaveform(wavSound);
+				visualiseFFT(wavSound);
+			}
+		});
 	});
 });
 

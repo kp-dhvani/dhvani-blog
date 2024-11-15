@@ -4,12 +4,18 @@ import injectHTML from "vite-plugin-html-inject";
 import { TailwindCSSVitePlugin } from "tailwindcss-vite-plugin";
 import tailwind from "tailwindcss";
 import autoprefixer from "autoprefixer";
+import path from "path";
 
 const root = resolve(__dirname, "src");
 const outDir = resolve(__dirname, "dist");
 
 export default defineConfig({
 	root,
+	resolve: {
+		alias: {
+			"@": path.resolve(__dirname, "src"),
+		},
+	},
 	plugins: [
 		injectHTML(),
 		TailwindCSSVitePlugin({
@@ -27,6 +33,7 @@ export default defineConfig({
 	},
 	build: {
 		outDir,
+		assetsDir: "assets",
 		emptyOutDir: true,
 		rollupOptions: {
 			input: {

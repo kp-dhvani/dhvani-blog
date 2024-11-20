@@ -45,6 +45,7 @@ export default defineConfig({
 				lfo: resolve(root, "/mod-synth/lfo/index.html"),
 				filter: resolve(root, "/mod-synth/filter/index.html"),
 				aside: resolve(root, "/aside/index.html"),
+				"history-of-sound": resolve(root, "/aside/history-of-sound.html"),
 				timbre: resolve(root, "/aside/timbre/index.html"),
 			},
 		},

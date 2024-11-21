@@ -40,6 +40,7 @@ export default defineConfig({
 				main: resolve(root, "index.html"),
 				"mod-synth": resolve(root, "/mod-synth/index.html"),
 				nada: resolve(root, "/nada/index.html"),
+				shruti: resolve(root, "/nada/shruti/index.html"),
 				oscillator: resolve(root, "/mod-synth/oscillator/index.html"),
 				amplifier: resolve(root, "/mod-synth/amplifier/index.html"),
 				lfo: resolve(root, "/mod-synth/lfo/index.html"),

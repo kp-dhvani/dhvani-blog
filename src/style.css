@@ -3,3 +3,14 @@
 body {
     font-family: 'Space Mono', monospace !important;
 }
+
+.table-of-content #toc {
+    max-height: 0;
+    transition: max-height 1s ease-out;
+    overflow: hidden;
+}
+
+.table-of-content:hover #toc {
+    max-height: 500px;
+    transition: max-height 1s ease-in;
+}

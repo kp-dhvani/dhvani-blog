@@ -14,8 +14,30 @@
 	<body class="font-spaceMono">
 		<load src="../shared/navbar.html" />
 		<main
-			class="flex justify-center min-h-screen bg-gray-100 mx-5 md:mx-16 rounded-lg"
+			class="flex justify-center bg-gray-100 mx-5 md:mx-16 rounded-lg flex-col"
 		>
+			<div class="table-of-content text-center p-4">
+				<button
+					id="toc-toggle"
+					class="bg-gray-900 text-white px-6 py-2 rounded-lg"
+				>
+					Table of Contents
+				</button>
+				<div
+					id="toc"
+					class="mt-6 overflow-hidden transition-all duration-500 ease-in-out"
+				>
+					<div class="links flex flex-col">
+						<a
+							class="text-base md:text-xl lg:text-2xl mb-5 border border-black rounded-lg p-2 text-center"
+							href="./shruti/index.html"
+						>
+							Production of natural sounds
+						</a>
+					</div>
+					<hr class="mb-5 border-[#FF6577]" />
+				</div>
+			</div>
 			<div class="p-6 w-full">
 				<h2
 					class="text-base md:text-xl lg:text-2xl mb-5 border border-black rounded-lg p-2"

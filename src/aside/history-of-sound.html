@@ -13,10 +13,14 @@
 	</head>
 	<body class="font-spaceMono">
 		<load src="../shared/navbar.html" />
-		<main class="flex justify-center min-h-screen bg-gray-100 mx-5 md:mx-20">
-			<div class="p-6">
+		<main
+			class="flex justify-center min-h-screen bg-gray-100 mx-5 md:mx-16 rounded-lg"
+		>
+			<div class="p-6 w-full">
 				<section>
-					<h2 class="text-3xl mb-5 border border-black rounded-lg p-2">
+					<h2
+						class="text-base md:text-xl lg:text-2xl mb-5 border border-black rounded-lg p-2"
+					>
 						A brief history of sound of speed
 					</h2>
 					<blockquote
@@ -301,119 +305,123 @@
 					</p>
 				</section>
 				<section>
-					<table class="w-full text-sm text-left border border-[#FF6577]">
-						<thead class="bg-gray-50">
-							<tr>
-								<th scope="col" class="px-6 py-3 border border-[#FF6577]">
-									Substance
-								</th>
-								<th
-									scope="col"
-									class="px-6 py-3 border border-[#FF6577] text-center"
-								>
-									Temperature (°C)
-								</th>
-								<th
-									scope="col"
-									class="px-6 py-3 border border-[#FF6577] text-center"
-								>
-									Speed (m/s)
-								</th>
-							</tr>
-						</thead>
-						<tbody>
-							<tr>
-								<th
-									scope="row"
-									class="px-6 py-4 font-medium whitespace-nowrap border border-[#FF6577]"
-								>
-									CO<sub>2</sub>
-								</th>
-								<td class="border border-[#FF6577] text-center">0</td>
-								<td class="border border-[#FF6577] text-center">258</td>
-							</tr>
-							<tr>
-								<th
-									scope="row"
-									class="px-6 py-4 font-medium whitespace-nowrap border border-[#FF6577]"
-								>
-									CO<sub>2</sub>
-								</th>
-								<td class="border border-[#FF6577] text-center">35</td>
-								<td class="border border-[#FF6577] text-center">274</td>
-							</tr>
-							<tr>
-								<th
-									scope="row"
-									class="px-6 py-4 font-medium whitespace-nowrap border border-[#FF6577]"
-								>
-									Air
-								</th>
-								<td class="border border-[#FF6577] text-center">0</td>
-								<td class="border border-[#FF6577] text-center">331.5</td>
-							</tr>
-							<tr>
-								<th
-									scope="row"
-									class="px-6 py-4 font-medium whitespace-nowrap border border-[#FF6577]"
-								>
-									Air
-								</th>
-								<td class="border border-[#FF6577] text-center">20</td>
-								<td class="border border-[#FF6577] text-center">344</td>
-							</tr>
-							<tr>
-								<th
-									scope="row"
-									class="px-6 py-4 font-medium whitespace-nowrap border border-[#FF6577]"
-								>
-									Water Vapor
-								</th>
-								<td class="border border-[#FF6577] text-center">20</td>
-								<td class="border border-[#FF6577] text-center">402</td>
-							</tr>
-							<tr>
-								<th
-									scope="row"
-									class="px-6 py-4 font-medium whitespace-nowrap border border-[#FF6577]"
-								>
-									Helium
-								</th>
-								<td class="border border-[#FF6577] text-center">0</td>
-								<td class="border border-[#FF6577] text-center">927</td>
-							</tr>
-							<tr>
-								<th
-									scope="row"
-									class="px-6 py-4 font-medium whitespace-nowrap border border-[#FF6577]"
-								>
-									Hydrogen
-								</th>
-								<td class="border border-[#FF6577] text-center">15</td>
-								<td class="border border-[#FF6577] text-center">1270</td>
-							</tr>
-							<tr>
-								<th
-									scope="row"
-									class="px-6 py-4 font-medium whitespace-nowrap border border-[#FF6577]"
-								>
-									Water
-								</th>
-								<td class="border border-[#FF6577] text-center">20</td>
-								<td class="border border-[#FF6577] text-center">1437</td>
-							</tr>
-							<tr>
-								<th
-									scope="row"
-									class="px-6 py-4 font-medium whitespace-nowrap border border-[#FF6577]"
-								>
-									Steel
-								</th>
-								<td class="border border-[#FF6577] text-center">20</td>
-								<td class="border border-[#FF6577] text-center">5000</td>
-							</tr>
-						</tbody>
-					</table>
+					<div class="overflow-x-auto">
+						<table
+							class="min-w-full text-sm text-left border border-[#FF6577] table-auto"
+						>
+							<thead class="bg-gray-50">
+								<tr>
+									<th scope="col" class="px-6 py-3 border border-[#FF6577]">
+										Substance
+									</th>
+									<th
+										scope="col"
+										class="px-6 py-3 border border-[#FF6577] text-center"
+									>
+										Temperature (°C)
+									</th>
+									<th
+										scope="col"
+										class="px-6 py-3 border border-[#FF6577] text-center"
+									>
+										Speed (m/s)
+									</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<th
+										scope="row"
+										class="px-6 py-4 font-medium whitespace-nowrap border border-[#FF6577]"
+									>
+										CO<sub>2</sub>
+									</th>
+									<td class="border border-[#FF6577] text-center">0</td>
+									<td class="border border-[#FF6577] text-center">258</td>
+								</tr>
+								<tr>
+									<th
+										scope="row"
+										class="px-6 py-4 font-medium whitespace-nowrap border border-[#FF6577]"
+									>
+										CO<sub>2</sub>
+									</th>
+									<td class="border border-[#FF6577] text-center">35</td>
+									<td class="border border-[#FF6577] text-center">274</td>
+								</tr>
+								<tr>
+									<th
+										scope="row"
+										class="px-6 py-4 font-medium whitespace-nowrap border border-[#FF6577]"
+									>
+										Air
+									</th>
+									<td class="border border-[#FF6577] text-center">0</td>
+									<td class="border border-[#FF6577] text-center">331.5</td>
+								</tr>
+								<tr>
+									<th
+										scope="row"
+										class="px-6 py-4 font-medium whitespace-nowrap border border-[#FF6577]"
+									>
+										Air
+									</th>
+									<td class="border border-[#FF6577] text-center">20</td>
+									<td class="border border-[#FF6577] text-center">344</td>
+								</tr>
+								<tr>
+									<th
+										scope="row"
+										class="px-6 py-4 font-medium whitespace-nowrap border border-[#FF6577]"
+									>
+										Water Vapor
+									</th>
+									<td class="border border-[#FF6577] text-center">20</td>
+									<td class="border border-[#FF6577] text-center">402</td>
+								</tr>
+								<tr>
+									<th
+										scope="row"
+										class="px-6 py-4 font-medium whitespace-nowrap border border-[#FF6577]"
+									>
+										Helium
+									</th>
+									<td class="border border-[#FF6577] text-center">0</td>
+									<td class="border border-[#FF6577] text-center">927</td>
+								</tr>
+								<tr>
+									<th
+										scope="row"
+										class="px-6 py-4 font-medium whitespace-nowrap border border-[#FF6577]"
+									>
+										Hydrogen
+									</th>
+									<td class="border border-[#FF6577] text-center">15</td>
+									<td class="border border-[#FF6577] text-center">1270</td>
+								</tr>
+								<tr>
+									<th
+										scope="row"
+										class="px-6 py-4 font-medium whitespace-nowrap border border-[#FF6577]"
+									>
+										Water
+									</th>
+									<td class="border border-[#FF6577] text-center">20</td>
+									<td class="border border-[#FF6577] text-center">1437</td>
+								</tr>
+								<tr>
+									<th
+										scope="row"
+										class="px-6 py-4 font-medium whitespace-nowrap border border-[#FF6577]"
+									>
+										Steel
+									</th>
+									<td class="border border-[#FF6577] text-center">20</td>
+									<td class="border border-[#FF6577] text-center">5000</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
 				</section>
 			</div>
 		</main>

@@ -9,7 +9,6 @@ export const highlightCurrentPageInNav = function () {
 	allNavigationLinks.forEach((link) => {
 		const linkHref = link.getAttribute("href") || "";
 		const linkBasePath = linkHref.split("/")[1];
-
 		if (currentPath === linkHref || basePath === linkBasePath) {
 			link.classList.add("bg-gray-900");
 		} else {

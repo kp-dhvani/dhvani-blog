@@ -186,7 +186,8 @@ if (fundamentalFrequencyWaveformContext) {
 function drawStandingWave(
 	canvas: HTMLCanvasElement,
 	context: CanvasRenderingContext2D | null,
-	numberOfAntinodes: number
+	numberOfAntinodes: number,
+	animate: boolean = true
 ) {
 	if (!context) return;
 	const canvasWidth = canvas.width;
@@ -224,10 +225,10 @@ function drawStandingWave(
 		}
 
 		context!.stroke();
-
-		time += waveSpeed;
-
-		requestAnimationFrame(drawWave);
+		if (animate) {
+			time += waveSpeed;
+			requestAnimationFrame(drawWave); // Continue animation
+		}
 	}
 
 	drawWave();

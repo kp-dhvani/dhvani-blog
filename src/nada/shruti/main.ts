@@ -5,9 +5,30 @@ document.addEventListener("DOMContentLoaded", () => {
 	const firstHarmonicWaveCanvas = document.getElementById(
 		"first-harmonic-wave"
 	) as HTMLCanvasElement;
+	const secondHarmonicWaveCanvas = document.getElementById(
+		"second-harmonic-wave"
+	) as HTMLCanvasElement;
+	const thirdHarmonicWaveCanvas = document.getElementById(
+		"third-harmonic-wave"
+	) as HTMLCanvasElement;
+	const fourthHarmonicWaveCanvas = document.getElementById(
+		"fourth-harmonic-wave"
+	) as HTMLCanvasElement;
+	const fifthhHarmonicWaveCanvas = document.getElementById(
+		"fifth-harmonic-wave"
+	) as HTMLCanvasElement;
 
 	const firstHarmonicWaveContext = firstHarmonicWaveCanvas.getContext("2d");
+	const secondHarmonicWaveContext = secondHarmonicWaveCanvas.getContext("2d");
+	const thirdHarmonicWaveContext = thirdHarmonicWaveCanvas.getContext("2d");
+	const fourthHarmonicWaveContext = fourthHarmonicWaveCanvas.getContext("2d");
+	const fifthHarmonicWaveContext = fifthhHarmonicWaveCanvas.getContext("2d");
+
 	drawStandingWave(firstHarmonicWaveCanvas, firstHarmonicWaveContext, 1);
+	drawStandingWave(secondHarmonicWaveCanvas, secondHarmonicWaveContext, 2);
+	drawStandingWave(thirdHarmonicWaveCanvas, thirdHarmonicWaveContext, 3);
+	drawStandingWave(fourthHarmonicWaveCanvas, fourthHarmonicWaveContext, 4);
+	drawStandingWave(fifthhHarmonicWaveCanvas, fifthHarmonicWaveContext, 5);
 });
 
 function drawStandingWave(
@@ -39,10 +60,13 @@ function drawStandingWave(
 	const negativeWave = new Path2D();
 	context.strokeStyle = "#FF657";
 
+	const amplitudeScaling = 1 / harmonicNumber;
+
 	for (let x = 0; x <= canvasWidth; x++) {
 		// wave equation for standing wave
 		const waveEquation = (n: number) =>
 			amplitude *
+			amplitudeScaling *
 			Math.sin((n * Math.PI * x) / canvasWidth) *
 			Math.sin((Math.PI * x) / canvasWidth);
 

@@ -42,6 +42,7 @@ export default defineConfig({
 				"mod-synth": resolve(root, "/mod-synth/index.html"),
 				nada: resolve(root, "/nada/index.html"),
 				"music-theory": resolve(root, "/nada/music-theory/index.html"),
+				"main-scale": resolve(root, "/nada/main-scale/index.html"),
 				oscillator: resolve(root, "/mod-synth/oscillator/index.html"),
 				amplifier: resolve(root, "/mod-synth/amplifier/index.html"),
 				lfo: resolve(root, "/mod-synth/lfo/index.html"),

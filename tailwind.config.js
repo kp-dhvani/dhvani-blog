@@ -1,3 +1,4 @@
+/** @type {import('tailwindcss').Config} */
 module.exports = {
 	content: ["./src/**/*.html", "./src/**/*.ts"],
 	darkMode: false,
@@ -5,6 +6,9 @@ module.exports = {
 		extend: {
 			fontFamily: {
 				spaceMono: ["Space Mono", "monospace"],
+			},
+			borderColor: {
+				"accent-color": "#FF6577",
 			},
 			colors: {
 				"accent-color": "#FF6577",
@@ -25,5 +29,5 @@ module.exports = {
 	variants: {
 		extend: {},
 	},
-	plugins: [require("tailwindcss-vite-plugin")],
+	plugins: [],
 };

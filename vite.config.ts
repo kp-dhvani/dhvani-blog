@@ -17,17 +17,7 @@ export default defineConfig({
 			"@": path.resolve(__dirname, "src"),
 		},
 	},
-	plugins: [
-		injectHTML(),
-		TailwindCSSVitePlugin({
-			config: "/tailwind.config.js",
-		}),
-	],
-	css: {
-		postcss: {
-			plugins: [tailwind, autoprefixer],
-		},
-	},
+	plugins: [injectHTML()],
 	server: {
 		port: 3000,
 		hmr: true,

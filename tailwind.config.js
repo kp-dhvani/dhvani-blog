@@ -1,10 +1,13 @@
 module.exports = {
-	purge: ["./src/**/*.html", "./src/**/*.ts"],
+	content: ["./src/**/*.html", "./src/**/*.ts"],
 	darkMode: false,
 	theme: {
 		extend: {
 			fontFamily: {
 				spaceMono: ["Space Mono", "monospace"],
+			},
+			colors: {
+				"accent-color": "#FF6577",
 			},
 			translate: {
 				"custom-x": "0.25rem",
@@ -18,8 +21,9 @@ module.exports = {
 			},
 		},
 	},
+	safelist: ["border-accent-color"],
 	variants: {
 		extend: {},
 	},
-	plugins: [],
+	plugins: [require("tailwindcss-vite-plugin")],
 };

@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<link rel="icon" type="image/svg+xml" href="/vite.svg" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Dhvani Blog - Music theory basics</title>
+		<link
+			href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css"
+			rel="stylesheet"
+		/>
+		<link href="../../style.css" rel="stylesheet" />
+	</head>
+	<body class="font-spaceMono">
+		<main class="flex bg-gray-100 mx-5 md:mx-16 rounded-lg">
+			<div class="p-6 w-full">
+				<h2
+					class="text-base md:text-xl lg:text-2xl mb-5 border border-black rounded-lg p-2"
+				>
+					Logarithms
+					<span class="text-xs">30: 22<sup>th</sup> November 2024</span>
+				</h2>
+				<section>
+					<p>
+						Logarithms are used in various fields, such as mathematics, science,
+						and computer science, to express exponential relationships. The base
+						of a logarithm determines how the logarithm behaves.
+					</p>
+
+					<p class="underline">Base 10 (Common Logarithm)</p>
+					<p>
+						The common logarithm is the logarithm with
+						<span class="highlight">base 10</span>, often written as
+						<code>log(x)</code> or <code>log<sub>10</sub>(x)</code>.
+						<br />
+						Scaling Large Numbers: It's used for compressing large numbers,
+						making them easier to interpret (e.g., in scientific notation).
+					</p>
+
+					<h3>Example:</h3>
+					<p class="mb-5">
+						<code>log<sub>10</sub>(1000) = 3</code> because
+						<code>10<sup>3</sup> = 1000</code>.
+					</p>
+
+					<p class="underline">Base e (Natural Logarithm)</p>
+					<p>
+						The natural logarithm is the logarithm with base <i>e</i> >, where
+						<i>e</i> ≈ 2.71828, often written as <code>ln(x)</code>.
+						<br />
+						Mathematical Significance: <i>e</i> arises naturally in many areas
+						of mathematics, especially with continuous growth or decay.
+						<br />
+						Calculus and Derivatives:The function
+						<code>e<sup>x</sup></code> has the special property that it is its
+						own derivative, making it crucial for continuous processes.
+					</p>
+
+					<h3>Example:</h3>
+					<p>
+						<code>ln(e) = 1</code> because <code>e<sup>1</sup> = e</code>.
+					</p>
+
+					<h3>Common Applications:</h3>
+					<ul>
+						<li>
+							Exponential growth and decay (e.g., population growth, radioactive
+							decay).
+						</li>
+						<li>Finance (e.g., compound interest, continuous compounding).</li>
+					</ul>
+
+					<p class="underline">Base 2 (Binary Logarithm)</p>
+					<p>
+						The binary logarithm is the logarithm with base 2, often written as
+						<code>log<sub>2</sub>(x)</code>.
+					</p>
+
+					<p>Why Base 2?</p>
+					<ul>
+						<li>
+							Computer Science: Base 2 is used because computers operate on
+							binary, which involves powers of 2 (0 and 1).
+						</li>
+						<li>
+							Doubling and Halving: Base 2 is used to measure data storage,
+							algorithm complexity, and more in computing.
+						</li>
+					</ul>
+
+					<h3>Example:</h3>
+					<p>
+						<code>log<sub>2</sub>(16) = 4</code> because
+						<code>2<sup>4</sup> = 16</code>.
+					</p>
+
+					<ul>
+						<li>Computer science (e.g., binary search, data structures).</li>
+						<li>Data storage (e.g., bits, bytes).</li>
+						<li>Cryptography (e.g., encryption algorithms).</li>
+					</ul>
+				</section>
+			</div>
+		</main>
+	</body>
+</html>

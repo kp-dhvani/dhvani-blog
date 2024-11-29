@@ -14,7 +14,7 @@ document.addEventListener("DOMContentLoaded", () => {
 	const fourthHarmonicWaveCanvas = document.getElementById(
 		"fourth-harmonic-wave"
 	) as HTMLCanvasElement;
-	const fifthhHarmonicWaveCanvas = document.getElementById(
+	const fifthHarmonicWaveCanvas = document.getElementById(
 		"fifth-harmonic-wave"
 	) as HTMLCanvasElement;
 
@@ -22,14 +22,88 @@ document.addEventListener("DOMContentLoaded", () => {
 	const secondHarmonicWaveContext = secondHarmonicWaveCanvas.getContext("2d");
 	const thirdHarmonicWaveContext = thirdHarmonicWaveCanvas.getContext("2d");
 	const fourthHarmonicWaveContext = fourthHarmonicWaveCanvas.getContext("2d");
-	const fifthHarmonicWaveContext = fifthhHarmonicWaveCanvas.getContext("2d");
+	const fifthHarmonicWaveContext = fifthHarmonicWaveCanvas.getContext("2d");
+
+	const playIcon = document.getElementById("playIcon") as unknown as SVGElement;
+	const pauseIcon = document.getElementById(
+		"pauseIcon"
+	) as unknown as SVGElement;
+	const toggleButton = document.getElementById(
+		"sound-linear"
+	) as HTMLButtonElement;
+
+	if (toggleButton) {
+		toggleButton.addEventListener("click", toggleIcons);
+	}
+
+	function toggleIcons() {
+		if (playIcon && pauseIcon) {
+			playIcon.classList.toggle("visible");
+			playIcon.classList.toggle("invisible");
+
+			pauseIcon.classList.toggle("visible");
+			pauseIcon.classList.toggle("invisible");
+		}
+	}
 
 	drawStandingWave(firstHarmonicWaveCanvas, firstHarmonicWaveContext, 1);
 	drawStandingWave(secondHarmonicWaveCanvas, secondHarmonicWaveContext, 2);
 	drawStandingWave(thirdHarmonicWaveCanvas, thirdHarmonicWaveContext, 3);
 	drawStandingWave(fourthHarmonicWaveCanvas, fourthHarmonicWaveContext, 4);
-	drawStandingWave(fifthhHarmonicWaveCanvas, fifthHarmonicWaveContext, 5);
+	drawStandingWave(fifthHarmonicWaveCanvas, fifthHarmonicWaveContext, 5);
+	drawSeriesChart();
 });
+
+async function drawSeriesChart() {
+	const linearData = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]; // Linear scale data
+	const logarithmicData = [1, 2, 4, 8, 16, 32, 64, 128, 256, 512, 1024]; // Logarithmic scale data
+
+	const ctx = document.getElementById("number-series")! as HTMLCanvasElement;
+	if (!ctx) return;
+	const { Chart, registerables } = await import("chart.js");
+	Chart.register(...registerables);
+
+	new Chart(ctx, {
+		type: "line",
+		data: {
+			labels: linearData,
+			datasets: [
+				{
+					label: "Linear Scale (+1)",
+					data: linearData,
+					borderColor: "blue",
+					fill: false,
+					tension: 0.1,
+				},
+				{
+					label: "Logarithmic Scale (x2)",
+					data: logarithmicData,
+					borderColor: "red",
+					fill: false,
+					tension: 0.1,
+				},
+			],
+		},
+		options: {
+			responsive: true,
+			scales: {
+				y: {
+					beginAtZero: true,
+					title: {
+						display: true,
+						text: "Value",
+					},
+				},
+				x: {
+					title: {
+						display: true,
+						text: "Scale",
+					},
+				},
+			},
+		},
+	});
+}
 
 function drawStandingWave(
 	canvas: HTMLCanvasElement,

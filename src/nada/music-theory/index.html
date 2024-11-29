@@ -450,6 +450,261 @@
 							the air it displace or how intense is the sound?
 						</li>
 					</ul>
+					<p class="underline mb-5">The production of natural sounds:</p>
+					<p>
+						First harmonic -
+						<span class="italic">षड्ज (Shadja)</span>.
+						<span class="text-xs"
+							>Note: find the etymology of each harmonic</span
+						>
+						<br />
+						When a string is pluck it starts to vibrates in its full length and
+						makes a sound. This is called षड्ज (Shadja) or fundamental tone or
+						1<sup>st</sup>
+						harmonic. Let's say it's 100Hz.
+					</p>
+					<div class="waveform mb-10 mr-0 md:mr-4 w-full">
+						<canvas
+							id="first-harmonic-wave"
+							height="200"
+							style="border: 1px solid black"
+							class="max-sm:w-full"
+						></canvas>
+					</div>
+					<p>
+						Second harmonic -
+						<span class="italic">तार षड्ज (Tara Shadja)</span>.
+						<br />
+						Soon after the energy spreads and reduces through the string it also
+						starts to vibrate in 2 parts and giving rise to the 2<sup>nd</sup>
+						harmonic or तार षड्ज (Tara Shadja). The frequency is 200Hz twice the
+						fundamental frequency.
+					</p>
+					<div class="waveform mb-10 mr-0 md:mr-4 w-full">
+						<canvas
+							id="second-harmonic-wave"
+							height="200"
+							style="border: 1px solid black"
+							class="max-sm:w-full"
+						></canvas>
+					</div>
+					<p>
+						Third harmonic - <span class="italic">पंचम (Pancham)</span>.
+						<br />
+						As the energy reduces further string starts to vibrate in 3 parts
+						and gives rise to the 3<sup>rd</sup> harmonic पंचम (Pancham). The
+						frequency is 300Hz thrice the frequency of the fundamental.
+					</p>
+					<div class="waveform mb-10 mr-0 md:mr-4 w-full">
+						<canvas
+							id="third-harmonic-wave"
+							height="200"
+							style="border: 1px solid black"
+							class="max-sm:w-full"
+						></canvas>
+					</div>
+					<p>
+						Fourth harmonic -
+						<span class="italic">अति-तार षड्ज (Ati-Tara Shadja)</span>.
+						<br />
+						As the energy reduces further string starts to vibrate in 4 parts
+						and gives rise to the 4<sup>th</sup> harmonic अति-तार षड्ज (Ati-Tara
+						Shadja). The frequency is 400Hz quadruple the frequency of the
+						fundamental.
+					</p>
+					<div class="waveform mb-10 mr-0 md:mr-4 w-full">
+						<canvas
+							id="fourth-harmonic-wave"
+							height="200"
+							style="border: 1px solid black"
+							class="max-sm:w-full"
+						></canvas>
+					</div>
+					<p>
+						Fifth harmonic -
+						<span class="italic">गांधार (Gāndhār)</span>.
+						<br />
+						As the energy reduces further string starts to vibrate in 5 parts
+						and gives rise to the 5<sup>th</sup> harmonic गांधार (Gāndhār). The
+						frequency is 450Hz quintuple the frequency of the fundamental.
+					</p>
+					<div class="mb-10 mr-0 md:mr-4 w-full">
+						<canvas
+							id="fifth-harmonic-wave"
+							height="200"
+							style="border: 1px solid black"
+							class="max-sm:w-full"
+						></canvas>
+					</div>
+					<p class="mb-10">
+						After a certain threshold the energy put in the string reduces so
+						much that further harmonics are barely heard. The amplitude of each
+						harmonic is inversely proportional to the square of its harmonic
+						number, if the fundamental is at relative amplitude A, then 3f is at
+						A/9, 5f is at A/25, 7f is at A/49. This can also be expressed by
+						saying that the harmonics decrease by 12 dB per octave. [more on
+						this in modular synth]
+					</p>
+					<div class="waveform mb-10 mr-0 md:mr-4 w-full">
+						<p class="text-lg underline mb-5">
+							The non-linearities of the human ears
+						</p>
+						<canvas
+							id="number-series"
+							height="200"
+							style="border: 1px solid black"
+							class="max-sm:w-full"
+						></canvas>
+						<pre class="my-5">
+Linear Scale        0   1   2   3   4   5   6   7   8   9   10   (+1)
+Logarithmic Scale   1   2   4   8  16  32  64  128 256 512 1024  (x2)
+						</pre
+						>
+						<p class="mb-10">
+							In a logarithmic scale numbers are placed by a multiplicative
+							factor while in a linear scale they are placed by an additive
+							factor. In the series above we have the same space but more
+							numbers being represented through the scale. Even though the scale
+							represent large value it still maintains accuracy at small levels.
+							In logarithmic scale each value represents a multiplication of the
+							base number rather than a linear addition.
+							<br />
+							<span class="italic"> log<sub>10</sub>(1) = 0</span>
+							<br />
+							<span class="italic"> log<sub>10</sub>(2) ≈ 0.3010</span>
+							<br />
+							<span class="italic"> log<sub>10</sub>(3) ≈ 0.4771</span>
+							<br />
+							<span class="italic"> log<sub>10</sub>(10) = 1</span>
+							<br />
+							<span class="italic"> log<sub>10</sub>(100) = 2</span>
+							<br />
+							<span class="italic"> log<sub>10</sub>(1000) = 3</span>
+							<br />
+							The human sound perception works the same way. It can respond to
+							higher inputs ranging from
+							<span class="italic">20Hz to 20,000 Hz</span> while also
+							responding to subtle differences around small inputs.
+						</p>
+						<p class="mb-5">
+							An $1000 increase in salary is big if you earn a $1000 but doesn't
+							seem much when you're earning in six figures. That's how
+							logarithms work too. The human ear is logarithmic.
+						</p>
+						<pre class="my-5">
+Linear Series       200 300 400 500 600  700  800  900  1000 1100    (+100)
+Logarithmic Series  200 300 450 675 1012 1519 2278 3417 5126 7689    (x1.5)
+						</pre
+						>
+						<div class="sound-buttons flex justify-evenly mb-5">
+							<button class="sound-linear p-2 border-accent-color border-4">
+								<div class="button-content flex flex-col items-center">
+									<div class="flex space-x-4">
+										<svg
+											xmlns="http://www.w3.org/2000/svg"
+											width="50"
+											height="50"
+											viewBox="0 0 50 50"
+										>
+											<polygon points="10,5 40,25 10,45" fill="black" />
+										</svg>
+										<svg
+											xmlns="http://www.w3.org/2000/svg"
+											width="50"
+											height="50"
+											viewBox="0 0 50 50"
+											class="invisible"
+										>
+											<rect x="10" y="10" width="10" height="30" fill="black" />
+											<rect x="30" y="10" width="10" height="30" fill="black" />
+										</svg>
+									</div>
+									<p class="mt-2 text-center">Linear sound test</p>
+								</div>
+							</button>
+							<button class="sound-linear p-2 border-accent-color border-4">
+								<div class="button-content flex flex-col items-center">
+									<div class="flex space-x-4">
+										<svg
+											xmlns="http://www.w3.org/2000/svg"
+											width="50"
+											height="50"
+											viewBox="0 0 50 50"
+										>
+											<polygon points="10,5 40,25 10,45" fill="black" />
+										</svg>
+										<svg
+											xmlns="http://www.w3.org/2000/svg"
+											width="50"
+											height="50"
+											viewBox="0 0 50 50"
+											class="invisible"
+										>
+											<rect x="10" y="10" width="10" height="30" fill="black" />
+											<rect x="30" y="10" width="10" height="30" fill="black" />
+										</svg>
+									</div>
+									<p class="mt-2 text-center">Logarithmic sound test</p>
+								</div>
+							</button>
+						</div>
+						<p>
+							The logarithmic sound is more evenly spaced than the linear sound.
+							There is another interesting feature of the human ears:
+							<span class="underline"
+								>increased sensitivity of of certain frequencies.</span
+							>
+							Human ears are more sensitive to frequencies around
+							<span class="italic">2000Hz-5000Hz</span>. Th ear canal behaves
+							like a resonator of and its resonance is around 3000Hz. The
+							tympanic membrane and the ossicles also respond efficiently to the
+							frequencies around this range. The 2000Hz-5000Hz range is also
+							crucial for speech. Many important consonant sounds in human
+							speech such as s, sh, t, and f, lie in this frequency band. The
+							human ear is naturally tuned to be most sensitive to these
+							frequencies because they are vital for understanding speech.
+							<br />
+							A breakdown of consonant sounds and their typical frequency
+							ranges:
+						</p>
+						<ul class="list-disc pl-8">
+							<li>Fricatives (f, s, sh, v, z): 3-7 kHz</li>
+							<li>
+								Plosives (p, t, k, b, d, g): High-frequency bursts around 4-8
+								kHz
+							</li>
+							<li>Affricates (ch, j): Similar to plosives, around 4-7 kHz</li>
+							<li>Nasals (m, n, ng): Lower frequencies, mostly below 3 kHz</li>
+						</ul>
+						<p>
+							This means that sound around these frequencies are perceived
+							louder than even if their sound pressure level [more on this
+							modular synth] is the same. The difference in frequency
+							sensitivity actually depends on sound levels. We hear mid-range
+							frequencies (around 3-4 kHz) most clearly.
+						</p>
+					</div>
+					<p class="mb-10">
+						<br />
+						The sounds created which are in multiple proportions to the
+						fundamental frequency or Shadja (100, 200, 300, 400, 500) are called
+						<span class="italic">harmonics</span> because they are in harmony
+						with Shadja. They sound pleasant to our ears. Pancham (3rd harmonic)
+						and Gandhar (5th harmonic) are most pleasant. Tanpura a drone
+						instrument creates an atmosphere of dominant Shadja-Gāndhār-Pancham.
+						<br />
+						When a sound source produces other frequencies than the fundamental
+						they are referred to as <span class="italic">partials</span>. These
+						are not in harmony with Shadja and are unpleasant to the human ear.
+						<br />
+						When the source of the sound vibrates again and again different
+						harmonics/partials mix and this mixture has a particular quality.
+						This is the timbre or <span class="italic">नादगुण (Nādaguṇa)</span>.
+						The harmonics of string instruments which have long strings like the
+						Violin and Sarangi have a harmonic profile similar to that of human
+						voice and hence are considered as best for accompaniment to human
+						singing.
+					</p>
 					<p class="text-lg underline">The musical scale:</p>
 					<p class="mb-10">
 						The interval (relationship) 2:3 known as the fifth is a consonant
@@ -694,117 +949,6 @@
 						series of specific intervals, typically of whole and half steps. In
 						Indian classical music, the concept of a diatonic scale is not as
 						explicitly defined as it is in Western music.
-					</p>
-					<p class="underline mb-5">The production of natural sounds:</p>
-					<p>
-						First harmonic -
-						<span class="italic">षड्ज (Shadja)</span>.
-						<br />
-						When a string is pluck it starts to vibrates in its full length and
-						makes a sound. This is called षड्ज (Shadja) or fundamental tone or
-						1<sup>st</sup>
-						harmonic. Let's say it's 100Hz.
-					</p>
-					<div class="waveform mb-10 mr-0 md:mr-4 w-full">
-						<canvas
-							id="first-harmonic-wave"
-							height="200"
-							style="border: 1px solid black"
-							class="max-sm:w-full"
-						></canvas>
-					</div>
-					<p>
-						Second harmonic -
-						<span class="italic">तार षड्ज (Tara Shadja)</span>.
-						<br />
-						Soon after the energy spreads and reduces through the string it also
-						starts to vibrate in 2 parts and giving rise to the 2<sup>nd</sup>
-						harmonic or तार षड्ज (Tara Shadja). The frequency is 200Hz twice the
-						fundamental frequency.
-					</p>
-					<div class="waveform mb-10 mr-0 md:mr-4 w-full">
-						<canvas
-							id="second-harmonic-wave"
-							height="200"
-							style="border: 1px solid black"
-							class="max-sm:w-full"
-						></canvas>
-					</div>
-					<p>
-						Third harmonic - <span class="italic">पंचम (Pancham)</span>.
-						<br />
-						As the energy reduces further string starts to vibrate in 3 parts
-						and gives rise to the 3<sup>rd</sup> harmonic पंचम (Pancham). The
-						frequency is 300Hz thrice the frequency of the fundamental.
-					</p>
-					<div class="waveform mb-10 mr-0 md:mr-4 w-full">
-						<canvas
-							id="third-harmonic-wave"
-							height="200"
-							style="border: 1px solid black"
-							class="max-sm:w-full"
-						></canvas>
-					</div>
-					<p>
-						Fourth harmonic -
-						<span class="italic">अति-तार षड्ज (Ati-Tara Shadja)</span>.
-						<br />
-						As the energy reduces further string starts to vibrate in 4 parts
-						and gives rise to the 4<sup>th</sup> harmonic अति-तार षड्ज (Ati-Tara
-						Shadja). The frequency is 400Hz quadruple the frequency of the
-						fundamental.
-					</p>
-					<div class="waveform mb-10 mr-0 md:mr-4 w-full">
-						<canvas
-							id="fourth-harmonic-wave"
-							height="200"
-							style="border: 1px solid black"
-							class="max-sm:w-full"
-						></canvas>
-					</div>
-					<p>
-						Fifth harmonic -
-						<span class="italic">गांधार (Gāndhār)</span>.
-						<br />
-						As the energy reduces further string starts to vibrate in 5 parts
-						and gives rise to the 5<sup>th</sup> harmonic गांधार (Gāndhār). The
-						frequency is 450Hz quintuple the frequency of the fundamental.
-					</p>
-					<div class="waveform mb-10 mr-0 md:mr-4 w-full">
-						<canvas
-							id="fifth-harmonic-wave"
-							height="200"
-							style="border: 1px solid black"
-							class="max-sm:w-full"
-						></canvas>
-					</div>
-					<p class="mb-10">
-						After a certain threshold the energy put in the string reduces so
-						much that further harmonics are barely heard. The amplitude of each
-						harmonic is inversely proportional to the square of its harmonic
-						number, if the fundamental is at relative amplitude A, then 3f is at
-						A/9, 5f is at A/25, 7f is at A/49. This can also be expressed by
-						saying that the harmonics decrease by 12 dB per octave. [more on
-						this in modular synth]
-						<br />
-						The sounds created which are in multiple proportions to the
-						fundamental frequency or Shadja (100, 200, 300, 400, 500) are called
-						<span class="italic">harmonics</span> because they are in harmony
-						with Shadja. They sound pleasant to our ears. Pancham (3rd harmonic)
-						and Gandhar (5th harmonic) are most pleasant. Tanpura a drone
-						instrument creates an atmosphere of dominant Shadja-Gāndhār-Pancham.
-						<br />
-						When a sound source produces other frequencies than the fundamental
-						they are referred to as <span class="italic">partials</span>. These
-						are not in harmony with Shadja and are unpleasant to the human ear.
-						<br />
-						When the source of the sound vibrates again and again different
-						harmonics/partials mix and this mixture has a particular quality.
-						This is the timbre or <span class="italic">नादगुण (Nādaguṇa)</span>.
-						The harmonics of string instruments which have long strings like the
-						Violin and Sarangi have a harmonic profile similar to that of human
-						voice and hence are considered as best for accompaniment to human
-						singing.
 					</p>
 				</section>
 			</div>

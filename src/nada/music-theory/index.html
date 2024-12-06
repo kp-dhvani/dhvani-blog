@@ -555,7 +555,9 @@
 							style="border: 1px solid black"
 							class="max-sm:w-full"
 						></canvas>
-						<pre class="my-5">
+						<pre
+							class="my-5 whitespace-pre-wrap break-words overflow-auto max-w-full text-sm sm:text-base md:text-lg"
+						>
 Linear Scale        0   1   2   3   4   5   6   7   8   9   10   (+1)
 Logarithmic Scale   1   2   4   8  16  32  64  128 256 512 1024  (x2)
 						</pre
@@ -587,7 +589,9 @@ Logarithmic Scale   1   2   4   8  16  32  64  128 256 512 1024  (x2)
 							responding to subtle differences around small inputs.
 						</p>
 						<p class="mb-5 underline">The human ear is logarithmic.</p>
-						<pre class="my-5">
+						<pre
+							class="my-5 whitespace-pre-wrap break-words overflow-auto max-w-full text-sm sm:text-base md:text-lg"
+						>
 Linear Series       200 300 400 500 600  700  800  900  1000 1100    (+100)
 Logarithmic Series  200 300 450 675 1012 1519 2278 3417 5126 7689    (x1.5)
 						</pre
@@ -618,7 +622,9 @@ Logarithmic Series  200 300 450 675 1012 1519 2278 3417 5126 7689    (x1.5)
 									<p class="mt-2 text-center">Linear sound test</p>
 								</div>
 							</button>
-							<button class="sound-linear p-2 border-accent-color border-4">
+							<button
+								class="sound-linear p-2 border-accent-color border-4 max-sm:m-5"
+							>
 								<div class="button-content flex flex-col items-center">
 									<div class="flex space-x-4">
 										<svg
@@ -712,11 +718,33 @@ Logarithmic Series  200 300 450 675 1012 1519 2278 3417 5126 7689    (x1.5)
 							overtones too. Small speakers may not be able to produce the lower
 							frequencies like 100Hz but our brains can still "hear" the pitch.
 						</p>
+						<div class="flex flex-col my-10 items-center justify-center">
+							<img
+								src="/assets/temporal_spectral_analysis.png"
+								alt="temporal cochlea spectral analysis graph"
+								class="max-w-full h-auto sm:w-1/4"
+							/>
+							<p class="text-center">
+								Auditory spectrum of the response to a musical note composed of
+								all the harmonics of 62.5Hz at three points in time 200ms,
+								300ms, 400ms after the onset of the notes along the length of
+								the cochlea. As the frequency increases the resolution of the
+								spectral analysis decreases abd becomes smooth after the eighth
+								harmonic. The eight harmonics are said to be resolved i.e. they
+								produce individual peaks in the spectrum.
+							</p>
+						</div>
 					</div>
 					<p class="mb-10">
-						<br />
-						The sounds created which are in multiple proportions to the
-						fundamental frequency or Shadja (100, 200, 300, 400, 500) are called
+						The lower frequencies are individually identified by the brain and
+						their spacing is calculated to extract the pitch of sound. The human
+						brain is a pattern finding machine which extracts the most common
+						relationship (interval) between each of the frequency component in
+						the harmonic series. Even if the lowest frequency is missing the
+						brain can calculate that frequency because of the consistent
+						relationship between the other set of frequencies in the series. The
+						sounds created which are in multiple proportions to the fundamental
+						frequency or Shadja (100, 200, 300, 400, 500) are called
 						<span class="italic">harmonics</span> because they are in harmony
 						with Shadja. They sound pleasant to our ears. Pancham (3rd harmonic)
 						and Gandhar (5th harmonic) are most pleasant. Tanpura a drone

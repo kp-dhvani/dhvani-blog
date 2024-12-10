@@ -1,4 +1,10 @@
+import * as Tone from "tone";
 import { highlightCurrentPageInNav } from "../../shared/util";
+
+const linerSeries = [200, 300, 400, 500, 600, 700, 800, 900, 1000, 1100];
+const logarithmicSeries = [
+	200, 300, 450, 675, 1012, 1519, 2278, 3417, 5126, 7689,
+];
 
 document.addEventListener("DOMContentLoaded", () => {
 	highlightCurrentPageInNav();
@@ -24,25 +30,67 @@ document.addEventListener("DOMContentLoaded", () => {
 	const fourthHarmonicWaveContext = fourthHarmonicWaveCanvas.getContext("2d");
 	const fifthHarmonicWaveContext = fifthHarmonicWaveCanvas.getContext("2d");
 
-	const playIcon = document.getElementById("playIcon") as unknown as SVGElement;
-	const pauseIcon = document.getElementById(
-		"pauseIcon"
+	// LINEAR SERIES
+	const playLinearSeriesButton = document.getElementById(
+		"play-linear-series"
 	) as unknown as SVGElement;
-	const toggleButton = document.getElementById(
-		"sound-linear"
-	) as HTMLButtonElement;
+	const pauseLinearSeriesButton = document.getElementById(
+		"pause-linear-series"
+	) as unknown as SVGElement;
 
-	if (toggleButton) {
-		toggleButton.addEventListener("click", toggleIcons);
+	const linearPlayer = createPlayerForFrequencies(
+		linerSeries,
+		toggleLinearButtonClasses
+	);
+
+	playLinearSeriesButton?.addEventListener("click", () => {
+		toggleLinearButtonClasses();
+		linearPlayer.play();
+	});
+	pauseLinearSeriesButton?.addEventListener("click", () => {
+		toggleLinearButtonClasses();
+		linearPlayer.pause();
+	});
+
+	function toggleLinearButtonClasses() {
+		if (playLinearSeriesButton?.classList.contains("invisible")) {
+			playLinearSeriesButton?.classList.remove("invisible");
+			pauseLinearSeriesButton?.classList.add("invisible");
+		} else {
+			playLinearSeriesButton?.classList.add("invisible");
+			pauseLinearSeriesButton?.classList.remove("invisible");
+		}
 	}
 
-	function toggleIcons() {
-		if (playIcon && pauseIcon) {
-			playIcon.classList.toggle("visible");
-			playIcon.classList.toggle("invisible");
+	// LOG SERIES
+	const playLogSeriesButton = document.getElementById(
+		"play-log-series"
+	) as unknown as SVGElement;
+	const pauseLogSeriesButton = document.getElementById(
+		"pause-log-series"
+	) as unknown as SVGElement;
 
-			pauseIcon.classList.toggle("visible");
-			pauseIcon.classList.toggle("invisible");
+	const logPlayer = createPlayerForFrequencies(
+		logarithmicSeries,
+		toggleLogarithmicButtonClasses
+	);
+
+	playLogSeriesButton?.addEventListener("click", () => {
+		toggleLogarithmicButtonClasses();
+		logPlayer.play();
+	});
+	pauseLogSeriesButton?.addEventListener("click", () => {
+		toggleLogarithmicButtonClasses();
+		logPlayer.pause();
+	});
+
+	function toggleLogarithmicButtonClasses() {
+		if (playLogSeriesButton?.classList.contains("invisible")) {
+			playLogSeriesButton?.classList.remove("invisible");
+			pauseLogSeriesButton?.classList.add("invisible");
+		} else {
+			playLogSeriesButton?.classList.add("invisible");
+			pauseLogSeriesButton?.classList.remove("invisible");
 		}
 	}
 
@@ -53,6 +101,61 @@ document.addEventListener("DOMContentLoaded", () => {
 	drawStandingWave(fifthHarmonicWaveCanvas, fifthHarmonicWaveContext, 5);
 	drawSeriesChart();
 });
+
+function createPlayerForFrequencies(
+	frequencySeries: number[],
+	onPlayerStopCallback: Function
+) {
+	let sequence: Tone.Sequence | null = null;
+	const synth = new Tone.PolySynth(Tone.Synth).toDestination();
+	let isPlaying = false;
+
+	function play() {
+		if (isPlaying) return;
+		Tone.start();
+		if (!sequence) {
+			sequence = new Tone.Sequence(
+				(time, frequency) => {
+					synth.triggerAttackRelease(frequency, 1, time);
+					console.log(frequency);
+					if (frequency === frequencySeries[frequencySeries.length - 1]) {
+						Tone.getTransport().stop(time);
+						isPlaying = false;
+						reset();
+						onPlayerStopCallback();
+					}
+				},
+				frequencySeries,
+				1
+			);
+		}
+		Tone.start();
+		sequence.start(0);
+		Tone.getTransport().start();
+
+		isPlaying = true;
+	}
+
+	function pause() {
+		if (isPlaying) {
+			Tone.getTransport().pause();
+			isPlaying = false;
+		}
+	}
+	function reset() {
+		if (sequence) {
+			Tone.getTransport().stop();
+			sequence.dispose();
+			sequence = null;
+			isPlaying = false;
+		}
+	}
+
+	return {
+		play,
+		pause,
+	};
+}
 
 async function drawSeriesChart() {
 	const linearData = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]; // Linear scale data

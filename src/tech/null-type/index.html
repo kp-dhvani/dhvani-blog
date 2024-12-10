@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<link rel="icon" type="image/svg+xml" href="/vite.svg" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Dhvani Blog - Why is typeof null an object in Javascript?</title>
+		<link
+			href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css"
+			rel="stylesheet"
+		/>
+		<link href="../../style.css" rel="stylesheet" />
+	</head>
+	<body class="font-spaceMono">
+		<load src="../../shared/navbar.html" />
+		<main class="flex bg-gray-100 mx-5 md:mx-16 rounded-lg">
+			<div class="p-6 w-full">
+				<h2
+					class="text-base md:text-xl lg:text-2xl mb-5 border border-black rounded-lg p-2"
+				>
+					Why is typeof null an object in Javascript?
+					<span class="text-xs">published: 10<sup>th</sup> December 2024</span>
+				</h2>
+				<section>
+					<p class="mb-2">
+						All values in JS are either
+						<span class="underline">primitives</span> or
+						<span class="underline">objects</span>.
+						<br />
+						<br />
+						Primitives
+					</p>
+					<ul class="list-disc pl-8 space-y-2 mb-5">
+						<li>Undefined</li>
+						<li>Null</li>
+						<li>Boolean</li>
+						<li>Number</li>
+						<li>String</li>
+						<li>BigInt</li>
+						<li>Symbol</li>
+					</ul>
+					<p class="mb-2">
+						Primitives are immutable, you cannot add properties to them.
+						<br />
+						> var str = "xyz";
+						<br />
+						> str.foo = "abc"; // try to add property "foo"
+						<br />
+						> str.foo // no change undefined
+					</p>
+					<p class="mb-5">
+						Primitives are compared by <span class="italic">value</span>, they
+						are equal if they hold the same <span class="italic">value</span>
+						<br />
+						> "xyz" === "xyz";
+						<br />
+						true
+					</p>
+					<p>
+						Objects: all non-primitive values are objects and they are mutable.
+						<br />
+						> var obj = {};
+						<br />
+						> obj.foo = "abc"; // add property "foo"
+						<br />
+						abc
+						<br />
+						> obj.foo // "foo" has been added
+						<br />
+						abc
+					</p>
+					<p class="mb-5">
+						Objects are compared by <span class="italic">reference</span>. Two
+						objects are considered equal only if they are in fact the same
+						object.
+						<br />
+						> {} === {};
+						<br />
+						false
+						<br />
+						> var obj = {};
+						<br />
+						> obj === obj
+						<br />
+						true
+					</p>
+
+					<p class="mb-2">
+						To find the type of a variable JS provides the operator
+						<span class="italic">typeof</span> which returns a string indicating
+						the type of the operand's value.
+						<br />
+						> console.log(typeof 10); // output: "number"
+						<br />
+						> console.log(typeof 'abc'); // output: "string"
+						<br />
+						> console.log(typeof false); // output: "boolean"
+						<br />
+						> console.log(typeof undeclaredVariable); // output: "undefined"
+						<br />
+					</p>
+					<p>
+						Ok so let's look at what happens when we check the typeof null
+						<br />
+						> console.log(typeof null); // output: "object"
+					</p>
+					<div class="flex justify-center my-10">
+						<img
+							src="/assets/wat.jpg"
+							alt="wat meme"
+							class="max-w-full h-auto md:w-1/2"
+						/>
+					</div>
+					<p class="mb-2">
+						hhhmmm something doesn't look right, how can a primitive value have
+						a type of non-primitive value? What kind of bug is this in JS? This
+						quirky JS behaviour comes from its early implementation where the
+						values were stored in 32 bit units and the type information was
+						encoded using a bit level approach where the type value could be
+						quickly computed by looking at the lower bits of a 32 bit memory
+						unit. There were five of them:
+					</p>
+					<ul class="list-disc pl-8 space-y-2 mb-5">
+						<li>000: data is reference to an object</li>
+						<li>001: data is 31 bit signed integer</li>
+						<li>010: data is reference to a floating point number</li>
+						<li>100: data is a reference to string</li>
+						<li>110: data is a boolean</li>
+					</ul>
+					<p>
+						If the lowest bit (the rightmost bit) is 1 the tag is
+						<span class="italic">1 bit long</span>. If the lowest bit is 0 the
+						type tag is <span class="italic">3 bits long</span> which provides
+						two additional bits for four types. Two values were special and
+						differed in implementation:
+						<span class="italic">undefined (JSVAL_VOID)</span> the integer
+						<span class="italic">-2<sup>30</sup></span> which is
+						<span class="italic">-1073741824</span> (a number outside the
+						integer range) and <span class="italic">null (JSVAL_NULL)</span>
+						<span class="underline"
+							>the machine code NULL pointer or an object type tag plus a
+							reference that is zero</span
+						>. The system examined the type tag for null and rightfully said
+						it's an "object". Remember JS was created as a prototype in 10 days
+						by Brendan Eich so fore sighting such a bug was not really possible.
+					</p>
+				</section>
+			</div>
+		</main>
+		<script src="./main.ts" type="module"></script>
+	</body>
+</html>

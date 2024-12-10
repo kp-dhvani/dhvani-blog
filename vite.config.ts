@@ -35,6 +35,7 @@ export default defineConfig({
 				"main-scale": resolve(root, "/nada/main-scale/index.html"),
 				"code-tech": resolve(root, "/tech/index.html"),
 				"10-principles": resolve(root, "/tech/principles/index.html"),
+				"null-type": resolve(root, "/tech/null-type/index.html"),
 				oscillator: resolve(root, "/mod-synth/oscillator/index.html"),
 				amplifier: resolve(root, "/mod-synth/amplifier/index.html"),
 				lfo: resolve(root, "/mod-synth/lfo/index.html"),

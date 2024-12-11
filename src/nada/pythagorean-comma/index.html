@@ -37,6 +37,122 @@
 				</p>
 				<p class="mb-10">
 					harmonic vs intervals harmonic is different than intervals
+					<br />
+					Let's take an example of base frequency of 100Hz and see how does this
+					interval form a scale?
+				</p>
+				<ol class="list-decimal pl-8 space-y-2 mb-5">
+					<li>100 x 3/2 = 150Hz</li>
+					<li>
+						150 x 3/2 = 225Hz; this goes outside the octave range so we divide
+						it by 2 to bring it back
+						<br />
+						225 / 2 = 112.5Hz
+					</li>
+					<li>112.5 x 3/2 = 168.75Hz</li>
+					<li>
+						168.75 x 3/2 = 253.125Hz; this goes outside the octave range so we
+						divide it by 2 to bring it back
+						<br />
+						253.125 / 2 = 126.5625Hz
+					</li>
+				</ol>
+				<p>If we keep up the math we end up with the following notes</p>
+				<div class="flex justify-center my-10">
+					<svg
+						xmlns="http://www.w3.org/2000/svg"
+						viewBox="0 0 800 400"
+						class="max-w-full h-auto md:w-1/2"
+					>
+						<!-- Background -->
+						<rect width="800" height="400" fill="#f0f0f0" />
+
+						<!-- Title -->
+						<text
+							x="400"
+							y="50"
+							text-anchor="middle"
+							font-size="24"
+							font-weight="bold"
+						>
+							12-Note Scale Frequencies (Starting from 100 Hz)
+						</text>
+
+						<!-- Axes -->
+						<line
+							x1="100"
+							y1="350"
+							x2="700"
+							y2="350"
+							stroke="black"
+							stroke-width="2"
+						/>
+						<line
+							x1="100"
+							y1="350"
+							x2="100"
+							y2="100"
+							stroke="black"
+							stroke-width="2"
+						/>
+
+						<!-- Y-axis label -->
+						<text
+							x="50"
+							y="225"
+							transform="rotate(-90 50,225)"
+							text-anchor="middle"
+							font-size="16"
+						>
+							Frequency (Hz)
+						</text>
+
+						<!-- Frequencies with base at 100 Hz -->
+						<g fill="blue" text-anchor="middle">
+							<circle cx="150" cy="350" r="5" />
+							<text x="150" y="370" font-size="12">100.000</text>
+
+							<circle cx="200" cy="330" r="5" />
+							<text x="200" y="350" font-size="12">112.500</text>
+
+							<circle cx="250" cy="310" r="5" />
+							<text x="250" y="330" font-size="12">126.563</text>
+
+							<circle cx="300" cy="290" r="5" />
+							<text x="300" y="310" font-size="12">142.383</text>
+
+							<circle cx="350" cy="270" r="5" />
+							<text x="350" y="290" font-size="12">150.000</text>
+
+							<circle cx="400" cy="250" r="5" />
+							<text x="400" y="270" font-size="12">168.750</text>
+
+							<circle cx="450" cy="230" r="5" />
+							<text x="450" y="250" font-size="12">180.203</text>
+
+							<circle cx="500" cy="210" r="5" />
+							<text x="500" y="230" font-size="12">189.844</text>
+
+							<circle cx="550" cy="190" r="5" />
+							<text x="550" y="210" font-size="12">213.574</text>
+
+							<circle cx="600" cy="170" r="5" />
+							<text x="600" y="190" font-size="12">225.000</text>
+
+							<circle cx="650" cy="150" r="5" />
+							<text x="650" y="170" font-size="12">240.271</text>
+
+							<circle cx="700" cy="130" r="5" />
+							<text x="700" y="150" font-size="12">270.305</text>
+						</g>
+					</svg>
+				</div>
+				<p>
+					Now we have 12 set of notes for our musical scale and we can use these
+					notes to make music. We can go up an octave by multiplying 2 to the
+					frequencies or an octave below by dividing the frequencies by 2. This
+					method of constructing a scale is called Pythagorean tuning, using
+					only fractions we can construct notes for all musical needs.
 				</p>
 			</section>
 		</main>

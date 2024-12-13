@@ -1,7 +1,3 @@
-import { highlightCurrentPageInNav } from "./shared/util";
-
-highlightCurrentPageInNav();
-
 const startYear = 2023;
 const elapsedTimeInYear = new Date().getFullYear() - startYear;
 const span = document.querySelector("#time-elapsed");

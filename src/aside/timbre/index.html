@@ -19,7 +19,7 @@
 					class="text-base md:text-xl lg:text-2xl mb-5 border border-black rounded-lg p-2"
 				>
 					What is timbre?
-					<span class="text-xs">published: 15<sup>th</sup> November 2024</span>
+					<span class="text-xs">updated: 13<sup>th</sup> December 2024</span>
 				</h2>
 				<section>
 					<div class="flex flex-col lg:flex-row justify-between content-center">
@@ -163,13 +163,6 @@
 							<span class="italic">F = 1/√μ</span>
 						</li>
 					</ol>
-					<div class="wave-container flex justify-center items-center mb-5">
-						<canvas
-							id="standing-wave"
-							height="200"
-							style="border: 1px solid black"
-						></canvas>
-					</div>
 					<p class="mb-5">
 						These are called the string's resonant frequencies. When you pluck
 						the string, it will vibrate at one or more of these resonant
@@ -213,7 +206,14 @@
 					<p class="underline italic">
 						All harmonics are overtones but not all overtones are harmonics
 					</p>
-					<div class="wave-container flex justify-center items-center mb-5">
+					<div
+						class="wave-container flex justify-center items-center mb-5 [&>canvas]:mr-2"
+					>
+						<canvas
+							id="standing-wave"
+							height="200"
+							style="border: 1px solid black"
+						></canvas>
 						<canvas
 							id="standing-wave-second-harmonic"
 							height="200"
@@ -305,8 +305,9 @@
 						rely on the player's lips to excite the air column, producing a mix
 						of harmonics. The harmonic series depends on the length of the tube,
 						which is modified by valves or slides.
-						<br />
-						DIfferent materials have different densities. Different objects make
+					</p>
+					<p>
+						Different materials have different densities. Different objects make
 						different sound partly because of density and partly due to their
 						shape when they are struck by something. If you tap at the strike
 						the object energy from the strike causes the molecules within them
@@ -329,18 +330,17 @@
 							fingerprint.</span
 						>
 						Trumpets have a tonal profile where there is relatively even amount
-						of energy in odd and even harmonics both. Clarinet on the other hand
-					</p>
-				</section>
-				<section>
-					<p class="underline">
-						So when you're playing a piano C4 or a trumpet C4 or a violin C4 or
-						a flute C4 which is a frequency of 261.63Hz there are innumerable
-						frequencies being generated which are called harmonics. If you look
-						at the second visualisation at the start and play one of the sounds
-						you can see all the harmonics being generated and represented as a
-						graph. These rich set of harmonics give an instrument its
-						<span class="font-bold">timbre</span>.
+						of energy in odd and even harmonics both. A violin that is bowed in
+						the center will produce mostly odd harmonics but bowing at the one
+						third of the length emphasizes the third harmonic and its multiple:
+						sixth, ninth, etc.
+						<br />
+						All instruments (and even human voice) have a timbral fingerprint
+						which is different to other instruments. But to the trained ear or
+						musicians not all trumpets sound alike nor do all pianos. Every
+						instrument has a different overtone profile but not so different
+						that it starts to sound like some other instrument. Master musicians
+						can hear the subtle differences in the sound. That is timber.
 					</p>
 				</section>
 			</div>

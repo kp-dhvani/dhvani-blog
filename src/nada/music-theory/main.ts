@@ -1,5 +1,4 @@
 import * as Tone from "tone";
-import { highlightCurrentPageInNav } from "../../shared/util";
 
 const linerSeries = [200, 300, 400, 500, 600, 700, 800, 900, 1000, 1100];
 const logarithmicSeries = [
@@ -7,7 +6,6 @@ const logarithmicSeries = [
 ];
 
 document.addEventListener("DOMContentLoaded", () => {
-	highlightCurrentPageInNav();
 	const firstHarmonicWaveCanvas = document.getElementById(
 		"first-harmonic-wave"
 	) as HTMLCanvasElement;

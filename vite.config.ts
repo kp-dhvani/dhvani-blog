@@ -51,7 +51,23 @@ export default defineConfig({
 			"@": path.resolve(__dirname, "src"),
 		},
 	},
-	plugins: [injectHTML()],
+	plugins: [
+		injectHTML(),
+		{
+			name: "inject-common-script",
+			transformIndexHtml(html, { filename }) {
+				// Check if the file is an HTML file (can also be page-specific)
+				if (filename.endsWith(".html")) {
+					// Inject the script for common.ts just before </body> in all HTML files
+					return html.replace(
+						"</body>",
+						'<script type="module" src="/shared/common.ts"></script></body>'
+					);
+				}
+				return html; // For non-HTML files, return unchanged
+			},
+		},
+	],
 	server: {
 		port: 3000,
 		hmr: true,

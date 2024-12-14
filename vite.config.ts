@@ -2,7 +2,7 @@ import { defineConfig } from "vite";
 import { resolve } from "path";
 import injectHTML from "vite-plugin-html-inject";
 import path from "path";
-import fs from "fs";
+import { readdirSync, statSync } from "fs";
 
 const root = resolve(__dirname, "src");
 const outDir = resolve(__dirname, "dist");
@@ -13,11 +13,11 @@ function collectHtmlFiles(rootDir: string) {
 
 	// walk through directories and collect HTML files
 	function walkDirectory(dir: string) {
-		const files = fs.readdirSync(dir);
+		const files = readdirSync(dir);
 
 		files.forEach((file) => {
 			const filePath = path.join(dir, file);
-			const stat = fs.statSync(filePath);
+			const stat = statSync(filePath);
 
 			if (stat.isDirectory()) {
 				walkDirectory(filePath);
@@ -55,16 +55,16 @@ export default defineConfig({
 		injectHTML(),
 		{
 			name: "inject-common-script",
-			transformIndexHtml(html, { filename }) {
-				// Check if the file is an HTML file (can also be page-specific)
-				if (filename.endsWith(".html")) {
-					// Inject the script for common.ts just before </body> in all HTML files
+			enforce: "post",
+			transformIndexHtml: {
+				order: "post",
+				handler(html) {
+					// Inject the compiled JavaScript file into all HTML files
 					return html.replace(
 						"</body>",
-						'<script type="module" src="/shared/common.ts"></script></body>'
+						'<script type="module" src="/shared/common.js"></script></body>'
 					);
-				}
-				return html; // For non-HTML files, return unchanged
+				},
 			},
 		},
 	],
@@ -80,7 +80,16 @@ export default defineConfig({
 			input: {
 				main: resolve(root, "index.html"),
 				"404": resolve(root, "404.html"),
+				common: resolve(root, "shared/common.ts"),
 				...articles,
+			},
+			output: {
+				entryFileNames: (chunk) => {
+					if (chunk.name === "common") {
+						return "shared/[name].js"; // Place the common.js file in the 'shared' folder
+					}
+					return "[name].js"; // For other entry points, keep them in the root
+				},
 			},
 		},
 	},

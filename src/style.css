@@ -1,19 +1,20 @@
-@import url('https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&display=swap");
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 body {
-    font-family: 'Space Mono', monospace !important;
+	font-family: "Space Mono", monospace !important;
+	background: #f3f4f6;
 }
 
 .table-of-content #toc {
-    max-height: 0;
-    transition: max-height 1s ease-out;
-    overflow: hidden;
+	max-height: 0;
+	transition: max-height 1s ease-out;
+	overflow: hidden;
 }
 
 .table-of-content:hover #toc {
-    max-height: 500px;
-    transition: max-height 1s ease-in;
+	max-height: 500px;
+	transition: max-height 1s ease-in;
 }

@@ -6,6 +6,7 @@ import { readdirSync, statSync } from "fs";
 
 const root = resolve(__dirname, "src");
 const outDir = resolve(__dirname, "dist");
+const mode = process.env.NODE_ENV;
 
 // function to collect all HTML files recursively
 function collectHtmlFiles(rootDir: string) {
@@ -59,6 +60,13 @@ export default defineConfig({
 			transformIndexHtml: {
 				order: "post",
 				handler(html) {
+					if (mode === "development") {
+						const commonJsPath = path.resolve(root, "/shared/common.ts");
+						return html.replace(
+							"</body>",
+							`<script type="module" src="${commonJsPath}"></script></body>`
+						);
+					}
 					// Inject the compiled JavaScript file into all HTML files
 					return html.replace(
 						"</body>",

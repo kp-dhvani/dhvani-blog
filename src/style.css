@@ -1,10 +1,15 @@
-@import url("https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&display=swap");
+@import url('https://fonts.cdnfonts.com/css/jetbrains-mono-2');
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
+:root {
+	--font-family: "JetBrains Mono", monospace;
+	font-family: var(--font-family);
+	font-optical-sizing: auto;
+}
+
 body {
-	font-family: "Space Mono", monospace !important;
 	background: #f3f4f6;
 }
 

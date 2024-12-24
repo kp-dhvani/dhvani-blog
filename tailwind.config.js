@@ -5,7 +5,7 @@ module.exports = {
 	theme: {
 		extend: {
 			fontFamily: {
-				spaceMono: ["Space Mono", "monospace"],
+				mono: ["JetBrains Mono", "monospace"],
 			},
 			borderColor: {
 				"accent-color": "#FF6577",

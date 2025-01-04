@@ -17,7 +17,7 @@
 					>
 						Synthesising a kick drum sound
 						<span class="text-xs"
-							>second draft: 2<sup>nd</sup> January 2025</span
+							>third draft: 4<sup>th</sup> January 2025</span
 						>
 					</h2>
 					<p class="underline mb-2">A brief history of drums</p>
@@ -57,10 +57,426 @@
 					<p>
 						The word percussion comes from the Latin word
 						<span class="italic">percussionem</span>, which means “a striking, a
-						blow".
+						blow". A percussion instrument is one that produces a sound when a
+						part of it is struck. Here are four primary percussion groups
+					</p>
+					<ol class="list-decimal pl-8 space-y-2 mb-5">
+						<li>
+							<span>Membranophones</span>(commonly called drums): these produce
+							the sound through a membrane/skin. eg. timpani, snare drum, bass
+							drum, tabla, etc.
+						</li>
+						<li>
+							<span>Idiophones</span>: instruments that create sound through the
+							vibration of the entire body. e.g xylophones, glockenspiels,
+							cymbals, hi-hats, gongs, etc. Material and construction determine
+							the pitch and timbre.
+						</li>
+						<li>
+							<span>Aerophones</span> (air percussion): instruments that produce
+							sound through air vibration. eg. whistles, sirens, some types of
+							organ pipes, wind instrument family, etc.
+						</li>
+						<li>
+							<span>Chordophones</span> (string percussion): instruments that
+							produce sound through struck strings. eg. primarily the piano
+							family
+						</li>
+					</ol>
+					<p>
+						You can further subdivide the membranophones and idiophones based on
+						pitched and un-pitched sounds. pitched membranophones include tabla,
+						timpani, talking drum from West Africa, etc. unoitched
+						membranophones include snare drum, bass drum, tom-toms, etc.
+						<br />
+						pitched idiophones include bells, xylophones, glockenspiel, etc.
+						unpitched idiophones include cymbals, hi-hats, triangle, wood
+						blocks, tambourine, etc.
+						<br />
+						Further subdivision is possible based on the type of construction of
+						the instrument.
 					</p>
 				</section>
+
+				<ul class="list-disc pl-8 space-y-2 mb-5">
+					<li>
+						single headed instruments have a single membrane with air pressure
+						on each side. eg. cymbals, toms and conga.
+					</li>
+					<li>
+						double headed have two membranes with air trapped between the two
+						membranes. eg. snare dru, bass drum, etc.
+					</li>
+				</ul>
+				<p>
+					Various such subdivisions are possible for percussion instruments.
+					<br />
+					<br />
+					Consider this a vibrating string has one dimension: its length, it can
+					only vibrate in one dimension across the length of the string. Other
+					properties such as its density and tension affect it but ina 3D world
+					it has only one primary dimension. Now compare this with a drum. It
+					has a circular (typically) membrane that is stretched with tension at
+					all points. Unlike a string a drum has 2 dimensions: both along the
+					surface and perpendicular to that surface. You can measure how long
+					and wide the surface is. A membrane can vibrate in multiple modes
+					because it is two dimensional and each point can vibrate in different
+					ways depending on the combination of its radial and tangential
+					displacements. In terms of a vibrating membrane modes of vibration are
+					the distinct patterns of deformation that occur at different
+					frequencies. These patterns arise due to the standing waves across the
+					surface of the membrane. Each mode has a unique spatial pattern and
+					the number of nodes points where the displacement is zero and
+					antinodes points where displacement is at maximum varies. [should i go
+					into the superposition principle here?]
+					<br />
+					<br />
+					Let's say you hit the drum exactly in the center. It will vibrate up
+					and down just like the fundamental frequency of a vibrating string
+					called w<sub>01</sub> mode of the membrane. The modes of vibration can
+					be described as w<sub>m,n</sub> where m is the radial mode and n is
+					the circular mode. In radial mode the vibration patterns consist of
+					lines running outwards from the center to the rim along the diameter
+					lines. The membrane is divided into wedge-shaped sections by these
+					nodal lines, with adjacent sections moving in opposite directions. The
+					number of nodal diameters defines the mode number, eg.
+					w<sub>3,0</sub>.
+				</p>
+				<div
+					class="vibration-mode mb-10 mr-0 md:mr-4 w-full flex justify-center"
+				>
+					<canvas
+						id="w30-vibration-mode"
+						height="200"
+						class="max-sm:w-full my-3"
+					></canvas>
+				</div>
+				<p>
+					In circular mode of vibration the displacement patterns form
+					concentric circles around the radius. The membrane moves up and down
+					in rings, with adjacent rings moving in opposite directions. These
+					modes are characterized by the number of nodal circles (where there is
+					no movement) between the center and the edge of the membrane. In the
+					diagram below the shaded part moves up and unshaded part moves down,
+					eg. w<sub>0,2</sub>.
+				</p>
+				<div
+					class="vibration-mode mb-10 mr-0 md:mr-4 w-full flex justify-center"
+				>
+					<canvas
+						id="w02-vibration-mode"
+						height="200"
+						class="max-sm:w-full my-3"
+					></canvas>
+				</div>
+				<p>
+					When you strike membrane in the center it vibrates in the fundamental
+					mode which is w<sub>0,1</sub>. In this mode the membrane moves up and
+					down like a string vibrating at its fundamental frequency. Maximum
+					displacement occurs at the center of the membrane and least
+					displacement at places it is fixed near the rim. Since it's a membrane
+					you can't put a finger in the center to only generate second harmonics
+					so let's consider the third harmonics. Now placing your finger from
+					one third of the way from center of the drum will land you on an
+					incorrect position, remember it's a membrane. The zero points of a
+					string with the relation 1/integer does not work for membranes. Using
+					something called a Bessel function you can compute the zero points of
+					a membrane and the first zero point or the first overtone is 42.6% of
+					the distance from the center to the rim. So at about 42.6% of the way
+					from the center to the rim, you hit the first zero point a point where
+					there's no displacement. The frequency of the vibrating mode in this
+					way called the w<sub>02</sub>
+					mode is 2.296 times the fundamental.
+				</p>
+				<div class="flex flex-col items-center justify-center">
+					<p class="mt-5">fundamental mode of vibration for a drum</p>
+					<div class="w-full max-w-4xl">
+						<svg
+							viewBox="0 0 350 150"
+							xmlns="http://www.w3.org/2000/svg"
+							class="w-full h-full"
+							preserveAspectRatio="xMidYMid meet"
+						>
+							<!-- Side View Label -->
+							<text x="75" y="60" text-anchor="middle" font-size="6">
+								Side View
+							</text>
+
+							<!-- Equilibrium position line -->
+							<line
+								x1="25"
+								y1="80"
+								x2="125"
+								y2="80"
+								stroke="gray"
+								stroke-dasharray="4"
+							/>
+
+							<!-- Maximum displacement curves -->
+							<path
+								d="M 25,80 Q 75,55 125,80"
+								fill="none"
+								stroke="blue"
+								stroke-width="1.5"
+							/>
+							<path
+								d="M 25,80 Q 75,105 125,80"
+								fill="none"
+								stroke="red"
+								stroke-width="1.5"
+							/>
+
+							<!-- Top View Label -->
+							<text x="250" y="30" text-anchor="middle" font-size="6">
+								Top View
+							</text>
+
+							<!-- Outer boundary circle -->
+							<circle
+								cx="250"
+								cy="80"
+								r="40"
+								fill="none"
+								stroke="gray"
+								stroke-width="1.5"
+							/>
+
+							<!-- Shading to indicate amplitude -->
+							<circle cx="250" cy="80" r="40" fill="#FF6577" opacity="0.1" />
+							<circle cx="250" cy="80" r="30" fill="#FF6577" opacity="0.1" />
+							<circle cx="250" cy="80" r="20" fill="#FF6577" opacity="0.1" />
+
+							<!-- Maximum displacement indicator -->
+							<circle cx="250" cy="80" r="2.5" fill="red" />
+
+							<!-- Labels -->
+							<text x="75" y="100" text-anchor="middle" font-size="6">
+								Maximum displacement up/down
+							</text>
+							<text x="250" y="135" text-anchor="middle" font-size="6">
+								Amplitude decreases from center
+							</text>
+						</svg>
+					</div>
+				</div>
+				<p>For the next harmonic the mode of vibration is w<sub>03</sub>.</p>
+				<div
+					class="vibration-mode mb-10 mr-0 md:mr-4 w-full flex justify-center"
+				>
+					<canvas
+						id="w03-vibration-mode"
+						height="200"
+						class="max-sm:w-full my-3"
+					></canvas>
+				</div>
+				<p>
+					Some modes of vibration like w<sub>1,1</sub>, w<sub>2,2</sub>, w<sub
+						>3,1</sub
+					>
+				</p>
+				<div class="vibration-mode w-full">
+					<div
+						class="flex lg:flex-row flex-col items-center justify-center gap-4"
+					>
+						<canvas
+							id="w11-vibration-mode"
+							height="200"
+							class="max-sm:w-full my-3"
+						></canvas>
+						<canvas
+							id="w22-vibration-mode"
+							height="200"
+							class="max-sm:w-full my-3"
+						></canvas>
+						<canvas
+							id="w31-vibration-mode"
+							height="200"
+							class="max-sm:w-full my-3"
+						></canvas>
+					</div>
+				</div>
+				<p>This is how the modes of vibration look like in 3D for a membrane</p>
+				<div class="flex lg:flex-row flex-col items-center gap-4">
+					<figure class="flex flex-col items-center">
+						<picture>
+							<img
+								src="/assets/zero_nodes.gif"
+								alt="Zero nodes for a vibrating membrane in 3D"
+								loading="lazy"
+							/>
+						</picture>
+						<figcaption class="text-center mt-2">Zero nodes</figcaption>
+					</figure>
+
+					<figure class="flex flex-col items-center">
+						<picture>
+							<img
+								src="/assets/two_nodes.gif"
+								alt="Two nodes for a vibrating membrane in 3D"
+								loading="lazy"
+							/>
+						</picture>
+						<figcaption class="text-center mt-2">Two nodes</figcaption>
+					</figure>
+
+					<figure class="flex flex-col items-center">
+						<picture>
+							<img
+								src="/assets/four_nodes.gif"
+								alt="Four nodes for a vibrating membrane in 3D"
+								loading="lazy"
+							/>
+						</picture>
+						<figcaption class="text-center mt-2">Four nodes</figcaption>
+					</figure>
+				</div>
+				<p class="my-3">
+					Using some fancy math we can calculate the frequency of the modes and
+					we get the following mode and frequency relation:
+				</p>
+				<div class="flex justify-center mb-5">
+					<table
+						class="text-sm text-center border border-accent-color table-auto"
+					>
+						<thead class="bg-gray-50">
+							<tr>
+								<th scope="col" class="px-6 py-3 border border-accent-color">
+									Mode (m,n)
+								</th>
+								<th
+									scope="col"
+									class="px-6 py-3 border border-accent-color text-center"
+								>
+									Relative Frequency
+								</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td
+									class="px-6 py-4 font-medium whitespace-nowrap border border-accent-color"
+								>
+									(0,1)
+								</td>
+								<td class="border border-accent-color text-center">1.00</td>
+							</tr>
+							<tr>
+								<td
+									class="px-6 py-4 font-medium whitespace-nowrap border border-accent-color"
+								>
+									(1,1)
+								</td>
+								<td class="border border-accent-color text-center">1.59</td>
+							</tr>
+							<tr>
+								<td
+									class="px-6 py-4 font-medium whitespace-nowrap border border-accent-color"
+								>
+									(2,1)
+								</td>
+								<td class="border border-accent-color text-center">2.14</td>
+							</tr>
+							<tr>
+								<td
+									class="px-6 py-4 font-medium whitespace-nowrap border border-accent-color"
+								>
+									(0,2)
+								</td>
+								<td class="border border-accent-color text-center">2.30</td>
+							</tr>
+							<tr>
+								<td
+									class="px-6 py-4 font-medium whitespace-nowrap border border-accent-color"
+								>
+									(3,1)
+								</td>
+								<td class="border border-accent-color text-center">2.65</td>
+							</tr>
+							<tr>
+								<td
+									class="px-6 py-4 font-medium whitespace-nowrap border border-accent-color"
+								>
+									(1,2)
+								</td>
+								<td class="border border-accent-color text-center">2.92</td>
+							</tr>
+							<tr>
+								<td
+									class="px-6 py-4 font-medium whitespace-nowrap border border-accent-color"
+								>
+									(4,1)
+								</td>
+								<td class="border border-accent-color text-center">3.16</td>
+							</tr>
+							<tr>
+								<td
+									class="px-6 py-4 font-medium whitespace-nowrap border border-accent-color"
+								>
+									(2,2)
+								</td>
+								<td class="border border-accent-color text-center">3.50</td>
+							</tr>
+							<tr>
+								<td
+									class="px-6 py-4 font-medium whitespace-nowrap border border-accent-color"
+								>
+									(0,3)
+								</td>
+								<td class="border border-accent-color text-center">3.60</td>
+							</tr>
+							<tr>
+								<td
+									class="px-6 py-4 font-medium whitespace-nowrap border border-accent-color"
+								>
+									(5,1)
+								</td>
+								<td class="border border-accent-color text-center">3.65</td>
+							</tr>
+							<tr>
+								<td
+									class="px-6 py-4 font-medium whitespace-nowrap border border-accent-color"
+								>
+									(3,2)
+								</td>
+								<td class="border border-accent-color text-center">4.06</td>
+							</tr>
+							<tr>
+								<td
+									class="px-6 py-4 font-medium whitespace-nowrap border border-accent-color"
+								>
+									(6,1)
+								</td>
+								<td class="border border-accent-color text-center">4.15</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+				<p>
+					Compared a vibrating string the frequencies are not harmonically
+					related to the fundamental instead they are enharmonic with respect to
+					the fundamental frequency. Just like a vibrating string the membrane
+					of a drum vibrates in number of its different modes simultaneously.
+					They all will have different amplitudes and all decay at different
+					rates. This makes the sound from a drum so complex and almost
+					impossible to emulate using different waves from a simple harmonic
+					oscillator. The membrane generates more harmonics and they are
+					clustered in an uneven manner unlike the regular spaced overtones in
+					the simple harmonic oscillator. This makes the drum sound atonal and
+					stops us from perceiving a particular pitch and tone of the sound.
+					Also, no matter how carefully you adjust the membrane it will always
+					have slight variations in the tightness and tension across the
+					surface! In an ideal linear system the frequency of the vibration
+					would stay the same regardless of how hard you hit the drum but drums
+					don't behave this way. When you hit a drum harder they produce a
+					higher pitch. This means the fundamental frequency increases with the
+					large displacement of the drumhead when you strike a drum harder.
+					<span class="italic"
+						>The fundamental frequency is related to the displacement of the
+						membrane in some way.</span
+					>
+				</p>
 			</div>
 		</main>
+		<script src="./main.ts" type="module"></script>
 	</body>
 </html>

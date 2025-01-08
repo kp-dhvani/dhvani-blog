@@ -1,9 +1,11 @@
 drawMembraneMode("w02-vibration-mode", 0, 2);
 drawMembraneMode("w11-vibration-mode", 1, 1);
-drawMembraneMode("w22-vibration-mode", 2, 2);
+drawMembraneMode("w12-vibration-mode", 1, 2);
+drawMembraneMode("w13-vibration-mode", 1, 3);
 drawMembraneMode("w03-vibration-mode", 0, 3);
 drawMembraneMode("w30-vibration-mode", 3, 0);
 drawMembraneMode("w31-vibration-mode", 3, 1);
+drawMembraneMode("w41-vibration-mode", 4, 1);
 
 function drawMembraneMode(
 	canvasId: string,

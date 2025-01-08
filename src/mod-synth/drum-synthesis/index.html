@@ -16,9 +16,7 @@
 						class="text-base md:text-xl lg:text-2xl mb-5 border border-black rounded-lg p-2"
 					>
 						Synthesising a kick drum sound
-						<span class="text-xs"
-							>fourth draft: 7<sup>th</sup> January 2025</span
-						>
+						<span class="text-xs">Published: 8<sup>th</sup> January 2025</span>
 					</h2>
 					<p class="underline mb-2">A brief history of drums</p>
 					<p>
@@ -114,7 +112,7 @@
 					<br />
 					Consider this a vibrating string has one dimension: its length, it can
 					only vibrate in one dimension across the length of the string. Other
-					properties such as its density and tension affect it but ina 3D world
+					properties such as its density and tension affect it but in a 3D world
 					it has only one primary dimension. Now compare this with a drum. It
 					has a circular (typically) membrane that is stretched with tension at
 					all points. Unlike a string a drum has 2 dimensions: both along the
@@ -175,17 +173,16 @@
 					down like a string vibrating at its fundamental frequency. Maximum
 					displacement occurs at the center of the membrane and least
 					displacement at places it is fixed near the rim. Since it's a membrane
-					you can't put a finger in the center to only generate second harmonics
-					so let's consider the third harmonics. Now placing your finger from
-					one third of the way from center of the drum will land you on an
-					incorrect position, remember it's a membrane. The zero points of a
-					string with the relation 1/integer does not work for membranes. Using
-					something called a Bessel function you can compute the zero points of
-					a membrane and the first zero point or the first overtone is 42.6% of
-					the distance from the center to the rim. So at about 42.6% of the way
-					from the center to the rim, you hit the first zero point a point where
-					there's no displacement. The frequency of the vibrating mode in this
-					way called the w<sub>02</sub>
+					you can't put a finger in the center to generate only second
+					harmonics. Now placing your finger half the way from center of the
+					drum will land you on an incorrect position, remember it's a membrane.
+					The zero points of a string with the relation 1/integer does not work
+					for membranes. Using something called a Bessel function you can
+					compute the zero points of a membrane and the first zero point or the
+					first overtone is 42.6% of the distance from the center to the rim. So
+					at about 42.6% of the way from the center to the rim, you hit the
+					first zero point a point where there's no displacement. The frequency
+					of the vibrating mode in this way called the w<sub>02</sub>
 					mode is 2.296 times the fundamental.
 				</p>
 				<div class="flex flex-col items-center justify-center">
@@ -270,9 +267,8 @@
 					></canvas>
 				</div>
 				<p>
-					Some modes of vibration like w<sub>1,1</sub>, w<sub>2,2</sub>, w<sub
-						>3,1</sub
-					>
+					Some modes of vibration like w<sub>1,1</sub>, w<sub>1,2</sub>,
+					w<sub>1,3</sub>, w<sub>3,1</sub>, w<sub>4,1</sub>
 				</p>
 				<div class="vibration-mode w-full">
 					<div
@@ -284,12 +280,22 @@
 							class="max-sm:w-full my-3"
 						></canvas>
 						<canvas
-							id="w22-vibration-mode"
+							id="w12-vibration-mode"
+							height="200"
+							class="max-sm:w-full my-3"
+						></canvas>
+						<canvas
+							id="w13-vibration-mode"
 							height="200"
 							class="max-sm:w-full my-3"
 						></canvas>
 						<canvas
 							id="w31-vibration-mode"
+							height="200"
+							class="max-sm:w-full my-3"
+						></canvas>
+						<canvas
+							id="w41-vibration-mode"
 							height="200"
 							class="max-sm:w-full my-3"
 						></canvas>
@@ -509,7 +515,22 @@
 				<p>
 					The head that you strike is called the drum head of the batter head
 					and the other is resonating or carry head. With the air trapped inside
-					2 membranes a drum bass has 3 coupled resonators.
+					2 membranes a drum bass has 3 coupled resonators. In the tables below
+					I have modal frequencies of a standard 22 inch bass drum with the same
+					tension across both the membranes. Due to the trapped air the
+					membrane's vibrations are affected in such a way that we see 2
+					frequencies each for the first 2 modes. [need more research on why
+					there are 2 frequencies for the first two modes] If we remove the
+					extra modes we see that they are somewhat harmonic but not completely.
+					The frequencies at the upper partials are not integer multiples of the
+					fundamental but in fact they are frequency shifted by 7Hz. This shift
+					comes from both the membranes having the same tension. Here we are
+					assuming that both the membranes have the same tension but bass drums
+					are rarely tuned like that. Usually the carry head (resonator head) is
+					tuned at much lower tension. So table 5 shows the frequencies of a
+					dual membrane with the carry head de-tuned with the batter head. Once
+					you detune the heads the frequency shift of 7Hz disappears and what we
+					get is a almost harmonic partials with respect to the fundamental.
 				</p>
 				<div
 					class="overflow-x-auto my-5 flex flex-col lg:flex-row lg:flex-wrap gap-4 p-4"
@@ -596,7 +617,7 @@
 								</tr>
 							</tbody>
 							<caption class="text-sm font-medium mb-2 text-left">
-								Table 2: The modal frequencies of a dual-membrane bass drum
+								Table 2: The modal frequencies of a dual membrane bass drum
 							</caption>
 						</table>
 					</div>
@@ -845,6 +866,204 @@
 						</table>
 					</div>
 				</div>
+				<p>
+					A modern kick drum is not exactly like a bass drum. A kick drum which
+					evolved from a bass drum is modified specifically for modern music. A
+					kick drum does not have 2 complete membranes instead there is a hole
+					in the carry head which has several purposes like:
+				</p>
+				<ul class="list-disc pl-8 space-y-2 mb-2">
+					<li>
+						Sound control: The hole can be used to place dampening materials
+						inside the drum to control the overtones and reduce the sustain
+						creating more punchy sound.
+					</li>
+					<li>
+						Microphone placement: Mics can be put in the hole to record the
+						sounds better in live performances.
+					</li>
+					<li>
+						Tonal character: The hole changes the acoustics of the drum by
+						releasing the air pressure more quickly.
+					</li>
+				</ul>
+				<p>
+					Having a hole in the membrane surprisingly does not affect the
+					frequencies of the sound much.
+					<span class="italic"
+						>The frequencies of a kick drum have a harmonic spectrum at lower
+						frequencies with a large number of densely packed enharmonic
+						frequencies at mid and higher frequencies.</span
+					>
+					However a drum sound has not only these low frequencies almost
+					harmonic components, it generates partials between 250Hz and 1Khz so
+					we must also consider this in our synthesis. We can use Frequency
+					Modulation to generate the partials. Frequency modulation works by
+					having one oscillator (modulator) affect the frequency of the other
+					oscillator (carrier). When the modulation happens in the audio range
+					(above 20Hz) it creates sidebands i.e. additional frequencies above
+					and below the carrier frequency. [More on frequency modulation in a
+					different article soon].
+					<br />
+					Now that we have the frequency content of the sound let's understand
+					the amplitude levels of the sound. The amplitude at the lower modes
+					are the highest hence loudest and the amplitude decreases rapidly at
+					higher modes of vibration producing higher frequency components. So a
+					triangle wave or a sawtooth wave will be ideal for the synthesis [more
+					on this in different article]. After this there are 2 more components
+					that we need to take into account while synthesising the sound: the
+					frequency shift and the sound of the beater head 'click'.
+					<br />
+					The carry head of the kick drum has more freedom to vibrate because of
+					the hole in the drum. But what causes the pitch change? Remember, the
+					pitch is entirely dependent on the tension of the membrane.
+				</p>
+				<div class="flex flex-col items-center justify-center">
+					<div class="w-full max-w-4xl">
+						<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 200">
+							<!-- Background rectangles -->
+							<rect x="20" y="20" width="360" height="60" fill="#f3f4f6" />
+							<rect x="20" y="120" width="360" height="60" fill="#f3f4f6" />
+
+							<!-- Labels -->
+							<text x="30" y="35" font-size="8">membrane at rest</text>
+							<text x="30" y="135" font-size="8">
+								membrane struck in the center
+							</text>
+
+							<!-- Measurement arrows and text -->
+							<line
+								x1="50"
+								y1="65"
+								x2="350"
+								y2="65"
+								stroke="black"
+								marker-end="url(#arrow)"
+								marker-start="url(#arrow)"
+							/>
+							<line
+								x1="50"
+								y1="165"
+								x2="350"
+								y2="165"
+								stroke="black"
+								marker-end="url(#arrow)"
+								marker-start="url(#arrow)"
+							/>
+							<text x="185" y="80" font-size="6">22"</text>
+							<text x="180" y="180" font-size="6">22 1/16"</text>
+
+							<!-- Membrane at rest -->
+							<line
+								x1="50"
+								y1="50"
+								x2="350"
+								y2="50"
+								stroke="red"
+								stroke-width="2"
+							/>
+							<rect x="45" y="45" width="10" height="10" fill="black" />
+							<rect x="345" y="45" width="10" height="10" fill="black" />
+
+							<!-- Struck membrane (curved line) -->
+							<path
+								d="M50,150 Q200,170 350,150"
+								stroke="red"
+								stroke-width="2"
+								fill="none"
+							/>
+							<rect x="45" y="145" width="10" height="10" fill="black" />
+							<rect x="345" y="145" width="10" height="10" fill="black" />
+						</svg>
+					</div>
+				</div>
+				<p>
+					Let's say you have 22 inch membrane drum and you hit it in the center.
+					The energy from the hit will displace the center by 1/16th of an inch
+					which in turn increases the tension of the membrane. This increase in
+					tension is proportional to the square of the displacement. Since the
+					pitch is determined by the tension this increases the pitch of the
+					modes. This means the pitch of every mode will be higher at the start
+					when there is maximum displacement and will drop as the energy
+					dissipates from the membrane. The pitch of the drum can shift by a
+					couple of semitones from start to finish and we need consider this in
+					our synthesis for a more natural drum sound.
+				</p>
+				<p>
+					The click comes from the beater hitting the drumhead which sends a
+					shockwave across the membrane of the drum which travel outwards from
+					the point of the impact. Due to this several high frequency partials
+					are formed for a very less amount of time since high frequencies
+					dampen quickly due to the material of the membrane. The stiffness and
+					mass of both the beater and the impact point of the drumhead determine
+					which higher frequencies get more excited.
+				</p>
+				<p>
+					<br />
+					Now that we have a know the frequency content of a bass drum we can
+					think about synthesising the basic sound. To model the sound this is
+					what we will do:
+				</p>
+				<ol class="list-decimal pl-8 space-y-2 mb-5">
+					<li>
+						have a VCO connected to low pass filter to only allow low
+						frequencies which will be connected to a mixer
+					</li>
+					<li>
+						to generate the mid range frequencies an FM setup by having a
+						modulator and a carrier connected to a band pass filter going into
+						the mixer
+					</li>
+					<li>
+						the output of the mixer being fed into a VCA. this VCA will also be
+						modulated by an AR (attack release) contour generator to shape the
+						volume of the sound over time. the AR contour generator will also be
+						connected to a attenuator which will be connected to the VCO to
+						modify its pitch in the attack phase.
+					</li>
+				</ol>
+				<div class="flex items-center justify-center mb-5">
+					<figure>
+						<picture>
+							<img
+								src="/assets/kick_drum_patch.webp"
+								alt="Kick drum patch diagram"
+								loading="lazy"
+							/>
+						</picture>
+						<figcaption class="text-center mt-2">
+							Simple kick drum patch
+						</figcaption>
+					</figure>
+				</div>
+				<p>
+					There's still a component missing from this patch and that is the
+					click sound. We can generate the click sound by adding a short burt of
+					white noise at the start or use a contour generator to shape the
+					spectrum of the partials generated by the FM components. To use the
+					latter we can split the band pass filter into a high pass filter and
+					low pass filter. Then we can connect an AR contour generator to the
+					low pass filter to the cutoff frequency of the low pass filter to
+					allow many high frequency components to pass for a very short time.
+				</p>
+				<div class="flex items-center justify-center mb-5">
+					<figure>
+						<picture>
+							<img
+								src="/assets/final_kick_drum_patch.webp"
+								alt="Complete kick drum patch diagram"
+								loading="lazy"
+							/>
+						</picture>
+						<figcaption class="text-center mt-2">
+							Final kick drum patch
+						</figcaption>
+					</figure>
+				</div>
+				<p>
+					Now that we have the patch ready I will try this out on my Moog Mavis
+					synth post the results here soon.
+				</p>
 			</div>
 		</main>
 		<script src="./main.ts" type="module"></script>

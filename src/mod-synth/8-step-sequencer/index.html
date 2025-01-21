@@ -407,13 +407,16 @@ void AudioCallback(AudioHandle::InputBuffer in, AudioHandle::OutputBuffer out, s
 						it can also work with the lower voltage levels that come from audio
 						interfaces.
 					</p>
-					<pre>
-                        <code>
-tempo = 120.0f  // In the code this comes from the knob, but let's use 120 BPM as example
-float stepFrequency = tempo / 60.0f / 2.0f; // 120 / 60 / 2 = 1.0
-phase += stepFrequency / hw.AudioSampleRate();
-                        </code>
-                    </pre>
+					<span class="italic">
+						tempo = 120.0f // In the code this comes from the knob, but let's
+						use 120 BPM as example
+						<br />
+						float stepFrequency = tempo / 60.0f / 2.0f; // 120 / 60 / 2 = 1.0
+						<br />
+						phase += stepFrequency / hw.AudioSampleRate();
+					</span>
+					<br />
+					<br />
 					<p>
 						Daisy Pod works with an audio sample rate of 48kHz. In each audio
 						sample the phase increases by

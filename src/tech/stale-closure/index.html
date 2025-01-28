@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<link rel="icon" type="image/svg+xml" href="/vite.svg" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Dhvani Blog - Stale Closure in React</title>
+
+		<link href="../../style.css" rel="stylesheet" />
+	</head>
+	<body class="font-mono">
+		<load src="../../shared/navbar.html" />
+		<main class="flex mx-5 md:mx-16 rounded-lg">
+			<div class="p-6 w-full">
+				<h2
+					class="text-base md:text-xl lg:text-2xl mb-5 border border-black rounded-lg p-2"
+				>
+					Stale Closure in React
+					<span class="text-xs">first draft: 28<sup>th</sup> January 2025</span>
+				</h2>
+				<section>
+					<p class="mb-5">
+						I am working on a new project at my company which is a fairly simple
+						piece of work. We are working on creating a new journey which allows
+						users to avail a regional promotional offer based on the criteria
+						that their postcode is eligible for that regional offer. However,
+						working on this simple journey I came across this very weird bug
+						which made me question my understanding of how scope and closures
+						work in Javascript and pushed me down a rabbit hole to explore and
+						fill gaps in my understanding of the said concepts.
+						<br />
+						Here I am documenting my research into the workings on scope and
+						closure in JS and how I was able to fix the peculiar bug in a very
+						large React application codebase. Let's start with the basics.
+					</p>
+					<p class="text-xl">What is scope?</p>
+					<p class="mb-3">
+						When writing programs in JS we use variables to store values and
+						refer to them in our program and do all sorts of things with those
+						variables and values. But have you wondered how does JS know which
+						variables are accessible at what times and what to do if there are
+						variables with the same name in a program?
+						<span class="italic">Scope</span> answers these question for JS.
+						<br />
+						Let's first understand how a JS engine processes our program.
+					</p>
+					<p class="underline">Compiled vs Interpreted</p>
+					<p>
+						Code compilation is the process of transforming the human readable
+						code to turn it into a list of instructions a computer can
+						understand. When we write code we are working with highly abstracted
+						representation of computer operations that is designed to be
+						readable and understandable by humans. However, computers only
+						understand binary instructions i.e. a sequence of 0s and 1s. This
+						creates a gap between how humans write instructions and how
+						computers need to receive the said instructions. The compiler serves
+						as a mediator here in this process acting as a translator by
+						converting human readable code to
+						<span class="italic">machine code</span> that computers can directly
+						execute. This compilation process is essential because it allows
+						programmers to write code at a higher level of abstraction while
+						ensuring the computer can still understand and run the program
+						correctly. Typically, the whole source is transformed at once and
+						the result is stored in a file that can be executed later.
+						<br />
+						So what is an interpreter?
+					</p>
+				</section>
+			</div>
+		</main>
+	</body>
+</html>

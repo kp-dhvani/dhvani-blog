@@ -198,150 +198,120 @@
 						<pre
 							class="language-cpp m-0 rounded-none bg-gray-900 pl-16 font-mono"
 						><code class="text-sm leading-normal">
+constexpr uint8_t NUM_STEPS = 8;
+constexpr float MIN_TEMPO = 100;
+constexpr float MAX_TEMPO = 400;
+
 enum Mode
 {
-	STEP_EDIT, // for selecting and editing steps
-	GATE_VIEW  // for watching the sequence play
+    STEP_EDIT,
+    GATE_VIEW
 };
 
-uint8_t step;
-bool active[8];
-float tempo = 120.0f;
-float phase = 0.0f; // accumulate each part of the step for a single sample
-float stepTime = 0.0f;
-uint8_t currentStep = 0;
-bool gateOutput = false;
-Mode currentMode = STEP_EDIT;
+struct
+{
+    uint8_t currentStep;
+    uint8_t editStep;
+    bool active[NUM_STEPS];
+    float phase;
+    float tempo;
+    Mode mode;
+    bool gateState;
+} sequencer;
 
-Color colors[8];
+Color stepColors[NUM_STEPS];
+
+void updateLeds()
+{
+    // edit mode: show selected step
+    if (sequencer.mode == STEP_EDIT)
+    {
+        hw.led1.SetColor(stepColors[sequencer.editStep]);
+        if (sequencer.active[sequencer.editStep])
+        {
+            hw.led2.Set(0, 1, 0); // Green
+        }
+        else
+        {
+            hw.led2.Set(0, 0, 0); // Off
+        }
+    }
+    // play mode: show active step + gate state
+    else
+    {
+        hw.led1.SetColor(stepColors[sequencer.currentStep]);
+        // led2 shows gate state (green when active)
+        if (sequencer.gateState)
+        {
+            hw.led2.Set(0, 1, 0); // Green
+        }
+        else
+        {
+            hw.led2.Set(0, 0, 0); // Off
+        }
+    }
+    hw.UpdateLeds();
+}
 
 void AudioCallback(AudioHandle::InputBuffer in, AudioHandle::OutputBuffer out, size_t size)
 {
     hw.ProcessAllControls();
+    sequencer.tempo = MIN_TEMPO + hw.knob1.Process() * MAX_TEMPO;
+
+    if (hw.encoder.RisingEdge())
+    {
+        sequencer.mode = sequencer.mode == STEP_EDIT ? GATE_VIEW : STEP_EDIT;
+        updateLeds();
+    }
+
+    if (sequencer.mode == STEP_EDIT)
+    {
+        int32_t inc = hw.encoder.Increment();
+        if (inc != 0)
+        {
+            sequencer.editStep = (sequencer.editStep + inc + NUM_STEPS) % NUM_STEPS;
+            updateLeds();
+        }
+    }
+
+    if (hw.button2.RisingEdge() &amp;&amp; sequencer.mode == STEP_EDIT)
+    {
+        sequencer.active[sequencer.editStep] = !sequencer.active[sequencer.editStep];
+        updateLeds();
+    }
 
     /**
      * when we say tempo is 120BPM each beat represent a quarter note
-     * in most electronic music and hence sequencers steps need to align with eighth notes
-     * let&#39;s say the tempo is 120
+     * in most electronic music and hence sequencers steps need to align with eighth note
+     * let&apos;s say the tempo is 120
      * tempo/60 = 2 beats per second
-     * then 2/2 makes each beat take half a step
+     * then 2/2 makes each beat take eight of a note
      * without the last division /2 each step would last a full beat i.e. a quarter note
      */
-     tempo = hw.knob1.Process() * 300.0f + 40.0f; // range for the tempo: 40-340 BPM
-    float stepFrequency = tempo / 60.0f / 2.0f;
+    float phaseInc = (sequencer.tempo / 60.0f / 2.0f) / hw.AudioSampleRate();
 
-    if (hw.encoder.RisingEdge()) // switch between edit and view mode
-    {
-        currentMode = currentMode == STEP_EDIT ? GATE_VIEW : STEP_EDIT;
-        hw.ClearLeds();
-        if (currentMode == STEP_EDIT)
-        {
-            if (active[step])
-            {
-                hw.led2.SetGreen(1);
-            }
-            else
-            {
-                hw.led2.Set(0, 0, 0);
-            }
-        }
-        else
-        {
-            hw.led1.SetColor(colors[currentStep]); // show playing step
-            if (gateOutput)
-            {
-                hw.led2.SetGreen(1);
-            }
-            else
-            {
-                hw.led2.Set(0, 0, 0);
-            }
-        }
-        hw.UpdateLeds();
-    }
-
-    int32_t encoderChange = hw.encoder.Increment(); // step through the sequence
-    if (encoderChange != 0 &amp;&amp; currentMode == STEP_EDIT)
-    {
-        step = step + encoderChange;
-        // wrap around to keep within 0-7 range
-        step = (step % 8 + 8) % 8;
-        hw.ClearLeds();
-        hw.led1.SetColor(colors[step]);
-        if (active[step])
-        {
-            hw.led2.SetGreen(1);
-        }
-        else
-        {
-            hw.led2.Set(0, 0, 0);
-        }
-        hw.UpdateLeds();
-    }
-    if (hw.button2.RisingEdge() &amp;&amp; currentMode == STEP_EDIT) // turn a step on/off
-    {
-        active[step] = !active[step];
-
-        if (active[step])
-        {
-            hw.led2.SetGreen(1);
-        }
-        else
-        {
-            hw.led2.Set(0, 0, 0);
-        }
-        hw.UpdateLeds();
-    }
     for (size_t i = 0; i &lt; size; i++)
     {
-        // increment phase and check for step change
-        phase += stepFrequency / hw.AudioSampleRate();
-        if (phase &gt;= 1.0f)
-        {
-            phase -= 1.0f;
-            currentStep = (currentStep + 1) % 8;
-            gateOutput = active[currentStep];
+        sequencer.phase += phaseInc;
 
-            // only update LEDs if we are in GATE_VIEW mode
-            if (currentMode == GATE_VIEW)
+        if (sequencer.phase &gt;= 1.0f)
+        {
+            sequencer.phase -= 1.0f;
+            sequencer.currentStep = (sequencer.currentStep + 1) % NUM_STEPS;
+            sequencer.gateState = sequencer.active[sequencer.currentStep];
+
+            // Update LEDs only when step changes in view mode
+            if (sequencer.mode == GATE_VIEW)
             {
-                hw.ClearLeds();
-                hw.led1.SetColor(colors[currentStep]);
-                if (gateOutput)
-                {
-                    hw.led2.SetGreen(1);
-                }
-                else
-                {
-                    hw.led2.Set(0, 0, 0);
-                }
-                hw.UpdateLeds();
+                updateLeds();
             }
         }
 
         // create a gate pulse that stays high for 50% of the step duration
         // this ensures a clear rising edge at the start of each active step
         float gateThreshold = 0.5f; // 50% duty cycle
-        bool currentGateState = (phase &lt; gateThreshold) &amp;&amp; gateOutput;
-
-        // generate output with maximum possible swing
-        // the sharp transition creates the rising edge my mavis needs
-        float gateOut = currentGateState ? 0.95f : -0.95f;
-        out[0][i] = gateOut;
-        out[1][i] = gateOut;
-    }
-    // update LED2 for gate output in GATE_VIEW mode
-    if (currentMode == GATE_VIEW)
-    {
-        if (gateOutput)
-        {
-            hw.led2.SetGreen(1);
-        }
-        else
-        {
-            hw.led2.Set(0, 0, 0);
-        }
-        hw.UpdateLeds();
+        bool trigger = (sequencer.phase &lt; gateThreshold) &amp;&amp; sequencer.gateState;
+        out[0][i] = out[1][i] = trigger ? 0.95f : -0.95f;
     }
 }
                         </code></pre>
@@ -389,10 +359,6 @@ void AudioCallback(AudioHandle::InputBuffer in, AudioHandle::OutputBuffer out, s
 						to correctly calculate the tempo and the length of each step for
 						that tempo.
 						<br />
-						<span class="italic"
-							>float stepFrequency = tempo / 60.0f / 2.0f;</span
-						>
-						<br />
 						To calculate the frequency of each step we divide the current tempo
 						by 60 to convert BPM to beats per second and divide by 2 again
 						because without the last division each step would last a full beat
@@ -407,15 +373,6 @@ void AudioCallback(AudioHandle::InputBuffer in, AudioHandle::OutputBuffer out, s
 						it can also work with the lower voltage levels that come from audio
 						interfaces.
 					</p>
-					<span class="italic">
-						tempo = 120.0f // In the code this comes from the knob, but let's
-						use 120 BPM as example
-						<br />
-						float stepFrequency = tempo / 60.0f / 2.0f; // 120 / 60 / 2 = 1.0
-						<br />
-						phase += stepFrequency / hw.AudioSampleRate();
-					</span>
-					<br />
 					<br />
 					<p>
 						Daisy Pod works with an audio sample rate of 48kHz. In each audio
@@ -428,8 +385,11 @@ void AudioCallback(AudioHandle::InputBuffer in, AudioHandle::OutputBuffer out, s
 					<ol class="list-decimal pl-8 space-y-2 mb-2">
 						<li>The phase resets back to 0 (phase -= 1.0f)</li>
 						<li>
-							The sequencer moves to the next step (currentStep = (currentStep +
-							1) % 8)
+							The sequencer moves to the next step:
+							<span class="italic"
+								>sequencer.currentStep = (sequencer.currentStep + 1) %
+								NUM_STEPS;</span
+							>
 						</li>
 						<li>
 							The gate output updates based on whether the new step is active
@@ -442,6 +402,7 @@ void AudioCallback(AudioHandle::InputBuffer in, AudioHandle::OutputBuffer out, s
 						states and when it's below 0.5, the gate is high (if that step is
 						active). This creates a perfect 50% duty cycle meaning the gate
 						signal is high for exactly half of each step's duration.
+						<br />
 						<br />
 						At 120 BPM, here's what happens in real time:
 					</p>

@@ -45,7 +45,7 @@
 						Let's first understand how a JS engine processes our program.
 					</p>
 					<p class="underline">Compiled vs Interpreted</p>
-					<p>
+					<p class="mb-5">
 						Code compilation is the process of transforming the human readable
 						code to turn it into a list of instructions a computer can
 						understand. When we write code we are working with highly abstracted
@@ -60,10 +60,75 @@
 						execute. This compilation process is essential because it allows
 						programmers to write code at a higher level of abstraction while
 						ensuring the computer can still understand and run the program
-						correctly. Typically, the whole source is transformed at once and
-						the result is stored in a file that can be executed later.
+						correctly. Typically, the whole source is compiled at once and the
+						compiled code is stored in a file that can be executed later.
 						<br />
 						So what is an interpreter?
+						<br />
+						Think of writing a program like writing a recipe in English that
+						needs to be converted into instructions a computer can understand.
+						Compilation as a process takes your complete recipe, translates it
+						all at once into a new language i.e. the machine code and gives you
+						back an executable file that you can use later. When you run the
+						executable you are using this translated version of the program
+						which is why typically compiled languages run faster. Languages like
+						C++, Rust, etc. use compilation. Interpreter on the other hand is
+						like having a translator next to you reading and executing each
+						instruction one at time a time as you cook. It takes your source
+						code and executes it directly, translating and running each line as
+						it goes. Javascript, Python, etc. use interpreters.
+					</p>
+					<p>
+						Let's take a step back and look at how compilation actually works?
+						<br />
+						In compilation the program goes through the following sequence:
+					</p>
+					<ol class="mb-5 list-decimal px-8">
+						<li>
+							Tokenising: Break up the strings of characters in meaningful
+							chunks called tokens.
+							<br />
+							For eg.
+							<span class="italic">const pi = 3.14;</span>
+							<br />
+							This would be broken into following tokens: const, pi, = , 3.14,
+							and ;
+						</li>
+						<li>
+							Parsing: Take a stream of tokens and turn it into a tree of nested
+							elements which represent the programs grammar. This is called
+							<span class="italic">Abstract Syntax Tree</span>.
+							<br />
+							For the above example the tree will start with a top node called
+							<span class="italic">VariableDeclaration</span> with a child node
+							called <span class="italic">Identifier</span> whose value is pi
+							and another child called
+							<span class="italic">AssignmentExpression</span> which has its own
+							child node called <span class="italic">NumericLiteral</span> whose
+							value is 3.14.
+						</li>
+						<li>
+							Code generation: Take an AST and turn it into executable code.
+							This part varies depending on the language, platform, etc.
+						</li>
+					</ol>
+					<p>
+						Modern JS engine takes the AST and turn it into a set of machine
+						instructions to create a variable called pi and then store a value
+						3.14 into pi. The engines are not so simple though and have a few
+						more steps where they optimise the code execution among other
+						things.
+						<br />
+						But hold that thought! Isn't JS an interpreted language? So how come
+						the JS engines first use the compilation step of preparing an AST
+						and then use the AST to execute the given piece of code?
+						<br />
+						Well when Brendan Eich created JS in 1996, the very first JS engine
+						he created was called Spider Monkey which is still used in Mozilla
+						Firefox. Eich created JS with browsers in mind so any file sent from
+						the server could be interpreted quickly and rendered on the browser.
+						But as JS got popular and started web became massive performance
+						became a key issue.
 					</p>
 				</section>
 			</div>

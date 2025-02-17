@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<link rel="icon" type="image/svg+xml" href="/vite.svg" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Making a simple 8 step sequencer</title>
+		<link href="../../style.css" rel="stylesheet" />
+		<link
+			rel="stylesheet"
+			href="https://cdnjs.cloudflare.com/ajax/libs/prism/9000.0.1/themes/prism-twilight.min.css"
+			integrity="sha512-6rkEt5SymQMcnlRz1dHwAMSfMnDaFX28qdr3wyaa+XRCR8dTSWE4U6vjiTVuB6Mq9FgYOLVOTk0lrOeCnodcgA=="
+			crossorigin="anonymous"
+			referrerpolicy="no-referrer"
+		/>
+	</head>
+	<body class="font-mono">
+		<load src="../../shared/navbar.html" />
+		<main class="flex justify-center mx-5 md:mx-16 rounded-lg">
+			<div class="p-6 w-full">
+				<section>
+					<h2
+						class="text-base md:text-xl lg:text-2xl mb-5 border border-black rounded-lg p-2"
+					>
+						Statistics, Probability and Noise in DSP
+						<span class="text-xs"
+							>first draft: 17<sup>th</sup> February 2025</span
+						>
+					</h2>
+					<p class="mb-5">
+						After working on my simple 8 step sequencer which only generates a
+						gate signal for each active step in the sequence I wanted to add the
+						functionality to generate control voltage for modulating the pitch
+						for each active step in the sequence. It's not much of a sequencer
+						if it cannot generate pitch control voltage to make melodies. This
+						is where things got tricky since I have a Daisy Pod which is has an
+						AC coupled audio output. What does that even mean? Well everything
+						in modular synthesis is simply variations in voltage. Some are AC
+						like the audio and some are DC like control voltage. The reason why
+						modular is so flexible and intuitive because it's only voltages
+						flowing through the system and the same voltage can be used for
+						audio generation or modulating some aspect of the audio. Daisy Pod
+						has an AC coupled audio so it cannot generate DC voltages since AC
+						coupled outputs have a capacitor in series with the output and any
+						DC component of the voltage is blocked while only allowing AC
+						components. To generate a pitch control voltage I should be able to
+						generate a voltage of let's say 1V and be able to sustain it till
+						the next active step in the sequence. Ok but why only DC? Why can't
+						we use AC to generate the control voltage, it's voltage after all?
+						Let's say you want to control the pitch of an oscillator and if you
+						were to use AC coupling the control voltage would constantly return
+						to 0V since AC alternates between positive and negative from a
+						reference point which is 0V. So using AC for control voltage would
+						lead to your pitch decaying and coming back to its original pitch.
+						AC coupled devices have a capacitor in series with the output. A
+						capacitor is so called because it has a
+						<span class="italic">capacity</span> to store energy and is made of
+						two conductive plates separated by an insulator or a dielectric.
+						Dielectrics are materials possessing high electrical resistivities
+						and a good dielectric is therefore a good insulator. A capacitor is
+						a little like a battery. Although they work in different ways
+						capacitors and batteries store electrical energy. However, a battery
+						generates and stores energy while a capacitor only stores the
+						energy. Once you apply a voltage to the capacitor it starts to
+						charge up and as soon as it charges fully no more current can flow
+						through it and if the voltage is DC capacitor will block the passage
+						of the voltage since it's now fully charged. A capacitor responds to
+						AC by continuously charging and discharging when the input voltage
+						swings positive, electrons flow one way building up charge, but
+						before the capacitor can fully charge, the AC voltage swings
+						negative, causing electrons to flow in the opposite direction. This
+						constant reversal of voltage creates continuous electron movement in
+						the circuit. The capacitor does not
+						<span class="italic">BLOCK</span> anything, it just recreates the
+						voltage at its input and the next part in the circuit uses that to
+						create current flow based on the voltage changes.
+					</p>
+					<p>
+						Ok so Daisy Pod has a DC coupled output so I cannot generate a pitch
+						control voltage, what do I do now? Electro Smith the company who
+						makes the Daisy Pod also makes other DSP modules. One of them is a
+						Patch.init() module. This module's output is DC coupled which means
+						it can pass both AC and DC voltages.
+					</p>
+					<div class="flex justify-center my-10">
+						<img
+							src="/assets/patch_init.webp"
+							alt="Patch init module"
+							class="max-w-full md:w-1/2 h-auto"
+							loading="lazy"
+						/>
+					</div>
+					<p>
+						But this does not have some controls like an encoder, multiple LEDs,
+						toggle switches which is in Daisy Pod so to make my step sequencer I
+						had to split the functionality between these two modules. Here is
+						the setup:
+					</p>
+					<ul class="list-disc pl-8 space-y-2 mb-5">
+						<li>
+							In Daisy Pod use the encoder to step through the sequence. Use the
+							toggle switch to turn on/off a step in the sequence. Use the knob1
+							to control the tempo and knob2 to set a pitch for the active step
+							in the sequence. Pod will generate the gate signal for each active
+							step in the sequence. It will also generate an audio signal for
+							the pitch selected for the step.
+						</li>
+						<li>
+							Patch.init() will take the gate signal and the audio signal. It
+							will forward the gate signal to my Moog Mavis gate input which
+							will trigger its VCA. It will calculate the frequency of the
+							incoming audio signal and turn that frequency to a voltage based
+							on the 1V/Octave standard. This control voltage will then be fed
+							to Moog Mavis 1V/OCT input to control the pitch of the oscillator.
+						</li>
+					</ul>
+					<p class="mb-5">
+						Since Patch.init() audio output is DC coupled I can easily generate
+						a pitch control voltage bt since it does not have enough hardware
+						controls I am using the Pod to do half of the work. The tricky part
+						here is calculating the frequency of the incoming audio signal and
+						converting it to a pitch control voltage. I have spent a couple of
+						days in getting the calculations right but so far I am not able to
+						get the frequency calculation right and I observed that I kept
+						making a lot of mistakes in my code and was often in completely
+						wrong direction.
+						<br />
+						Rather than continuing to struggle with code, I realized I needed to
+						step back and rebuild my foundation in Digital Signal Processing
+						concepts. Without solid DSP fundamentals, I was trying to solve
+						problems I didn't fully understand.
+						<br />
+						That was a brief of writing this article and let's get started
+						understanding some basic concepts needed to work with DSP.
+					</p>
+					<p class="mb-2">
+						Digital Signal Processing is a vast field with many different
+						applications. I am using DSP primarily for working with audio
+						signals. Ok so what is a signal? A signal is just a description of
+						how one parameter is related to another. An audio signal is just
+						voltage that varies over time. It's a continuous voltage signal that
+						represents how air pressure will change with respect to change in
+						electric potential of the voltage over time. Since both the
+						parameters can assume continuous range of values, it is called a
+						continuous signal. In comparison passing the signal through a
+						digital system forces each of the parameters to be
+						<span class="italic">quantised</span>. Quantising is the process
+						mapping a continuous range of analog values to a finite set of
+						digital values. This is called a discrete or digitised signal. For
+						an audio signal the quantisation can be done with an Analog to
+						Digital Converter (ADC). The ADC has a fixed number of resolution or
+						bits. If we have a 12 bit ADC we now have a 2<sup>12</sup> possible
+						set of values to represent each value in the signal. If you have a
+						5V signal with a 12 bit ADC you can detect the smallest voltage of
+						approximately 1.22mV.
+						<br />
+						5V/2<sup>12</sup> = 0.001220703125
+						<br />
+						Any voltage differences less than 1.22mV will be lost in the
+						quantisation. [this can be explained separately in different article
+						since it's quite an important concept]
+					</p>
+					<p>
+						If we were to plot a graph of the discrete signal the vertical axis
+						can represent any parameter like sound pressure, voltage, etc. This
+						parameter is called with other names:
+						<span class="font-bold"
+							>the dependent variable, the range and the ordinate</span
+						>. The horizontal axis represents the other parameter of the signal
+						going by names:
+						<span class="font-bold"
+							>the independent variable, the domain, the abscissa</span
+						>. The two parameters that form the signal are not interchangeable.
+						The parameter on the Y axis is said to be a function of the X axis.
+						The independent variables tells when and how the samples were taken
+						while the dependent variable is the actual measurement. Given a
+						value on the X axis we can always find the respective Y axis value
+						but usually not the other way around.
+						<br />
+						In DSP if a signal uses time as the independent variable then it is
+						said to be in the time domain. Just like that if the independent
+						variable is the frequency it is said to be in the frequency domain.
+						The type of the parameter on the X axis makes it the domain of the
+						signal.
+					</p>
+					<div class="mb-10 mr-0 md:mr-4 w-full flex justify-center">
+						<canvas
+							id="sample-graph"
+							height="200"
+							class="max-sm:w-full my-3"
+						></canvas>
+					</div>
+				</section>
+			</div>
+		</main>
+		<script src="./main.ts" type="module"></script>
+	</body>
+</html>

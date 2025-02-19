@@ -283,7 +283,7 @@
 						</mfrac>
 						<mstyle displaystyle="true">
 							<munderover>
-								<mo>∑</mo>
+								<mo>&sum;</mo>
 								<mrow>
 									<mi>i</mi>
 									<mo>=</mo>
@@ -317,7 +317,7 @@
 						the statistical noise mentioned above in the article. The error is
 						represented as:
 					</p>
-					<math xmlns="http://www.w3.org/1998/Math/MathML" display="block">
+					<math display="block">
 						<mtext>Typical error</mtext>
 						<mo>=</mo>
 						<mfrac>
@@ -369,14 +369,198 @@
 						The Histogram, Probability Mass function, and Probability
 						Distribution function
 					</p>
-					<!-- <div class="mb-10 mr-0 md:mr-4 w-full flex justify-center">
+					<p class="my-2">
+						Let's take an Analog to Digital converter of 8 bits and acquire an
+						audio signal. For this signal we collect 256000 samples. Since the
+						ADC is 8 bits (2<sup>8</sup> = 256) each value of sample will be one
+						of 246 possibilities from 0-255. Let's plot one part of the data set
+						in the signal. The amplitude here represents what is the value the
+						sample from 0-255 since we acquired signal from an 8 bit ADC. It's
+						called "amplitude" because that's the standard term used in signal
+						processing to describe the magnitude or value of a signal at any
+						given point.
+					</p>
+					<div class="mb-10 mr-0 md:mr-4 w-full flex justify-center">
 						<canvas
-							id="sample-graph"
+							id="raw-signal-plot"
 							height="200"
 							class="max-sm:w-full my-3"
 						></canvas>
-					</div> -->
+					</div>
+					<p>
+						A histogram displays the number of samples there are in the signal
+						that have values ranging from 0-127. So Y axis represents the number
+						of occurrences of the value and X axis represents the value of the
+						sample.
+					</p>
+					<div class="mb-10 mr-0 md:mr-4 w-full flex justify-center">
+						<canvas
+							id="128-point-histogram"
+							height="200"
+							class="max-sm:w-full my-3"
+						></canvas>
+					</div>
+					<p>
+						The histogram shows that there are 7 samples that have a value of
+						135, 7 samples that have a value of 131, etc. Let's call the
+						histogram H<sub><span class="italic">i</span></sub> where
+						<span class="italic">i</span> is an index running from 0 to M-1
+						where M is the number of possible values each sample can take on.
+						<br />
+						Let's go and plot the complete sample and see what that looks like:
+					</p>
+					<div class="mb-10 mr-0 md:mr-4 w-full flex justify-center">
+						<canvas
+							id="256k-point-histogram"
+							height="200"
+							class="max-sm:w-full my-3"
+						></canvas>
+					</div>
+					<p class="mb-2">
+						As you can see the larger the number of samples the smoother the
+						curve is. Just like mean the statistical noise of the histogram is
+						inversely proportional to the square root of the of number of
+						samples used. So if you were to sum all the values of the histogram
+						it must be equal to the number of samples in the signal. The
+						formulas for mean and standard deviation are:
+					</p>
+					<math display="block">
+						<mtext>&mu;</mtext>
+						<mo>=</mo>
+						<mstyle displaystyle="true">
+							<munderover>
+								<mo>&sum;</mo>
+								<mrow>
+									<mi>i</mi>
+									<mo>=</mo>
+									<mn>0</mn>
+								</mrow>
+								<mrow>
+									<mi>M</mi>
+									<mo>-</mo>
+									<mn>1</mn>
+								</mrow>
+							</munderover>
+							<msup>
+								<mrow>
+									<msub>
+										<mi>H</mi>
+										<mi>i</mi>
+									</msub>
+								</mrow>
+							</msup>
+						</mstyle>
+					</math>
+					<br />
+					<math display="block">
+						<msup>
+							<mi>&sigma;</mi>
+							<mn>2</mn>
+						</msup>
+						<mo>=</mo>
+						<mfrac>
+							<mn>1</mn>
+							<mrow>
+								<mi>N</mi>
+								<mo>-</mo>
+								<mn>1</mn>
+							</mrow>
+						</mfrac>
+						<mstyle displaystyle="true">
+							<munderover>
+								<mo>&sum;</mo>
+								<mrow>
+									<mi>i</mi>
+									<mo>=</mo>
+									<mn>0</mn>
+								</mrow>
+								<mrow>
+									<mi>M</mi>
+									<mo>-</mo>
+									<mn>1</mn>
+								</mrow>
+							</munderover>
+						</mstyle>
+						<msup>
+							<mrow>
+								<mo stretchy="false">(</mo>
+								<msub>
+									<mi>i</mi>
+								</msub>
+								<mo>-</mo>
+								<mi>&mu;</mi>
+								<mo stretchy="false">)</mo>
+							</mrow>
+							<mn>2</mn>
+						</msup>
+						<msub>
+							<mi>H</mi>
+							<mi>i</mi>
+						</msub>
+					</math>
 				</section>
+				<p>Statistics for the plotted data calculated using Histogram:</p>
+				<ul class="list-disc pl-8 space-y-2 mb-5">
+					<li>Mean: <span id="histogram-mean"></span></li>
+					<li>
+						Standard Deviation: <span id="histogram-standard-deviation"></span>
+					</li>
+				</ul>
+				<p class="mb-2">
+					Using the histogram to calculate the SD is more efficient since in a
+					Histogram sampled with the same values are grouped together which
+					allows the statistics to be calculated by working with few numbers
+					rather than going through each sample in a very large data set. The
+					Histogram algorithm only does indexing and incrementing while the mean
+					and SD need to do addition and multiplication hence the Histogram
+					algorithm much faster.
+					<br />
+					But remember the acquired signal has statistical noise since an
+					acquired signal is noise version of the underlying process so we need
+					different names to represent our statistics. A Histogram is for the
+					acquired signal and the corresponding curve for the underlying process
+					is called the <span>Probability Mass Function</span>. A Histogram is
+					calculated with a finite set of data while PMF can be estimated from
+					the Histogram. The PMF tells us the probability of a certain value
+					being generated. Each value in the histogram is divided by the total
+					number of samples to approximate the PMF. So the Y axis is a
+					fractional value and if you were to add it up it will equal to one.
+				</p>
+				<div class="mb-10 mr-0 md:mr-4 w-full flex justify-center">
+					<canvas id="pmf" height="200" class="max-sm:w-full my-3"></canvas>
+				</div>
+				<p>
+					PMF and Histogram can only be used with discrete data like a digitised
+					signal in a computer.
+					<span class="italic">Probability Distribution Function</span> is used
+					to represent continuous signals like the ones in analog circuits.
+					Imagine the audio signal passing through a modular synthesiser, for
+					simplicity we will assume that a max voltage of 255 millivolts is
+					passing through the system. It's plot would look something like this:
+				</p>
+				<div class="mb-10 mr-0 md:mr-4 w-full flex justify-center">
+					<canvas id="pdf" height="200" class="max-sm:w-full my-3"></canvas>
+				</div>
+				<p>
+					Remember PDF works with continuous signals so let's say a PDF of 0.029
+					at 129.25 does not mean there is a 3% chance that the signal will be
+					at 129.25 millivolts. The probability of the signal being 129.25
+					millivolts is infinitesimally small since there are infinite number of
+					values where the signal can be eg. 129.248888, 129.248889, 129.248890,
+					etc. For it to be exactly 129.25000 is really rare.
+					<br />
+					For continuous signal the values are stored in fractions so there
+					could be billions of possibilities to represent the value of a signal
+					at a point. Not just that most of the possible levels would have no
+					sample too. For eg. a 10000 sample signal with each sample having one
+					billion possible values would result in a histogram of one billion
+					data points but 10000 of them having a sample of zero. Each sample
+					must go into exactly one bin. When you're creating a histogram: you
+					have 10000 samples total, each sample must be placed in exactly one
+					bin, and each sample contributes a count of 1 to its bin. Therefore,
+					the total sum of all bin counts must equal your total number of
+					samples (10000).
+				</p>
 			</div>
 		</main>
 		<script src="./main.ts" type="module"></script>

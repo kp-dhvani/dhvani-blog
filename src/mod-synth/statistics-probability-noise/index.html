@@ -24,25 +24,25 @@
 					>
 						Statistics, Probability and Noise in DSP
 						<span class="text-xs"
-							>first draft: 17<sup>th</sup> February 2025</span
+							>published: 20<sup>th</sup> February 2025</span
 						>
 					</h2>
 					<p class="mb-5">
 						After working on my simple 8 step sequencer which only generates a
 						gate signal for each active step in the sequence I wanted to add the
 						functionality to generate control voltage for modulating the pitch
-						for each active step in the sequence. It's not much of a sequencer
-						if it cannot generate pitch control voltage to make melodies. This
-						is where things got tricky since I have a Daisy Pod which is has an
-						AC coupled audio output. What does that even mean? Well everything
-						in modular synthesis is simply variations in voltage. Some are AC
-						like the audio and some are DC like control voltage. The reason why
-						modular is so flexible and intuitive because it's only voltages
-						flowing through the system and the same voltage can be used for
-						audio generation or modulating some aspect of the audio. Daisy Pod
-						has an AC coupled audio so it cannot generate DC voltages since AC
-						coupled outputs have a capacitor in series with the output and any
-						DC component of the voltage is blocked while only allowing AC
+						for each active step. It's not much of a sequencer if it cannot
+						generate pitch control voltage to make melodies. This is where
+						things got tricky since I have a Daisy Pod which has an AC coupled
+						audio output. What does that even mean? Well everything in modular
+						synthesis is simply variations in voltage. Some are AC like the
+						audio and some are DC like control voltage. The reason why modular
+						is so flexible and intuitive because it's only voltages flowing
+						through the system and the same voltage can be used for audio
+						generation or modulating some aspect of the audio. Daisy Pod has an
+						AC coupled audio so it cannot generate DC voltages since AC coupled
+						outputs have a capacitor in series with the output and any DC
+						component of the voltage is blocked while only allowing AC
 						components. To generate a pitch control voltage I should be able to
 						generate a voltage of let's say 1V and be able to sustain it till
 						the next active step in the sequence. Ok but why only DC? Why can't
@@ -75,20 +75,36 @@
 						voltage at its input and the next part in the circuit uses that to
 						create current flow based on the voltage changes.
 					</p>
-					<p>
+					<p class="mb-5">
 						Ok so Daisy Pod has a DC coupled output so I cannot generate a pitch
 						control voltage, what do I do now? Electro Smith the company who
 						makes the Daisy Pod also makes other DSP modules. One of them is a
 						Patch.init() module. This module's output is DC coupled which means
 						it can pass both AC and DC voltages.
 					</p>
-					<div class="flex justify-center my-10">
-						<img
-							src="/assets/patch_init.webp"
-							alt="Patch init module"
-							class="max-w-full md:w-1/2 h-auto"
-							loading="lazy"
-						/>
+					<div class="flex lg:flex-row flex-col items-center gap-4 mb-2">
+						<figure class="flex flex-col">
+							<picture>
+								<img
+									src="/assets/daisy-pod.png"
+									alt="Daisy Pod module"
+									class="max-w-full h-auto"
+									loading="lazy"
+								/>
+							</picture>
+							<figcaption class="text-center mt-2">Daisy Pod module</figcaption>
+						</figure>
+						<figure class="flex flex-col">
+							<picture>
+								<img
+									src="/assets/patch_init.png"
+									alt="Patch init module"
+									class="max-w-full h-auto"
+									loading="lazy"
+								/>
+							</picture>
+							<figcaption class="mt-2">Patch.init() module</figcaption>
+						</figure>
 					</div>
 					<p>
 						But this does not have some controls like an encoder, multiple LEDs,
@@ -516,15 +532,16 @@
 					algorithm much faster.
 					<br />
 					But remember the acquired signal has statistical noise since an
-					acquired signal is noise version of the underlying process so we need
-					different names to represent our statistics. A Histogram is for the
-					acquired signal and the corresponding curve for the underlying process
-					is called the <span>Probability Mass Function</span>. A Histogram is
-					calculated with a finite set of data while PMF can be estimated from
-					the Histogram. The PMF tells us the probability of a certain value
-					being generated. Each value in the histogram is divided by the total
-					number of samples to approximate the PMF. So the Y axis is a
-					fractional value and if you were to add it up it will equal to one.
+					acquired signal is a noisy version of the underlying process so we
+					need different names to represent our statistics. A Histogram is for
+					the acquired signal and the corresponding curve for the underlying
+					process is called the <span>Probability Mass Function</span>. A
+					Histogram is calculated with a finite set of data while PMF can be
+					estimated from the Histogram. The PMF tells us the probability of a
+					certain value being generated. Each value in the histogram is divided
+					by the total number of samples to approximate the PMF. So the Y axis
+					is a fractional value and if you were to add it up it will equal to
+					one.
 				</p>
 				<div class="mb-10 mr-0 md:mr-4 w-full flex justify-center">
 					<canvas id="pmf" height="200" class="max-sm:w-full my-3"></canvas>
@@ -541,7 +558,7 @@
 				<div class="mb-10 mr-0 md:mr-4 w-full flex justify-center">
 					<canvas id="pdf" height="200" class="max-sm:w-full my-3"></canvas>
 				</div>
-				<p>
+				<p class="mb-5">
 					Remember PDF works with continuous signals so let's say a PDF of 0.029
 					at 129.25 does not mean there is a 3% chance that the signal will be
 					at 129.25 millivolts. The probability of the signal being 129.25
@@ -559,7 +576,137 @@
 					have 10000 samples total, each sample must be placed in exactly one
 					bin, and each sample contributes a count of 1 to its bin. Therefore,
 					the total sum of all bin counts must equal your total number of
-					samples (10000).
+					samples (10000). Such problems with large data sets can be fixed with
+					a technique called <span class="italic">binning</span>. In binning we
+					arbitrarily select the length of the histogram to a convenient number
+					like 1000 and call it a bin. For eg. imagine a signal with floating
+					point numbers from 0 to 10 with a histogram of say 1000 bins. This
+					means that bin 1 contains samples ranging from 0.0 to 0.01, bin 1
+					contains samples ranging from 0.01 to 0.02 and so forth up to bin 999
+					containing samples ranging from 9.99 to 10.0.
+					<br />
+					<span class="italic"
+						>binIndex = floor((sampleValue - minRange) / binWidth)</span
+					>
+					<br />
+					where
+					<br />
+					<span class="italic"
+						>binWidth = (maxRange - minRange) / numberOfBins</span
+					>
+				</p>
+				<p class="underline">The Normal Distribution</p>
+				<p class="mb-5">
+					There are different ways to distribute (spread out) data, it can be
+					spread out more on the left or more on the right, or you could just
+					jumble it up. But data in real life tends to be around a central value
+					(mean) with no left and right bias. The data spread out in this manner
+					is called a normal distribution. The graph shapes that you saw above
+					in the article is what is called a normal distribution, a Gauss
+					distribution or a Gaussian or bell curve wll because it looks like a
+					bell and is named after the German mathematician Karl Friedrich Gauss.
+					In a normal distribution the data is symmetric from its center where
+					50% of the values are left to the mean and 50% values right to the
+					mean. The normal distribution can be found everywhere in nature, eg.
+					human heights, baby weights, IQ, test scores, etc. Einstein showed
+					that the kinetic energy of individual molecules in a perfect gas is
+					normally distributed. Well why does this happen? The Central Limit
+					Theorem tries to explain this phenomenon. It states that sum of random
+					numbers become normally distributed as more and more of the random
+					numbers are added together. It means that when many small independent
+					random factors add together to create an outcome the result tends
+					towards a normal distribution regardless of the original distribution
+					of the factors.
+					<br />
+					Let's take the noise in the audio signals as an example for further
+					discussion on the normal distribution. The hiss that you hear in
+					recordings, the static on the radio stations, etc. are normally
+					distributed audio signals. Such noise is introduced by fundamental
+					physical reasons. At the electronic level noise comes from the thermal
+					motion of countless electrons in the circuit components. Each electron
+					contributes to a tiny random voltage due to the thermal agitation. The
+					collective effect of billions of these independent random movements
+					creates a normally distributed voltage variation over time. This is a
+					direct manifestation of the Central Limit Theorem i.e. when many
+					independent random variables are added together their sum approaches a
+					normal distribution regardless of their individual distributions.
+					Since we know noise is normally distributed, we can predict that about
+					68% of noise samples fall within ±1&sigma; About 95% within ±2&sigma;
+					About 99.7% within ±3&sigma;. These percentages are a property of how
+					the values spread out in a normal distribution.
+				</p>
+				<p class="underline">Noise</p>
+				<p class="mb-5">
+					Noise is actually quite important in electronics and DSP. It limits
+					how small of a signal an instrument can measure eg. it limits the
+					sensitivity of EEG recordings, making it harder to detect subtle brain
+					activity. The noise floor of microphones and preamps sets the quietest
+					sounds that can be recorded effectively. This is why professional
+					recording studios need specialized equipment and acoustic treatment to
+					maximize the signal-to-noise ratio. In environmental monitoring
+					systems, sensor noise determines how small of a temperature change,
+					pollution level, or vibration can be reliably detected. So a common
+					need in DSP is to generate random noise to test the performance of the
+					algorithms that must work in the presence of noise.
+					<br />
+					Random number generators are the primary way to generate noise. Most
+					of the programming languages will give you a way to generate random
+					numbers. The <span class="italic">rand()</span> function is a
+					fundamental random number generator function in C and C++. Javascript
+					<span class="italic">Math.random()</span> gives you a random number
+					between 0 and 1. The testing of algorithms need the same kind of data
+					which they will encounter in real life hence there is a need to
+					generate digital noise with a Gaussian PDF. The chart A that you see
+					above has been plotted with Gaussian noise. I am using Box-Muller
+					method to generate the noise sample which provides a normally
+					distributed noise.
+					<br />
+					Random numbers generators operate by starting with a
+					<span class="italic">seed</span>, a number between 0 and 1. when the
+					random number generator is invoked the seed is passed through an
+					algorithm resulting in a new number between 0 and 1. The new number is
+					sent as the output for random number generator program and is then
+					internally stored to be sued as the seed the next time random number
+					generator is invoked. In this manner a continuous sequence of random
+					numbers is generated from a base seed. But from a mathematical
+					perspective the number generated in this manner cannot be absolutely
+					random since each number is fully determined by the previous number.
+					The term <span class="italic">pseudo random</span> is sued to describe
+					such algorithms.
+				</p>
+
+				<p class="underline">Accuracy vs Precision</p>
+				<p>
+					When we want to make a prediction, or make measurements, or estimate
+					something we come across the terms accuracy and precision. The value
+					that we are trying to measure/predict/estimate is called the
+					<span class="font-bold">truth value</span> or simply truth. The
+					methods we use to get to this value provides us a
+					<span class="font-bold">measured value</span> that we want to be as
+					close as to the truth value. Accuracy and precision are ways to
+					describe the errors that can exist between the two values and they
+					slightly mean different things!
+				</p>
+				<ul class="list-disc pl-8 space-y-2 mb-5">
+					<li>Accuracy: how close a value is to the truth value</li>
+					<li>Precision: how close the measured values are to each other</li>
+				</ul>
+				<p class="mb-5">
+					Consider this eg. when playing football if you keep hitting the right
+					goal post you are not very <span class="italic">accurate</span> but
+					you are <span class="italic">precise</span>. When talking about
+					signals once you get the acquired signal there are two types errors
+					you can see in your sample. First, the mean may be shifted from the
+					true value and the amount of this shift is called the accuracy of the
+					measurement. Second, the individual measurements may not agree with
+					each other and this called precision which is often referred by SD,
+					signal-to-noise ratio, etc.
+				</p>
+				<p>
+					So with these concepts in mind we will learn about some advanced
+					topics like ADC & DAC, Convolution, Fast Fourier Transform in later
+					articles which will help us process our audio signal and calculate the
+					right frequency for the signal.
 				</p>
 			</div>
 		</main>

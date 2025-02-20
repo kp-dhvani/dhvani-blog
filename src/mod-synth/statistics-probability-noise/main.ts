@@ -73,7 +73,6 @@ function createRawSignalChart(canvasId: string, dataPoints: DataPoint[]): void {
 		data: {
 			datasets: [
 				{
-					label: `${SMALL_SAMPLE_SIZE} samples of 8 bit signal`,
 					data: dataPoints,
 					borderColor: CHART_COLOR,
 					backgroundColor: CHART_COLOR,
@@ -124,11 +123,11 @@ function createRawSignalChart(canvasId: string, dataPoints: DataPoint[]): void {
 			plugins: {
 				title: {
 					display: true,
-					text: `${SMALL_SAMPLE_SIZE} raw samples of an 8 bit signal`,
+					text: `Chart A: ${SMALL_SAMPLE_SIZE} raw samples of an 8 bit signal`,
 					position: "top",
-					align: "start",
+					align: "center",
 					font: {
-						weight: "normal",
+						weight: "bold",
 					},
 				},
 				legend: {
@@ -196,9 +195,9 @@ function createHistogramChart(
 					display: true,
 					text: title,
 					position: "top",
-					align: "start",
+					align: "center",
 					font: {
-						weight: "normal",
+						weight: "bold",
 					},
 				},
 				legend: {
@@ -250,8 +249,8 @@ function createProbabilityChart(
 	const chartOptions: Required<ProbabilityChartOptions> = {
 		title:
 			chartType === "pmf"
-				? "Probability Mass Function (PMF)"
-				: "Probability Density Function (PDF)",
+				? "Chart D: Probability Mass Function (PMF)"
+				: "Chart E: Probability Density Function (PDF)",
 		subtitle: "",
 		xAxisLabel: "Value of sample",
 		yAxisLabel:
@@ -375,7 +374,7 @@ function createProbabilityChart(
 						},
 					},
 					beginAtZero: true,
-					max: maxY * 1.05, // Add 5% padding to the top
+					max: maxY * 1.05, // add 5% padding to the top
 					grid: {
 						display: true,
 						color: "rgba(0, 0, 0, 0.1)",
@@ -493,13 +492,13 @@ function createSignalVisualisations(): void {
 	createHistogramChart(
 		"128-point-histogram",
 		smallHistogram,
-		`${SMALL_SAMPLE_SIZE} point histogram`,
+		`Chart B: ${SMALL_SAMPLE_SIZE} point histogram`,
 		10
 	);
 	createHistogramChart(
 		"256k-point-histogram",
 		largeHistogram,
-		`${LARGE_SAMPLE_SIZE} point histogram`,
+		`Chart C: ${LARGE_SAMPLE_SIZE} point histogram`,
 		10000
 	);
 

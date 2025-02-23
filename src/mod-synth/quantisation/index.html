@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<link rel="icon" type="image/svg+xml" href="/vite.svg" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Quantisation in DSP</title>
+		<link href="../../style.css" rel="stylesheet" />
+		<link
+			rel="stylesheet"
+			href="https://cdnjs.cloudflare.com/ajax/libs/prism/9000.0.1/themes/prism-twilight.min.css"
+			integrity="sha512-6rkEt5SymQMcnlRz1dHwAMSfMnDaFX28qdr3wyaa+XRCR8dTSWE4U6vjiTVuB6Mq9FgYOLVOTk0lrOeCnodcgA=="
+			crossorigin="anonymous"
+			referrerpolicy="no-referrer"
+		/>
+	</head>
+	<body class="font-mono">
+		<load src="../../shared/navbar.html" />
+		<main class="flex justify-center mx-5 md:mx-16 rounded-lg">
+			<div class="p-6 w-full">
+				<section>
+					<h2
+						class="text-base md:text-xl lg:text-2xl mb-5 border border-black rounded-lg p-2"
+					>
+						Let's talk quantisation
+						<span class="text-xs"
+							>first draft: 23<sup>rd</sup> February 2025</span
+						>
+					</h2>
+				</section>
+				<p class="mb-2">
+					<span class="italic">Digitalis</span> a drug obtained from the dried
+					leaves of the plant called Foxglove (<span class="italic"
+						>Digitalis purpurea</span
+					>) is used in medicine to strengthen the contractions of the heart. It
+					one of the most common drugs used to restore adequate circulation in
+					patients with congestive heart failure. Ok what does that have to do
+					with DSP or quantisation. You might have heard about
+					<span class="italic">digitisation</span> where some form of analog
+					data is converted to <span class="italic">digital</span> data which
+					can be stored safely on a digital computer. Our computers are
+					<span class="italic">digital</span> machines operating on digital data
+					so why is the process of converting the analog data to be stored in
+					computers called <span class="italic">digitisation</span> and not
+					<span class="italic">digitalisation</span>? Well that's because the
+					medical community has already taken up the term
+					<span class="italic">digitisation</span> which refers to
+					administrating the heart stimulant
+					<span class="italic">digitalis</span>. So the people in the
+					electronics field working on digital techniques had to settle with the
+					term digitisation and not digitisation even though the systems
+					involved are digital.
+				</p>
+				<p>
+					Digit comes from Latin <span class="italic">digitus</span> which means
+					finger, toe. When you count on our fingers each finger can represent
+					one state up or down, you can't raise half of your number to count a
+					value. We use a base 10 numeral system and for any such system with an
+					integer base, the number of digits needed is the absolute value of the
+					base. For example the decimal system which has a base 10 needs 10
+					digits (0 to 9) to represent any value in the system. Our current
+					numeral system comes from Brahmi numerals. The numerals come from the
+					Brahmi script a writing system from ancient India. One of the first
+					usage of these numerals can be seen around the middle of the 3<sup
+						>rd</sup
+					>
+					century BCE however the place value system developed later. This
+					numeral system saw a spread over large areas during the Gupta period
+					(early 4th century to the late 6th century). During the vedic period
+					in the Indian subcontinent there was a need to work with very large
+					numbers to understand various cosmological concepts like
+					<span class="italic">kálpa</span> (the lifetime of the universe) which
+					is said to be be 4,320,000,000 years and the "orbit of the heaven"
+					said to be 18,712,069,200,000,000 <span class="italic">yójana</span>.
+					A good understanding of geometry was needed to construct the fire
+					altars for vedic rituals. Such a need for a numbers is what led to the
+					development of robust numeral system in ancient India. They had names
+					for increasing powers of 10
+				</p>
+				<ol class="mb-5 list-decimal px-8">
+					<li>daśa (दश) = 10 (10<sup>1</sup>)</li>
+					<li>śata (शत) = 100 (10<sup>2</sup>)</li>
+					<li>sahasra (सहस्र) = 1,000 (10<sup>3</sup>)</li>
+					<li>ayuta (अयुत) = 10,000 (10<sup>4</sup>)</li>
+					<li>niyuta (नियुत) = 100,000 (10<sup>5</sup>)</li>
+					<li>prayuta (प्रयुत) = 1,000,000 (10<sup>6</sup>)</li>
+					<li>arbuda (अर्बुद) = 10,000,000 (10<sup>7</sup>)</li>
+					<li>nyarbuda (न्यर्बुद) = 100,000,000 (10<sup>8</sup>)</li>
+					<li>samudra (समुद्र) = 1,000,000,000 (10<sup>9</sup>)</li>
+					<li>madhya (मध्य) = 10,000,000,000 (10<sup>10</sup>)</li>
+					<li>anta (अन्त) = 100,000,000,000 (10<sup>11</sup>)</li>
+					<li>parārdha (परार्ध) = 1,000,000,000,000 (10<sup>12</sup>)</li>
+				</ol>
+				<div class="flex items-center justify-center mb-5">
+					<figure>
+						<picture>
+							<img
+								src="/assets/numeral_evolution.png"
+								alt="Number system evolution"
+								loading="lazy"
+							/>
+						</picture>
+						<figcaption class="text-center mt-2">
+							Number system evolution
+						</figcaption>
+					</figure>
+				</div>
+				<p class="mb-5">
+					The clever thing about this system was that you didn't have to count
+					the number of zeroes instead you could just use the word for the place
+					value and represent a number. For example a number like 56,789 can be
+					represented as
+					<span class="italic">5 ayuta 6 sahasra 7 śata 8 daśa 9</span>. In the
+					Āryabhaṭīya, written in 499 CE, Aryabhata used a fascinating place
+					value system where numbers were expressed using the Sanskrit alphabet.
+					Each letter represented a number, and its position determined its
+					value - similar to how we use position today (ones, tens, hundreds,
+					etc.). What made this system particularly clever was that it could
+					represent very large numbers very concisely, which was essential for
+					his astronomical calculations. while Aryabhata didn't use a specific
+					symbol for zero, his mathematical methods clearly showed an
+					understanding of its role. For example, in his place value system, he
+					used the word "kha" (meaning "space" or "emptiness") to represent zero
+					in astronomical calculations.
+					<br />
+					<br />
+					The development of zero as we know it today was a gradual process that
+					spanned centuries and crossed multiple civilizations. The Babylonian
+					contribution (around 3000-2000 BCE) laid important groundwork. Their
+					base 60 system used place values, which was revolutionary for its
+					time. When they needed to represent an empty place (like we might
+					write 3004), they developed a "separation marker." Think of this like
+					leaving a space between numbers - it showed something was missing
+					there, but it wasn't yet treated as a number itself. The Lokvibhāga
+					(लोकविभाग), written around 458 CE, marks a significant step forward.
+					This Jain astronomical text contained one of the earliest Indian
+					references to zero-like concepts. The Jain mathematicians were dealing
+					with extremely large numbers in their cosmological calculations, which
+					may have pushed them toward developing more sophisticated number
+					systems. Āryabhaṭa's approach to zero (around 499 CE) was particularly
+					interesting. While he didn't have a symbol for zero, his mathematical
+					procedures demonstrated an understanding of zero as a concept. When
+					working with his place value system, he used the word "kha" (खा) -
+					meaning "space" or "emptiness", which suggests he understood zero both
+					as a placeholder and as representing nothingness.
+					<br />
+					<br />
+					In 7<sup>th</sup> century CE Brahmagupta an Indian mathematician and
+					astronomer wrote Brahma-sphuta-siddhanta (Correctly Established
+					Doctrine of Brahma) which introduced first mathematical treatment of
+					zero. He defined zero as the result of subtracting a number by itself.
+					His word for zero śūnya same as the word for representing the empty
+					spot in the 9 digit place value system.
+					<br />
+					The modern format of the numerals called as Arabic numerals in the
+					West developed around 8<sup>th</sup>-9<sup>th</sup> century based on
+					the texts by al-Khwarizmi a Persian polymath
+					<span class="italic">On the Calculation with Hindu Numerals</span>
+					(ca. 825), and second Al-Kindi an Arab polymath four-volume work
+					<span class="italic">On the Use of the Indian Numerals</span>
+					(ca. 830).
+					<br />
+					Now we have a fully robust system of numbering which laid the
+					foundation for digital systems using binary digits to represent real
+					life data.
+				</p>
+				<p class="mb-5">
+					Ok so we have a numbering system with a base of 10 but our computers
+					use a numbering system with a base of 2. Why are we leaving out other
+					digits from our numbering system when it comes to computers? With base
+					2 what we are doing is storing one simple state of either "ON" or
+					"OFF" into logical circuits called flip flops. It is a circuit that
+					has two stable states that can store a binary digit (bit). We store
+					one bit using two transistors arranged in a cross coupled
+					configuration in the flip flop circuit. This creates a stable system
+					with two possible states: high or low voltage. It's like two switches
+					that are connected so that when one is on, it keeps the other off, and
+					vice versa. All transistors do is control the flow of the current and
+					either pass it or block it. If the output read is a passing current
+					that means the state is ON else it's OFF. If we have decimal based
+					computers each flip flop now has to represent 10 states. Since these
+					circuits work with voltage to represent their states in voltage we'll
+					need to divide the base voltage in 10 sections. Let's say the
+					electronic circuit in the computer works with 5V so with a decimal
+					based system we will divide the 5V into 10 distinct sections
+					approximately 0.5V apart. Each level would need incredibly precise
+					voltage control:
+					<br />
+					0 = 0.0V to 0.5V
+					<br />
+					1 = 0.5V to 1.0V
+					<br />
+					2 = 1.0V to 1.5V
+					<br />
+					and so on...
+					<br />
+					When we want to read the number stored in the flip flops we have to
+					provide the exact level of voltage as a reference to get the value
+					stored which is quite hard. Having a constant voltage of a fixed value
+					is not easy and precise, it will always have noise and fluctuation
+					built into it. If we're storing 3 (approximately 1.5V), and our
+					reference voltage drifts to 1.45V or 1.55V due to temperature changes
+					or component aging, we might misread the value as 2 or 4. Electrical
+					noise becomes a major problem because it could easily push our voltage
+					across the threshold between two decimal values. Also, with decimal
+					system we need more components to store a value since we have 10
+					possible digits to represent that value. In a decimal computer,
+					component degradation becomes a serious problem because we're relying
+					on precise voltage levels to represent different digits. Any higher
+					base than 2 creates a lot of engineering complexities as every
+					component in the computer needs to be more precise, more stable, and
+					more complex than its binary equivalent. The result would be:
+					<br />
+					- Much higher manufacturing costs
+					<br />
+					- Lower reliability Higher power consumption
+					<br />
+					- Larger physical size
+					<br />
+					- More points of potential failure
+					<br />
+					<br />
+					This is where binary system comes to rescue us. Binary circuits either
+					have a current or not. This can be represented as
+					<span class="italic">1</span> and
+					<span class="italic">0</span> respectively. This can also correspond
+					to <span class="italic">true</span> and
+					<span class="italic">false</span> which makes working with boolean
+					logic directly applicable to physical circuits. Think of the binary
+					system as a switch which is either ON or OFF, there is no intermediate
+					state. When reading the output in a binary system we do not have to
+					provide a constant reference voltage, all we have to check if the
+					output is ON or OFF. Ok, so we are storing 1 of 2 possible states in
+					each flip flop but how do we store for example number 5 in this
+					system? Using the place value system we can derive a binary
+					representation of the numbers to store. Let's first identify what
+					powers of 2 we'll need:
+					<br />
+					2<sup>0</sup> = 1 (fits into 5)
+					<br />
+					2<sup>1</sup> = 2 (fits into 5)
+					<br />
+					2<sup>2</sup> = 4 (fits into 5)
+					<br />
+					2<sup>3</sup> = 8 (too big)
+					<br />
+					So we'll need 3 bits to represent 5, since 2<sup>2</sup> is the
+					largest power of 2 that fits.
+					<br />
+					Now let's convert step by step starting with 5, we work from left to
+					right:
+					<br />
+					Can we subtract 4 (2<sup>2</sup>)? Yes: 5 - 4 = 1 remaining, write 1.
+					<br />
+					Can we subtract 2 (2<sup>1</sup>)? No: 1 &lt; 2, write 0.
+					<br />
+					Can we subtract 1 (2<sup>0</sup>)? Yes: 1 - 1 = 0 remaining, write 1.
+					<br />
+					Therefore, 5 in binary is 101.
+					<br />
+					<br />
+					We can verify this by adding up the place values:
+					<br />
+					1 in the fours place (2<sup>2</sup>) = 4
+					<br />
+					0 in the twos place (2<sup>1</sup>) = 0
+					<br />
+					1 in the ones place (2<sup>0</sup>) = 1
+					<br />
+					Total: 4 + 0 + 1 = 5
+					<br />
+					<br />
+					So we can store number 5 using 3 bits so 3 flip flops that means this
+					solution uses less space compared to bases higher than 2. Now when we
+					read the output of the flip flop circuit we do not need a reference
+					voltage instead we just read the if the circuit is ON then assign 1 to
+					it and if it's OFF assign 0 to it. This makes the overall storage
+					solution easy to work with compared to systems with base greater than
+					2. This is why computers use just 2 digits 0 and 1 to store data. We
+					did have non binary computers before binary ones came along in form of
+					analog circuits but using analog circuits for computation is dangerous
+					as they are sensitive to noise. Binary circuits also get affected by
+					noise but not as much as analog ones. Even if there is noise in binary
+					circuits an ON is actually ON and not any other value (in this case
+					OFF).
+				</p>
+				<p>
+					Computers are very good at storing and recalling numbers but
+					unfortunately this process comes with its own errors. This is what
+					happens when you add 0.1 and 0.2 together in Javascript. This is not a
+					bug! I have seen a lot of comments online on this behavior where
+					people claim Javascript is bad because look it cannot even do a
+					summation the right way. But problem is not with Javascript, it's just
+					how computers deal with floating point numbers using a binary system
+					to store the number.
+				</p>
+				<div class="flex lg:flex-row flex-col gap-4 my-5">
+					<figure class="flex flex-col">
+						<picture>
+							<img
+								src="/assets/js_snippet.png"
+								alt="javascript floating point operation error code"
+								class="max-w-full h-auto"
+								loading="lazy"
+							/>
+						</picture>
+					</figure>
+					<figure class="flex flex-col md:w-1/4">
+						<picture>
+							<img
+								src="/assets/js_tweet.webp"
+								alt="a tweet joking about javascript floating point operation error"
+								class="h-auto"
+								loading="lazy"
+							/>
+						</picture>
+					</figure>
+				</div>
+				<p class="mb-5">
+					Computers have something called
+					<span class="italic">Arithmetic Login Unit</span> (ALU) which is a
+					math processor. To perform addition of two numbers the CPU will
+					transfer 8 bytes to the ALU for the two numbers and additional bytes
+					instructing it what to do with it. After a short time the computation
+					result is returned back to the CPU containing the sum. New modern
+					computers have now broken the mathematical functions into elementary
+					binary operations that can be managed in the CPU itself reducing the
+					overall execution time for the operation. The bit-ness of a processor
+					refers to its ALU width, this is the width of the binary number that
+					it can handle natively in a single operation. A 64 bit processor can
+					operate directly on values which are 64 bits wide, in a single
+					instruction. This happens because we have a fixed number of bits are
+					allocated to store each number usually 8, 16, 32 or 64. To store
+					number 5 we just need 3 bits but to store a large enough value we need
+					more bits. For example for 8 bit computing system only 2<sup>8</sup> =
+					256 possible bit patterns are available so that variable can only take
+					on 256 different values. This is a fundamental limitation of the
+					system. What we can do differently is that how we represent this
+					pattern of bits. The patterns themselves are just patterns: we get to
+					decide what values they represent, as long as everyone using the
+					system agrees on the interpretation. So let's say we interpret pattern
+					represents 256 exponentially related numbers: 1, 10, 1000,
+					10<sup>4</sup>, ..., 10<sup>255</sup>. Place value system shines
+					again! Everyone using the system must understand this rule of the
+					representing the pattern and the system can provide an algorithm or
+					formula for converting between the represented value its corresponding
+					bit pattern. The two most common techniques for this are
+					<span class="italic">Fixed point</span> and
+					<span class="italic">Floating point</span>.
+				</p>
+				<p class="underline">Fixed Point</p>
+				<p></p>
+			</div>
+		</main>
+	</body>
+</html>

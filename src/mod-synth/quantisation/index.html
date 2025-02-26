@@ -24,7 +24,7 @@
 					>
 						Let's talk quantisation
 						<span class="text-xs"
-							>first draft: 23<sup>rd</sup> February 2025</span
+							>second draft: 23<sup>rd</sup> February 2025</span
 						>
 					</h2>
 				</section>
@@ -114,7 +114,7 @@
 					Āryabhaṭīya, written in 499 CE, Aryabhata used a fascinating place
 					value system where numbers were expressed using the Sanskrit alphabet.
 					Each letter represented a number, and its position determined its
-					value - similar to how we use position today (ones, tens, hundreds,
+					value similar to how we use position today (ones, tens, hundreds,
 					etc.). What made this system particularly clever was that it could
 					represent very large numbers very concisely, which was essential for
 					his astronomical calculations. while Aryabhata didn't use a specific
@@ -130,8 +130,8 @@
 					base 60 system used place values, which was revolutionary for its
 					time. When they needed to represent an empty place (like we might
 					write 3004), they developed a "separation marker." Think of this like
-					leaving a space between numbers - it showed something was missing
-					there, but it wasn't yet treated as a number itself. The Lokvibhāga
+					leaving a space between numbers it showed something was missing there,
+					but it wasn't yet treated as a number itself. The Lokvibhāga
 					(लोकविभाग), written around 458 CE, marks a significant step forward.
 					This Jain astronomical text contained one of the earliest Indian
 					references to zero-like concepts. The Jain mathematicians were dealing
@@ -341,16 +341,337 @@
 					system agrees on the interpretation. So let's say we interpret pattern
 					represents 256 exponentially related numbers: 1, 10, 1000,
 					10<sup>4</sup>, ..., 10<sup>255</sup>. Place value system shines
-					again! Everyone using the system must understand this rule of the
-					representing the pattern and the system can provide an algorithm or
-					formula for converting between the represented value its corresponding
-					bit pattern. The two most common techniques for this are
+					again! Storing whole numbers like 5, 10, 15 is easy by translating
+					them to their binary representation but real life data is rarely whole
+					numbers. For example any application working with money needs to
+					fractional values to represent a given amount like $50.87. So how do
+					we store such fractional numbers using binary? Why binary numbers
+					shine with their implementation is that there is no inherent meaning
+					in a binary word.
+					<span class="italic"
+						>The meaning of an n-bit binary word depends entirely on its
+						interpretation</span
+					>
+					i.e. the mapping we choose to use for a binary word. Everyone using
+					the system must understand this rule of the representing the pattern
+					and the system can provide an algorithm or formula for converting
+					between the represented value its corresponding bit pattern. The two
+					most common techniques for this are
 					<span class="italic">Fixed point</span> and
 					<span class="italic">Floating point</span>.
 				</p>
 				<p class="underline">Fixed Point</p>
-				<p></p>
+				<p>
+					Yea what is fixed here? The "fixed" in fixed point refers to the
+					decimal point. Fixed-point numbers are still stored in binary, they're
+					just a particular way of interpreting those binary bits. In a
+					fixed-point system, some bits represent the integer part and some bits
+					represent the fractional part. This allows us to represent non-integer
+					values while still using simple binary. The computer doesn't actually
+					store a decimal point it's just a way of interpreting the bits. The
+					programmer or system defines where the point is and all operations
+					maintain this interpretation. These are of two types: signed and
+					unsigned integers. High level programs such as C usually allocate 16
+					bits to store each integer. This gives us 2<sup>16</sup> = 65,535
+					different bit patterns which are assigned to the numbers 0 to 55535.
+					This is called <span class="italic">unsigned integer</span> and in
+					unsigned integer format, we simply count up from 0. It's like having a
+					counter that can only go forward, great for counting things where
+					negative numbers aren't needed. With 16 bits, we can count from 0 to
+					65,535, which is why this format is used when we know our numbers will
+					always be positive. But what do we do when we want to store let's say
+					the number 65536? To store 65536, we need an extra 17th bit. But since
+					computers typically work with standard sizes (8, 16, 32, or 64 bits),
+					we would typically use 32 bits to store this number. This is why
+					programming languages often offer different integer types: 16-bit
+					integers (can store 0 to 65,535), 32-bit integers (can store 0 to
+					4,294,967,295), 64-bit integers (can store even larger numbers).
+				</p>
+				<div class="flex justify-center my-5" id="unsigned-integer-table"></div>
+				<p>
+					Ok what about negative numbers then? We represent negative numbers
+					using a technique called binary offset. Here the decimal values are
+					shifted to allow negative numbers. The decimal values are offset by 7
+					for a 4 bit integer. This results in 16 bit representation
+					corresponding to the numbers -7 through 8. From the 16 bits we assign
+					one bit to the sign of the number which leaves us with 15 bit patterns
+					and hence a range of -32,767 and 32,768. The offset value is not
+					standardised so you might see other offsets in different processors.
+				</p>
+				<div class="flex justify-center my-5" id="offset-binary-table"></div>
+				<p>
+					There is another way to represent negative numbers called sign and
+					magnitude. In this technique the far left bit of the pattern is called
+					the sign bit which is made 0 for positive numbers and 1 for negative
+					numbers. The remaining bits are used to represent the absolute value
+					of the number.
+				</p>
+				<div class="flex justify-center my-5" id="sign-magnitude-table"></div>
+				<p>
+					Using sign and magnitude is simpler but it wastes one bit pattern as
+					there are two representations for zero: 1000 (negative zero) and 0000
+					(positive zero). Since the left most bit is reserved for the sign we
+					get 15 possible bit patterns which gives us 2<sup>15</sup> values from
+					-32,767 to 32,767.
+					<br />
+					These encoding schemes seem easy to for us to understand logically but
+					implementing this in the hardware is a complicated task as it requires
+					meticulous handling of data representation, scaling, and precision.
+					When we perform an operation like x = y + z some hardware engineer had
+					to figure out how to make the bit pattern representing y combine with
+					bit pattern representing z to get the bit pattern representing summed
+					x.
+					<br />
+					Two's complement is such a technique that simplifies the
+					implementation of doing arithmetic operations on binary words. We
+					follow these steps to get a two's complement of any number:
+				</p>
+				<ol class="mb-5 list-decimal px-8">
+					<li>Take the absolute value of a decimal number eg. 5</li>
+					<li>Convert it to binary: 0101</li>
+					<li>Flip each bit in the pattern: 1010</li>
+					<li>Add 1 to the resulting pattern: 1011</li>
+				</ol>
+				<p>
+					Using 16 bit two's complement can represent numbers from -32,768 to
+					32,767 as the left most bit is used to represent the sign of the
+					number.
+				</p>
+				<p class="underline">Floating Point</p>
+				<p>
+					Ok but there's some issues with fixed point arithmetic. With a 32-bit
+					fixed point number where 16 bits are for the fraction, you can only
+					represent values from approximately -32,768 to +32,767 with fractional
+					precision of about 0.0000152. With fixed point, you must decide in
+					advance how to allocate bits between the integer and fractional parts.
+					If you need more range, you sacrifice precision and vice versa. Fixed
+					point arithmetic easily results in overflow (when numbers get too
+					large) or underflow (when numbers get too small) without built-in
+					mechanisms to handle these conditions. So we have another technique
+					called Floating point arithmetic which helps resolve all the issues
+					mentioned. As you might have guessed from the name the decimal point
+					in floating point is not fixed but rather dynamic. It is a bit
+					complicated as it uses scientific notation to represent numbers but
+					offers a lot more benefits as compared to fixed point. A floating
+					point number has three parts:
+				</p>
+				<ol class="mb-5 list-decimal px-8">
+					<li>
+						Sign bit: Determines if the number is positive (0) or negative (1)
+					</li>
+					<li>
+						Exponent: Controls the magnitude (how large or small the number is)
+					</li>
+					<li>Mantissa: Holds the significant digits of the number</li>
+				</ol>
+				<p class="mb-5">
+					For instance, 6.345 x 10<sup>5</sup> where 6.345 is the mantissa and 5
+					is the exponent. Scientific notation is exceptional at representing
+					very large and very small numbers. The distance from earth to
+					Andromeda galaxy is 23,652,500,000,000,000,000,000 meters and that in
+					scientific notation is 2.365 x 10<sup>22</sup> meters. Planck length
+					(smallest meaningful measurement of distance) is
+					0.0000000000000000000000000000000000016 meters but in scientific
+					notation its 1.6 x 10<sup>-35</sup> meters. So you can see how easy it
+					is to represent numbers using the scientific notation. Numbers
+					represented in this notation are normalised which means there is only
+					one single nonzero digit left of the decimal point and is achieved by
+					adjusting the exponent. Also, floating point works with base 2 instead
+					of base 10 as used by the scientific notation. Since the only nonzero
+					number in base 2 is 1 the leading digit in the mantissa will always be
+					1 and so does not need to be stored. This allows the number to have an
+					additional 1 bit precision. IEEE 754 is the most widely used standard
+					for representing floating point numbers in computers. Created in 1985
+					and revised in 2008 and 2019, it defines how computers store and
+					manipulate decimal values. This is the standard everyone agrees to
+					when using computers and hardware of any kind for mathematical
+					operations.
+				</p>
+				<p class="mb-5">
+					Oof! A lot of theory! I almost forgot why was I even talking about
+					fixed and floating point numbers. AHH yes! the peculiar mathematics of
+					programming languages. So why does adding 0.1 and 0.2 result in
+					0.30000000000000004? When we write 0.1 or 0.2 in decimal, these are
+					simple fractions 1/10 and 2/10. However, computers store numbers in
+					binary base 2 and some decimal fractions that are simple in base 10
+					become infinitely repeating fractions in base 2. 0.1 =
+					0.0001100110011... in binary (infinitely repeating) and 0.2 =
+					0.00110011001100... in binary (infinitely repeating). There is no
+					finite binary representation of 0.1 or 0.2. The computer has to round
+					somewhere creating a tiny error which is called a
+					<span class="italic">round off error</span>. Since computers have
+					limited precision, they can only store an approximation of these
+					values. When we add these approximations together we get another
+					approximation that's slightly off from the exact 0.3 value. It's
+					similar to how 1/3 can't be exactly represented in decimal
+					(0.333333...) so if you add 1/3 + 1/3 + 1/3 in decimal with limited
+					precision you might get 0.999999... instead of exactly 1. If we
+					randomly pick a 32-bit floating point number (which has 24 bits of
+					precision including the implicit leading bit) the gap next to that
+					number is approximately 2<sup>-24</sup> to 2<sup>-23</sup> times the
+					number itself, which is roughly one part in 10 million. This is a key
+					concept when dealing with floating point notation large numbers have
+					large gaps while small numbers have small gaps between them.
+				</p>
+				<p>
+					When performing mathematical operations on floating point numbers the
+					round off errors cause the value to gradually drift away from the
+					initial value. The drift can take one of two forms depending on how
+					the errors add together. If the round off errors are randomly positive
+					and negative the value will randomly increase and decrease but fi the
+					errors are mainly on the same sign the value will drift away much more
+					rapidly and uniformly.
+					<span class="italic">Additive errors</span> tend to simply accumulate
+					while <span class="italic">random errors</span> tend to cancel each
+					other. Since we can't control which way the round off error will go
+					expect that for every single precision (32-bit) number we will have an
+					error of about
+					<span class="italic">
+						one part in forty million multiplied by the number of operations it
+						has been through</span
+					>
+					while a double precision (64-bit) number will have an error of about
+					<span class="italic"
+						>one part in forty quadrillion multiplied by the number of
+						operations</span
+					>. The maximum relative error &epsi; is: &epsi; = 2<sup>-p</sup>
+					where p is the number of bits in the mantissa (including the implicit
+					leading bit).
+				</p>
+				<div class="flex justify-center my-10">
+					<img
+						src="/assets/quantisation_meme.png"
+						alt="quantisation meme"
+						class="max-w-full h-auto"
+						loading="lazy"
+					/>
+				</div>
+				<p>
+					<span class="uppercase"
+						>OKAY! Let's finally talk quantisation now!</span
+					>
+					Let me define quantisation for you:
+					<span class="italic"
+						>it is the process of converting a sample measurement (voltage in
+						this case) to a fixed binary representation</span
+					>. We take a analog value and store it in our digital computers using
+					a fixed binary representation mainly using floating point notation.
+					What does that process look like?
+				</p>
+				<div class="flex justify-center my-10">
+					<img
+						src="/assets/adc.webp"
+						alt="ADC diagram"
+						class="max-w-full h-auto"
+						loading="lazy"
+					/>
+				</div>
+				<p>
+					The input is a voltage signal that varies over time which is then fed
+					into a sample and hold circuit. What is a sample and hold circuit
+					doing here? Firstly, the analog input is constantly changing over time
+					and to digitise the signal it needs to held at a constant voltage else
+					it would cause errors in the digital output. Secondly, the ADC needs a
+					finite amount of time to perform the conversion and the S/H circuit
+					holds the instantaneous value of the signal giving enough time to
+					sample it. An external clock drives the S/H circuit based on the
+					sampling frequency and updates during the rising or the falling edge
+					depending on how the clock is configured. Notice an interesting
+					behavior in the sampling here, when the S/H is in the hold phase we
+					are ignoring the changes in the input signal.
+					<span class="italic"
+						>This transforms the independent variable (time in this case) to
+						discrete from continuous.</span
+					>
+					Let's sample an audio signal with a 12-bit ADC and assume the voltage
+					range is between 0V and 4.095V. So both these voltages 2.56000V and
+					2.56001V wil be converted to 2560 which raises an important point:
+					<span class="italic"
+						>quantisation converts the dependent variable (voltage in this case)
+						from continuous to discrete.</span
+					>
+				</p>
+				<div class="mb-10 mr-0 md:mr-4 w-full flex md:w-1/2">
+					<canvas
+						id="analog-signal"
+						height="200"
+						class="max-sm:w-full my-3"
+					></canvas>
+					<canvas
+						id="sampled-analog-signal"
+						height="200"
+						class="max-sm:w-full my-3"
+					></canvas>
+				</div>
+				<p>
+					When we are quantising an analog voltage signal like an audio signal
+					we are essentially rounding each sample top the nearest bit available.
+					The spacing between these levels is called 1 LSB (Least Significant
+					Bit). When an analog value falls exactly halfway between two
+					quantization levels, it gets rounded to one of them. The maximum
+					distance between the original value and the quantized value is
+					therefore half the distance between levels which is &PlusMinus;1/2
+					LSB.
+				</p>
+				<div class="mb-10 mr-0 md:mr-4 w-full flex md:w-1/2">
+					<canvas
+						id="digital-signal"
+						height="200"
+						class="max-sm:w-full my-3"
+					></canvas>
+					<canvas
+						id="quantisation-error"
+						height="200"
+						class="max-sm:w-full my-3"
+					></canvas>
+				</div>
+				<p>
+					If you notice the quantisation error graph you'll see that it looks
+					like random noise. This raises an important point
+					<span class="italic"
+						>quantisation results in nothing more than addition of a specific
+						amount of random noise to the signal.</span
+					>
+					Since quantisation error is a random noise, the number og bits
+					determine the precision of the data. This looks good until we come
+					across a signal with same values for many consecutive samples.
+				</p>
+				<div class="mb-10 mr-0 md:mr-4 w-full flex md:w-1/2">
+					<canvas
+						id="small-amplitude-signal"
+						height="200"
+						class="max-sm:w-full my-3"
+					></canvas>
+					<canvas
+						id="dithering-noise"
+						height="200"
+						class="max-sm:w-full my-3"
+					></canvas>
+				</div>
+				<div class="mb-10 mr-0 md:mr-4 w-full flex md:w-1/2">
+					<canvas
+						id="digitised-dither"
+						height="200"
+						class="max-sm:w-full my-3"
+					></canvas>
+				</div>
+				<!-- <div class="flex flex-wrap gap-4 w-full justify-center">
+					<div class="w-full md:w-[calc(50%-0.5rem)]">
+						<canvas
+							id="small-amplitude-signal"
+							height="200"
+							class="w-full"
+						></canvas>
+					</div>
+					<div class="w-full md:w-[calc(50%-0.5rem)]">
+						<canvas id="dithering-noise" height="200" class="w-full"></canvas>
+					</div>
+					<div class="w-full md:w-[calc(50%-0.5rem)]">
+						<canvas id="digitised-dither" height="200" class="w-full"></canvas>
+					</div>
+				</div> -->
 			</div>
 		</main>
+		<script src="./main.ts" type="module"></script>
 	</body>
 </html>

@@ -24,7 +24,7 @@
 					>
 						Let's talk quantisation
 						<span class="text-xs"
-							>second draft: 23<sup>rd</sup> February 2025</span
+							>published: 27<sup>th</sup> February 2025</span
 						>
 					</h2>
 				</section>
@@ -48,7 +48,7 @@
 					administrating the heart stimulant
 					<span class="italic">digitalis</span>. So the people in the
 					electronics field working on digital techniques had to settle with the
-					term digitisation and not digitisation even though the systems
+					term digitisation and not digitalisation even though the systems
 					involved are digital.
 				</p>
 				<p>
@@ -591,7 +591,7 @@
 						from continuous to discrete.</span
 					>
 				</p>
-				<div class="mb-10 mr-0 md:mr-4 w-full flex md:w-1/2">
+				<div class="flex flex-col md:flex-row w-full mb-10 md:w-1/2">
 					<canvas
 						id="analog-signal"
 						height="200"
@@ -613,17 +613,21 @@
 					therefore half the distance between levels which is &PlusMinus;1/2
 					LSB.
 				</p>
-				<div class="mb-10 mr-0 md:mr-4 w-full flex md:w-1/2">
-					<canvas
-						id="digital-signal"
-						height="200"
-						class="max-sm:w-full my-3"
-					></canvas>
-					<canvas
-						id="quantisation-error"
-						height="200"
-						class="max-sm:w-full my-3"
-					></canvas>
+				<div class="flex flex-col md:flex-row w-full mb-10">
+					<div class="w-full md:w-1/2 md:mr-4 mb-4 md:mb-0">
+						<canvas
+							id="digital-signal"
+							height="200"
+							class="w-full my-3"
+						></canvas>
+					</div>
+					<div class="w-full md:w-1/2">
+						<canvas
+							id="quantisation-error"
+							height="200"
+							class="w-full my-3"
+						></canvas>
+					</div>
 				</div>
 				<p>
 					If you notice the quantisation error graph you'll see that it looks
@@ -632,29 +636,62 @@
 						>quantisation results in nothing more than addition of a specific
 						amount of random noise to the signal.</span
 					>
-					Since quantisation error is a random noise, the number og bits
+					Since quantisation error is a random noise, the number of bits
 					determine the precision of the data. This looks good until we come
-					across a signal with same values for many consecutive samples.
+					across a signal with same values for many consecutive samples. In the
+					chart E the analog signal is fluctuating around 3002 millivolts with a
+					peak of 3004 millivolts. The output of this analog signal in the
+					digital sample will be stuck to the same value for many samples in a
+					row even though the analog signal may eb changing up to
+					&PlusMinus;1/2LSB. This adds distortion to the digital signal. For
+					signals with very low amplitude the quantisation error becomes highly
+					correlated with the original signal but with distortion built in.
 				</p>
-				<div class="mb-10 mr-0 md:mr-4 w-full flex md:w-1/2">
-					<canvas
-						id="small-amplitude-signal"
-						height="200"
-						class="max-sm:w-full my-3"
-					></canvas>
+				<div class="w-full mb-10">
+					<div class="w-full md:w-[700px] mx-auto">
+						<canvas
+							id="small-amplitude-signal"
+							height="400"
+							class="w-full my-3"
+						></canvas>
+					</div>
+				</div>
+				<p>
+					So how can we prevent this? Dithering is a technique for improving the
+					digitisation of the such slowly varying signals. What we do is add a
+					small amount of random noise to the analog signal before quantisation.
+					Hmmm noise you say? Yes! noise. Let's say the input signal is a
+					constant analog voltage of 3.0001 volts which is one tenth of the way
+					between the digital levels 3000 and 3001. If we were to take 10,000
+					samples of such a signal we'd end up with all identical samples. The
+					noise added to the analog signal causes the adjacent signals to
+					sometimes round up and sometimes round down rather than rounding in
+					the same direction. It is quite strange yes but
+					<span class="italic">adding noise provides more information.</span>
+				</p>
+				<div class="flex flex-col md:flex-row w-full mb-10 md:w-1/2">
 					<canvas
 						id="dithering-noise"
 						height="200"
 						class="max-sm:w-full my-3"
 					></canvas>
-				</div>
-				<div class="mb-10 mr-0 md:mr-4 w-full flex md:w-1/2">
 					<canvas
 						id="digitised-dither"
 						height="200"
 						class="max-sm:w-full my-3"
 					></canvas>
 				</div>
+				<p>
+					Now compare the chart E and G. Chart E has no dithering noise added to
+					it and the digital signal is pretty flat. The digital signal generated
+					from analog signal mixed with dithering noise preserves more
+					information from the analog signal. I hope this gives you a good
+					insight into what quantisation is and how due to a limited bit depth
+					(32, 64-bit) our digitised signal always contains error.
+					<br />
+					In later articles I will be talking about Convolution and Fourier
+					Transform which we can use to process our audio signals.
+				</p>
 				<!-- <div class="flex flex-wrap gap-4 w-full justify-center">
 					<div class="w-full md:w-[calc(50%-0.5rem)]">
 						<canvas

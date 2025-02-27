@@ -273,7 +273,7 @@ function createDitheringVisualisations(): void {
 				plugins: {
 					title: {
 						display: true,
-						text: "Chart E: Digitization of a small amplitude signal",
+						text: "Chart E: Digitisation of a small amplitude signal",
 						font: { size: 14 },
 					},
 					legend: { position: "bottom" },
@@ -338,7 +338,7 @@ function createDitheringVisualisations(): void {
 						grid: { display: true },
 					},
 					y: {
-						min: yMin,
+						min: yMin - 1,
 						max: yMax,
 						title: { display: true, text: "Millivolts" },
 						ticks: { stepSize: 1 },
@@ -382,7 +382,7 @@ function createDitheringVisualisations(): void {
 				plugins: {
 					title: {
 						display: true,
-						text: "Chart G: Digitization of dithered signal",
+						text: "Chart G: Digitisation of dithered signal",
 						font: { size: 14 },
 					},
 					legend: { position: "bottom" },
@@ -393,7 +393,7 @@ function createDitheringVisualisations(): void {
 						grid: { display: true },
 					},
 					y: {
-						min: yMin,
+						min: yMin - 1,
 						max: yMax,
 						title: { display: true, text: "Millivolts (or digital number)" },
 						ticks: { stepSize: 1 },

@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<link rel="icon" type="image/svg+xml" href="/vite.svg" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Quantisation in DSP</title>
+		<link href="../../style.css" rel="stylesheet" />
+		<link
+			rel="stylesheet"
+			href="https://cdnjs.cloudflare.com/ajax/libs/prism/9000.0.1/themes/prism-twilight.min.css"
+			integrity="sha512-6rkEt5SymQMcnlRz1dHwAMSfMnDaFX28qdr3wyaa+XRCR8dTSWE4U6vjiTVuB6Mq9FgYOLVOTk0lrOeCnodcgA=="
+			crossorigin="anonymous"
+			referrerpolicy="no-referrer"
+		/>
+	</head>
+	<body class="font-mono">
+		<load src="../../shared/navbar.html" />
+		<main class="flex justify-center mx-5 md:mx-16 rounded-lg">
+			<div class="p-6 w-full">
+				<section>
+					<h2
+						class="text-base md:text-xl lg:text-2xl mb-5 border border-black rounded-lg p-2"
+					>
+						Convolution?
+						<span class="text-xs">first draft: 11<sup>th</sup> March 2025</span>
+					</h2>
+				</section>
+				<p class="underline mb-2">Intro</p>
+				<p class="mb-5">
+					Let's talk systems. You hear people talk about systems and how complex
+					some systems are. Systems surround us in every aspect if life. Think
+					about economy, it consists of entities interacting with each other and
+					producing some output i.e. economic activity which affects all our
+					lives. It consists of consumers, businesses, governments, and
+					resources interacting through countless transactions. A car is a
+					system which consists of smaller systems interacting with each other
+					and producing not just one but multiple outputs. It integrates
+					mechanical, electrical, and computational subsystems that collectively
+					provide transportation. For example when you press the car pedal these
+					interacting smaller systems produce velocity which moves the car. In
+					terms of audio processing a filter is a system which takes in an input
+					and filters out a part of that given output. You'd not want your
+					filter to be unstable and modify the input signal in an inconsistent
+					manner. So how do you make sure when designing such systems that they
+					produce the same output given the same input now or later. The
+					challenge across all these domains is ensuring consistency and
+					predictability that a system will behave the same way given the same
+					inputs regardless of when or how it's operated.
+					<br />
+					A <span class="italic">system</span> can be defined as a set of
+					interconnected components that work together to achieve specific
+					outcomes. In terms of DSP a system can be defined as any process that
+					produces an output signal in response to an input signal. A
+					<span class="italic">signal</span> describes how one parameter varies
+					with another parameter. For example an analog signal in DSP is voltage
+					changing over time. Systems and signals can be discrete or continuous.
+					Mathematically continuous signals use parentheses: x(t), y(t) while
+					discrete signals use brackets: x[t], y[t]. Also, signals use lowercase
+					letters. The name given to a signal usually describes the parameters
+					of the signal, eg. v(t) is voltage over time.
+				</p>
+				<p class="underline mb-2">System Properties</p>
+				<p>
+					Let's take the car pedal as an example. The pressure you apply to the
+					pedal translates to the velocity produced by the system. So, p(t) ->
+					system -> v(t) i.e. velocity. Or let's take a different kind of system
+					as example which is outside the engineering domain such as price of
+					petrol on a day. The price of a barrel of oil which goes into a system
+					like economy and what you get is the price of a litre of petrol. o[n]
+					-> system -> p[n]. Mathematically a system is denoted by H so p[n] =
+					H(o[n]). In real life there is seldom a simple system consisting of
+					just one unit, usually multiple subsystems are connected to each other
+					in serial, parallel feedback fashion. A cruise control in cars is a
+					good example of a feedback system.
+				</p>
+				<div class="flex justify-center my-10">
+					<img
+						src="/assets/serial_parallel_systems.webp"
+						alt="a diagram of systems connected in serial and parallel manner"
+						class="max-w-full h-auto"
+						loading="lazy"
+					/>
+				</div>
+				<p class="mb-5">
+					Such systems have certain properties that we need to understand in
+					order to study them and first one of the properties is
+					<span class="italic">causality</span>. A system is causal if the
+					output at time n only depends on the input up to time n.
+					<br />
+					y[n] = x[n] - 3x[n-1]
+					<br />
+					This system seems causal and to check if it causal or not we can check
+					if the output depends on a future value. For eg.
+					<br />
+					y[n] = x[n+2] is not causal as it depends on a future value that we
+					don't have yet.
+					<br />
+					This one sounds to be pretty obvious. Your car doesn't know how you're
+					going to interact with it. The car will only react when you interact
+					with it making it a causal system. But we also see many non-causal
+					systems in real life. Systems in pattern recognition, image
+					processing, etc. are non-causal. If you want to blur a part of the
+					image you take all the surrounding pixel and average it out to
+					pixelate that part. If this was causal you'd only be allowed to access
+					pixels up to that part of the image and not the later ones for
+					averaging it out. A system being causal or not depends entirely on the
+					type of signal it's processing.
+					<br />
+					Studying systems is very crucial for DSP. For example, when you speak
+					on a phone you want your voice to resemble you on the other side. But
+					the input on the transmission line is different from the output on the
+					other side so in this case if you understand how the transmission line
+					(the system) works you can compensate for the unwanted effects on the
+					output signal. But where do we start this study? There are so many
+					systems out there in the world so it can take a lot of effort studying
+					each and every system. Well luckily given we are bound by physical
+					laws we can categorise such systems because of their intended
+					behaviour into something called as
+					<span class="italic">linear systems</span> which makes it easier
+					studying them. Linearity is the second property of systems. Let's
+					understand this property in detail.
+				</p>
+				<p class="underline mb-2">Linearity</p>
+				<p class="mb-5">
+					A system is linear if it satisfies these two mathematical properties:
+					<span class="italic">homogeneity</span> and
+					<span class="italic">additivity</span>. There is another property
+					called
+					<span class="italic">shift invariance / time invariance</span> which
+					is not a requirement for linearity but is a must for DSP domain. Let's
+					understand all 3 of these properties.
+					<br />
+					A system is homogeneous if change in the amplitude of the input
+					results in corresponding change in the amplitude of the output signal.
+					So if you multiply the input with a value to scale it the output
+					should also be scaled by that value. A resistor is a good example of a
+					homogeneous system. Any change in voltage v(t) across the resistor
+					will result in change of the current flowing through the resistor and
+					Ohm's law guarantees this. But if you think about it resistor is also
+					a non-homogeneous system if you look at the power dissipated by the
+					resistor. Since power is square of the voltage any change in the
+					voltage produces the power by a factor of 4 since p &prop;
+					v<sup>2</sup>.
+					<br />
+					<br />
+					Let's say you have an input x<sub>1</sub>[n] which goes through a
+					system and gives y<sub>1</sub>[n]. Now you take another signal
+					x<sub>2</sub>[n] which gives an output of y<sub>2</sub>[n]. A system
+					is additive if the sum of the inputs produces sum of those individual
+					outputs. What this means is that the signals should pass through the
+					system without interacting. Think of this, when you're on a conference
+					call you can hear each person's voice as theirs if they are all
+					talking at the same time, you don't hear a new kind of voice which is
+					an amalgamation of the individual voices coming through the phone.
+					Both of the properties can be described in the following manner:
+					<br />
+					ax<sub>1</sub>[n] + bx<sub>2</sub>[n] -> system -> ay<sub>1</sub>[n] +
+					by<sub>2</sub>[n]
+					<br />
+					for any input x<sub>1</sub>, x<sub>2</sub>.
+					<br />
+					<br />
+					Shift or time invariance says the system behaves the same way
+					regardless of when the input is applied. A shift in the input signal
+					will result in the an identical shift in the output signal. If we add
+					a delay the signal by some value the output should also be delayed by
+					the same value.
+					<br />
+					x[n-n<sub>0</sub>] -> system -> y[n-n<sub>0</sub>]
+					<br />
+					<br />
+					Not all systems are time invariant. For example, the speed to download
+					a file at 3am is not the same as speed of download at 3pm. Internet
+					traffic is non time invariant. So why is additivity and homogeneity a
+					requirement for linearity but not time invariance? This is because
+					linearity is pretty broad and sometimes does not involve a signal. For
+					example, consider a shopkeeper who sells oranges for $2 per crate and
+					mangoes for $5 per crate. If the shopkeeper only sells oranges they
+					will receive $10 for 5 creates and $20 for 10 crates which makes the
+					exchange homogeneous. If they sell 20 creates of oranges and 10
+					creates of mangoes they will get $2 x 20 + $5 x 10 = $90 which is the
+					same amount as if thw two had been solved individually making the
+					transaction additive. The transaction being both additive and
+					homogeneous makes it a linear process but since there are no signals
+					time invariance need not be satisfied for the process to be linear.
+				</p>
+				<p class="underline mb-2">Superposition of LTI systems</p>
+				<p class="mb-5">
+					Real world systems are modeled as Linear Time Invariant systems as
+					LTIs are often a good approximation and analysis is easy and powerful
+					of the corresponding real life system. When dealing with linear
+					systems the only way the signals can be combined is by
+					<span class="italic">scaling</span> which is multiplying tje signal
+					with a constant followed by <span class="italic">addition</span>.
+					<span class="underline italic"
+						>A signal can't be multiplied by another signal.</span
+					>
+					Combining the signal through scaling and adding is called
+					<span class="italic">synthesis</span>. The inverse operation is called
+					<span class="italic">decomposition</span>.
+					<br />
+				</p>
+			</div>
+		</main>
+	</body>
+</html>

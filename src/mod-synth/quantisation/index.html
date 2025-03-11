@@ -6,13 +6,6 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 		<title>Quantisation in DSP</title>
 		<link href="../../style.css" rel="stylesheet" />
-		<link
-			rel="stylesheet"
-			href="https://cdnjs.cloudflare.com/ajax/libs/prism/9000.0.1/themes/prism-twilight.min.css"
-			integrity="sha512-6rkEt5SymQMcnlRz1dHwAMSfMnDaFX28qdr3wyaa+XRCR8dTSWE4U6vjiTVuB6Mq9FgYOLVOTk0lrOeCnodcgA=="
-			crossorigin="anonymous"
-			referrerpolicy="no-referrer"
-		/>
 	</head>
 	<body class="font-mono">
 		<load src="../../shared/navbar.html" />
@@ -685,7 +678,9 @@
 					Now compare the chart E and G. Chart E has no dithering noise added to
 					it and the digital signal is pretty flat. The digital signal generated
 					from analog signal mixed with dithering noise preserves more
-					information from the analog signal. I hope this gives you a good
+					information from the analog signal. The noise in the signal depends on
+					the bit depth used to do the quantisation. The effect of noise can be
+					minimised by using higher bit depth. I hope this gives you a good
 					insight into what quantisation is and how due to a limited bit depth
 					(32, 64-bit) our digitised signal always contains error.
 					<br />

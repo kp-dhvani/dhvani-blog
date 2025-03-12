@@ -19,7 +19,7 @@ body {
 	overflow: hidden;
 }
 
-.table-of-content:hover #toc {
+#toc.visible {
 	max-height: 500px;
 	transition: max-height 1s ease-in;
 }

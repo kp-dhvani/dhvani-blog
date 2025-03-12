@@ -16,7 +16,7 @@
 					id="toc-toggle"
 					class="bg-gray-900 text-white px-6 py-2 rounded-lg"
 				>
-					Hover to see the articles
+					Click to see the articles
 				</button>
 				<div
 					id="toc"
@@ -597,4 +597,30 @@
 			</div>
 		</main>
 	</body>
+	<script>
+		const menuButton = document.getElementById("toc-toggle");
+
+		const toggleVisibility = (element) => {
+			const hasVisible = element.classList.contains("visible");
+			hasVisible
+				? element.classList.remove("visible")
+				: element.classList.add("visible");
+			return !hasVisible;
+		};
+
+		const updateButtonText = (button, isVisible) => {
+			button.textContent = isVisible
+				? "Click to hide the articles"
+				: "Click to see the articles";
+			return button;
+		};
+
+		menuButton.addEventListener("click", () => {
+			const contentParent = document.getElementById("toc");
+			if (contentParent) {
+				const isVisible = toggleVisibility(contentParent);
+				updateButtonText(menuButton, isVisible);
+			}
+		});
+	</script>
 </html>

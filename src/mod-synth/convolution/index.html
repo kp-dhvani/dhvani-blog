@@ -200,6 +200,124 @@
 					<span class="italic">synthesis</span>. The inverse operation is called
 					<span class="italic">decomposition</span>.
 					<br />
+					Consider a signal x[n] passing through a system which produces output
+					y[n]. Here the input signal can be composed into a group of simpler
+					signals x<sub>1</sub>[n], x<sub>2</sub>[n], x<sub>3</sub>[n], etc.
+					which is called as input signal components. Now each component is
+					passed through the system resulting in output signal components
+					y<sub>1</sub>[n], y<sub>2</sub>[n], y<sub>3</sub>[n], etc. These
+					output signals can be synthesised to form the final output y[n]. This
+					is where things get interesting: the outout signal obtained by this
+					method is identical to the one produced by passing the inout signal
+					directly into the system. So instead of trying to understand how a
+					system behaves when given a complicated signal instead what we can do
+					is understand how it behaves if the signal is simplified into its
+					individual components. Here the input and output signals are
+					superposition i.e. sum of simpler signals. There are multiple ways to
+					achieve this understanding of a system by passing it a simple signal
+					and one of them is called impulse decomposition.
+				</p>
+				<p class="underline mb-2">Impulse Decomposition</p>
+				<p>
+					What you do in impulse decomposition is decompose the input signal
+					into impulses. Ok, what are these impulses? An impulse is a signal
+					composed of all zeros except a single non-zero point. Let's look at an
+					example. If we have a 4 sample signal x[n] = {5, 3, 8, 2} the impulse
+					decomposition would create 4 component signals:
+				</p>
+				<ul class="list-disc pl-8 space-y-2 mb-2">
+					<li>Component 1: {5, 0, 0, 0}</li>
+					<li>Component 2: {0, 3, 0, 0}</li>
+					<li>Component 3: {0, 0, 8, 0}</li>
+					<li>Component 3: {0, 0, 0, 2}</li>
+				</ul>
+				<p>
+					Now you can pass these individual components to the system to
+					understand how the system behaves for one impulse and the
+					corresponding output produced by the system is called an impulse
+					response. Mathematically we use something called as a delta function
+					to make these signal components. It is denoted by &delta;[n] and is a
+					normalised impulse i.e. sample number zero has value of one and all
+					other samples have a value of zero. It is sometimes also referred to
+					as unit impulse since the sample at zero is one. When we say a
+					system's impulse response (denoted by) is h[n], we're saying "this is
+					how the system responds when the input is &delta;[n]." This gives us a
+					standard reference point for comparing systems. A decomposed signal is
+					just a scaled and shifted delta function. Refer to the above example.
+					Component 1 which is 5 is a delta function scaled to 5 and shifted by
+					zero. Component 2 is delta function scaled to 3 and shifted by one.
+					This can be represented mathematically as:
+					<br />
+					x<sub>1</sub>[n] = 5 * &delta;[n-0] = {5, 0, 0, 0}
+					<br />
+					x<sub>2</sub>[n] = 3 * &delta;[n-1] = {0, 3, 0, 0}
+					<br />
+					x[n] = x[0]·&delta;[n] + x[1]·&delta;[n-1] + x[2]·&delta;[n-2] + ... +
+					x[N-1]·&delta;[n-(N-1)]
+					<br />
+					This is written mathematically as
+					<math display="block" class="font-[inherit] text-xl">
+						<mi>x</mi>
+						<mo stretchy="false">[</mo>
+						<mi>n</mi>
+						<mo stretchy="false">]</mo>
+						<mo>=</mo>
+						<munderover>
+							<mo>&sum;</mo>
+							<mrow>
+								<mi>k</mi>
+								<mo>=</mo>
+								<mn>0</mn>
+							</mrow>
+							<mrow>
+								<mi>N</mi>
+								<mo>-</mo>
+								<mn>1</mn>
+							</mrow>
+						</munderover>
+						<mi>x</mi>
+						<mo stretchy="false">[</mo>
+						<mi>k</mi>
+						<mo stretchy="false">]</mo>
+						<mo>&sdot;</mo>
+						<mi>&delta;</mi>
+						<mo stretchy="false">[</mo>
+						<mi>n</mi>
+						<mo>-</mo>
+						<mi>k</mi>
+						<mo stretchy="false">]</mo>
+					</math>
+					where:
+				</p>
+				<ul class="list-disc pl-8 space-y-2 mb-2">
+					<li>
+						<span class="font-bold">x[n]</span> is the complete discrete signal
+					</li>
+					<li>
+						<span class="font-bold">x[k]</span> is the amplitude of the k<sup
+							>th</sup
+						>
+						sample
+					</li>
+					<li>
+						<span class="font-bold">&delta;[n-k]</span> is the unit impulse
+						(delta) function shifted by k positions
+					</li>
+					<li>
+						<span class="font-bold">N</span> is the total number of samples in
+						the signal
+					</li>
+				</ul>
+				<p class="underline mb-2">Convolution</p>
+				<p>
+					Let's summarise what we have discovered so far. First, the input
+					signal is decomposed into a set of impulses which are nothing but
+					scaled and shifted delta functions. Second, each of these scaled and
+					shifted impulses are put through the system which results in a
+					corresponding scaled and shifted version of the impulse response.
+					Third, the overall output can be found by adding these scaled and
+					shifted impulse responses. This means we know everything about the
+					system.
 				</p>
 			</div>
 		</main>

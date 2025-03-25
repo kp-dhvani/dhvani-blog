@@ -22,8 +22,8 @@
 					<h2
 						class="text-base md:text-xl lg:text-2xl mb-5 border border-black rounded-lg p-2"
 					>
-						Convolution?
-						<span class="text-xs">first draft: 11<sup>th</sup> March 2025</span>
+						Convolution
+						<span class="text-xs">published: 25<sup>th</sup> March 2025</span>
 					</h2>
 				</section>
 				<p class="underline mb-2">Intro</p>
@@ -131,6 +131,7 @@
 					is not a requirement for linearity but is a must for DSP domain. Let's
 					understand all 3 of these properties.
 					<br />
+					<br />
 					A system is homogeneous if change in the amplitude of the input
 					results in corresponding change in the amplitude of the output signal.
 					So if you multiply the input with a value to scale it the output
@@ -180,7 +181,7 @@
 					will receive $10 for 5 creates and $20 for 10 crates which makes the
 					exchange homogeneous. If they sell 20 creates of oranges and 10
 					creates of mangoes they will get $2 x 20 + $5 x 10 = $90 which is the
-					same amount as if thw two had been solved individually making the
+					same amount as if the two had been solved individually making the
 					transaction additive. The transaction being both additive and
 					homogeneous makes it a linear process but since there are no signals
 					time invariance need not be satisfied for the process to be linear.
@@ -318,6 +319,24 @@
 					Third, the overall output can be found by adding these scaled and
 					shifted impulse responses. This means we know everything about the
 					system.
+					<br />
+					Ok but what exactly is this system and what are we trying to achieve
+					with this system? In the context of audio processing a system refers
+					to any process that transforms an input audio signal into an output
+					signal so these modules need to take in audio signals and do some
+					processing to give us the desired output. A filter selectively
+					attenuates or boosts certain frequencies, reverb simulates an acoustic
+					environment, etc. These modules are the LTI systems we have been
+					talking about so far. While designing such modules we need to adhere
+					to the LTI principles else we won't be able to achieve the desired
+					results. The power of LTI systems lie in their predictability and
+					mathematical elegance. We can fully understand the behaviour of an LTI
+					system through its impulse response which allows us to apply that same
+					transformation consistently to any input signal through convolution.
+					This approach is the foundation of audio effects from reverbs to
+					equalisers. Without the framework of LTI the elegant simplicity of
+					convolution would fail to produce consistent, predictable results
+					audio engineers and musicians rely on.
 				</p>
 			</div>
 		</main>

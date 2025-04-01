@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<link rel="icon" type="image/svg+xml" href="/vite.svg" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Harmonics Waveform Generator</title>
+		<link href="../../style.css" rel="stylesheet" />
+		<link
+			rel="stylesheet"
+			href="https://cdnjs.cloudflare.com/ajax/libs/prism/9000.0.1/themes/prism-twilight.min.css"
+			integrity="sha512-6rkEt5SymQMcnlRz1dHwAMSfMnDaFX28qdr3wyaa+XRCR8dTSWE4U6vjiTVuB6Mq9FgYOLVOTk0lrOeCnodcgA=="
+			crossorigin="anonymous"
+			referrerpolicy="no-referrer"
+		/>
+		<style>
+			input[type="range"][orient="vertical"] {
+				writing-mode: vertical-lr;
+				width: 8px;
+				height: 180px;
+				padding: 0;
+				vertical-align: bottom;
+				direction: rtl;
+			}
+			.harmonics-container {
+				width: 100%;
+				overflow-x: scroll;
+				-webkit-overflow-scrolling: touch; /* smooth scrolling on iOS */
+				padding-bottom: 15px;
+				margin-bottom: 5px;
+			}
+
+			/* show scrollbar on non-touch devices */
+			.harmonics-container::-webkit-scrollbar {
+				height: 8px;
+			}
+
+			.harmonics-container::-webkit-scrollbar-thumb {
+				background-color: #d1d5db;
+				border-radius: 4px;
+			}
+
+			.harmonics-flex {
+				min-width: 800px;
+				display: flex;
+				justify-content: space-between;
+				padding: 0 10px;
+			}
+
+			.harmonic-slider {
+				width: 60px;
+				flex-shrink: 0;
+				margin: 0 5px;
+			}
+
+			@media (max-width: 768px) {
+				.harmonics-flex {
+					width: max-content;
+				}
+				input[type="range"][orient="vertical"] {
+					height: 100px;
+				}
+			}
+
+			@media (max-width: 480px) {
+				input[type="range"][orient="vertical"] {
+					height: 80px;
+				}
+
+				.harmonic-label {
+					font-size: 0.7rem;
+				}
+			}
+		</style>
+	</head>
+	<body class="font-mono">
+		<load src="../../shared/navbar.html" />
+		<main class="flex justify-center mx-5 md:mx-16 rounded-lg">
+			<div class="p-6 w-full">
+				<section>
+					<h2
+						class="text-base md:text-xl lg:text-2xl mb-5 border border-black rounded-lg p-2"
+					>
+						Harmonics Waveform Generator
+						<span class="text-xs">first draft: 31<sup>st</sup> March 2025</span>
+					</h2>
+				</section>
+				<div>
+					<canvas
+						class="w-full"
+						height="100"
+						id="final-waveform"
+						style="border: 1px solid black"
+					></canvas>
+				</div>
+				<div>
+					<input
+						type="range"
+						id="fundamental-frequency"
+						name="frequency-value"
+						min="20"
+						max="20000"
+						step="1"
+						class="w-full h-2 rounded-lg appearance-none cursor-pointer bg-accent-color"
+						value="440"
+					/>
+					<label for="frequency-value"
+						>Fundamental Frequency:
+						<span id="fundamental-frequency-value"></span
+					></label>
+				</div>
+				<div class="flex justify-center mt-5">
+					<button
+						id="playback"
+						class="focus:outline-none text-white bg-accent-color font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2"
+					>
+						Play
+					</button>
+				</div>
+				<div class="harmonics border border-gray-300 rounded-lg p-4 mt-4">
+					<h2 class="text-lg font-semibold text-center mb-4">Harmonics</h2>
+
+					<div class="harmonics-container">
+						<div
+							class="harmonics-flex flex space-x-1 md:space-x-3 justify-around"
+						>
+							<!-- Master Volume -->
+							<div class="harmonic-slider flex flex-col items-center">
+								<input
+									type="range"
+									id="master"
+									name="master-volume"
+									min="0"
+									max="1"
+									class="rounded-lg appearance-none cursor-pointer bg-accent-color"
+									value="1"
+									orient="vertical"
+									step="0.1"
+								/>
+								<label
+									for="master-volume"
+									class="mt-3 harmonic-label text-xs text-center"
+								>
+									Master volume
+								</label>
+							</div>
+
+							<!-- Harmonic One -->
+							<div class="harmonic-slider flex flex-col items-center">
+								<input
+									type="range"
+									id="harmonic-one-volume"
+									name="harmonic-one-volume"
+									min="0"
+									max="2"
+									class="rounded-lg appearance-none cursor-pointer bg-accent-color"
+									value="0"
+									orient="vertical"
+									step="0.1"
+								/>
+								<label
+									for="harmonic-one-volume"
+									class="mt-3 harmonic-label text-xs text-center"
+								>
+									Harmonic One
+								</label>
+							</div>
+
+							<!-- Harmonic Two -->
+							<div class="harmonic-slider flex flex-col items-center">
+								<input
+									type="range"
+									id="harmonic-two-volume"
+									name="harmonic-two-volume"
+									min="0"
+									max="2"
+									class="rounded-lg appearance-none cursor-pointer bg-accent-color"
+									value="0"
+									orient="vertical"
+									step="0.1"
+								/>
+								<label
+									for="harmonic-two-volume"
+									class="mt-3 harmonic-label text-xs text-center"
+								>
+									Harmonic Two
+								</label>
+							</div>
+
+							<!-- Harmonic Three -->
+							<div class="harmonic-slider flex flex-col items-center">
+								<input
+									type="range"
+									id="harmonic-three-volume"
+									name="harmonic-three-volume"
+									min="0"
+									max="2"
+									class="rounded-lg appearance-none cursor-pointer bg-accent-color"
+									value="0"
+									orient="vertical"
+									step="0.1"
+								/>
+								<label
+									for="harmonic-three-volume"
+									class="mt-3 harmonic-label text-xs text-center"
+								>
+									Harmonic Three
+								</label>
+							</div>
+
+							<!-- Harmonic Four -->
+							<div class="harmonic-slider flex flex-col items-center">
+								<input
+									type="range"
+									id="harmonic-four-volume"
+									name="harmonic-four-volume"
+									min="0"
+									max="2"
+									class="rounded-lg appearance-none cursor-pointer bg-accent-color"
+									value="0"
+									orient="vertical"
+									step="0.1"
+								/>
+								<label
+									for="harmonic-four-volume"
+									class="mt-3 harmonic-label text-xs text-center"
+								>
+									Harmonic Four
+								</label>
+							</div>
+
+							<!-- Harmonic Five -->
+							<div class="harmonic-slider flex flex-col items-center">
+								<input
+									type="range"
+									id="harmonic-five-volume"
+									name="harmonic-five-volume"
+									min="0"
+									max="2"
+									class="rounded-lg appearance-none cursor-pointer bg-accent-color"
+									value="0"
+									orient="vertical"
+									step="0.1"
+								/>
+								<label
+									for="harmonic-five-volume"
+									class="mt-3 harmonic-label text-xs text-center"
+								>
+									Harmonic Five
+								</label>
+							</div>
+
+							<!-- Harmonic Six -->
+							<div class="harmonic-slider flex flex-col items-center">
+								<input
+									type="range"
+									id="harmonic-six-volume"
+									name="harmonic-six-volume"
+									min="0"
+									max="2"
+									class="rounded-lg appearance-none cursor-pointer bg-accent-color"
+									value="0"
+									orient="vertical"
+									step="0.1"
+								/>
+								<label
+									for="harmonic-six-volume"
+									class="mt-3 harmonic-label text-xs text-center"
+								>
+									Harmonic Six
+								</label>
+							</div>
+
+							<!-- Harmonic Seven -->
+							<div class="harmonic-slider flex flex-col items-center">
+								<input
+									type="range"
+									id="harmonic-seven-volume"
+									name="harmonic-seven-volume"
+									min="0"
+									max="2"
+									class="rounded-lg appearance-none cursor-pointer bg-accent-color"
+									value="0"
+									orient="vertical"
+									step="0.1"
+								/>
+								<label
+									for="harmonic-seven-volume"
+									class="mt-3 harmonic-label text-xs text-center"
+								>
+									Harmonic Seven
+								</label>
+							</div>
+
+							<!-- Harmonic Eight -->
+							<div class="harmonic-slider flex flex-col items-center">
+								<input
+									type="range"
+									id="harmonic-eight-volume"
+									name="harmonic-eight-volume"
+									min="0"
+									max="2"
+									class="rounded-lg appearance-none cursor-pointer bg-accent-color"
+									value="0"
+									orient="vertical"
+									step="0.1"
+								/>
+								<label
+									for="harmonic-eight-volume"
+									class="mt-3 harmonic-label text-xs text-center"
+								>
+									Harmonic Eight
+								</label>
+							</div>
+
+							<!-- Harmonic Nine -->
+							<div class="harmonic-slider flex flex-col items-center">
+								<input
+									type="range"
+									id="harmonic-nine-volume"
+									name="harmonic-nine-volume"
+									min="0"
+									max="2"
+									class="rounded-lg appearance-none cursor-pointer bg-accent-color"
+									value="0"
+									orient="vertical"
+									step="0.1"
+								/>
+								<label
+									for="harmonic-nine-volume"
+									class="mt-3 harmonic-label text-xs text-center"
+								>
+									Harmonic Nine
+								</label>
+							</div>
+
+							<!-- Harmonic Ten -->
+							<div class="harmonic-slider flex flex-col items-center">
+								<input
+									type="range"
+									id="harmonic-ten-volume"
+									name="harmonic-ten-volume"
+									min="0"
+									max="2"
+									class="rounded-lg appearance-none cursor-pointer bg-accent-color"
+									value="0"
+									orient="vertical"
+									step="0.1"
+								/>
+								<label
+									for="harmonic-ten-volume"
+									class="mt-3 harmonic-label text-xs text-center"
+								>
+									Harmonic Ten
+								</label>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</main>
+		<script src="./main.ts" type="module"></script>
+	</body>
+</html>

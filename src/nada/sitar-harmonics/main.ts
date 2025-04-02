@@ -107,7 +107,7 @@ function drawStandingWave(
 	context.strokeStyle = "#FF657";
 	context.stroke(negativeWave);
 
-	// Draw nodal points if showNodalPoints is true
+	// draw nodal points if showNodalPoints is true
 	if (showNodalPoints) {
 		const nodalColors = [
 			"#FF6B6B", // Coral Red
@@ -119,8 +119,7 @@ function drawStandingWave(
 			"#FF8ED4", // Pink
 		];
 
-		// Nodal points calculation
-		// Nodal points calculation
+		// nodal points calculation
 		const nodalPoints: { x: number; fraction: string }[] = [];
 		for (let i = 1; i < harmonicNumber; i++) {
 			const nodalX = (i * canvasWidth) / harmonicNumber;
@@ -129,7 +128,6 @@ function drawStandingWave(
 				fraction: `${i}/${harmonicNumber}`,
 			});
 		}
-		console.log(nodalPoints);
 		context.beginPath();
 		context.fillStyle = "blue";
 		context.strokeStyle = "blue";

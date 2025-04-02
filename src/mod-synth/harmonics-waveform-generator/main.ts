@@ -1,4 +1,4 @@
-import { Oscillator, ToneOscillatorType, getDestination } from "tone";
+import { Oscillator, getDestination, now } from "tone";
 
 type NumericKeys = "1" | "2" | "3" | "4" | "5" | "6" | "7" | "8" | "9" | "10";
 type MasterSlider = {
@@ -9,10 +9,20 @@ type NumericSliders = {
 };
 type SlidersByName = MasterSlider & NumericSliders;
 
+type OscillatorsByNumber = {
+	[key in NumericKeys]: Oscillator;
+};
+
 const DEFAULT_FUNDAMENTAL_FREQUENCY = 440;
 
-let oscillator = intialiseOscillator(DEFAULT_FUNDAMENTAL_FREQUENCY, "sine");
-oscillator.connect(getDestination());
+let isPlaying = false;
+
+// frequency slider
+const fundamentalFrequencySlider = document.getElementById(
+	"fundamental-frequency"
+);
+
+let allOscillators = intialiseOscillatorsForAllHarmonics();
 
 const allSliders = getAllHarmonicSliders();
 
@@ -22,10 +32,6 @@ const canvasWaveform = document.getElementById(
 const canvasWaveformContext = canvasWaveform.getContext("2d");
 
 document.addEventListener("DOMContentLoaded", function () {
-	// frequency slider
-	const fundamentalFrequencySlider = document.getElementById(
-		"fundamental-frequency"
-	);
 	const fundamentalFrequencySliderLabel = document.getElementById(
 		"fundamental-frequency-value"
 	);
@@ -39,32 +45,22 @@ document.addEventListener("DOMContentLoaded", function () {
 	}
 
 	// listen to frequency slider
+	// @todo: create new set of oscillators when fundamental frequency changes
 	fundamentalFrequencySlider?.addEventListener(
 		"input",
 		function (event: Event) {
 			const { value } = event.target as HTMLInputElement;
 			fundamentalFrequencySliderLabel!.textContent = `${value} Hz`;
-			const wasPlaying = oscillator.state === "started";
-			stopOscillator();
-			oscillator.disconnect();
-			oscillator.dispose();
-			oscillator = intialiseOscillator(Number(value), "sine");
-			oscillator.connect(getDestination());
-
-			if (wasPlaying) {
-				startOscillator();
-			}
 		}
 	);
 
 	const playbackButton = document.getElementById("playback");
 	playbackButton?.addEventListener("click", function () {
-		if (oscillator.state === "started") {
-			this.textContent = "Play";
-			stopOscillator();
-		} else {
-			startOscillator();
+		handlePlaybackForOscillators();
+		if (isPlaying) {
 			this.textContent = "Stop";
+		} else {
+			this.textContent = "Play";
 		}
 	});
 	initialiseCanvas();
@@ -77,7 +73,7 @@ function adjustMasterVolume(event: Event) {
 	const { value } = event.target as HTMLInputElement;
 	const volumeNumber = Number(value);
 	const dbValue = volumeNumber * 60 - 60; // maps 0 → -60dB and 1 → 0dB
-	getDestination().volume.rampTo(dbValue, 0.1);
+	getDestination().volume.exponentialRampToValueAtTime(dbValue, now() + 1);
 	drawStaticWaveform();
 	const masterVolumeSlider = allSliders["master"];
 	masterVolumeSlider.setAttribute("value", value);
@@ -92,6 +88,8 @@ function attachSliderEventListeners(sliders: SlidersByName) {
 				const { value } = event.target as HTMLInputElement;
 				this.setAttribute("value", value);
 				drawStaticWaveform();
+				const harmonicNumber = getHarmonicNumberFromId(this.id);
+				handleOscillatorForIndividualHarmonic(harmonicNumber, Number(value));
 			});
 		}
 	}
@@ -220,6 +218,31 @@ function getAllHarmonicSliders(): SlidersByName {
 	return slidersByName;
 }
 
+function getHarmonicNumberFromId(id: string): number {
+	// extract the word between "harmonic-" and "-volume"
+	const regex = /harmonic-(\w+)-volume/;
+	const match = regex.exec(id);
+
+	if (!match) return 1; // default if no match found
+
+	const wordNumber = match[1]; // this gives "one"
+
+	const wordToNumber: Record<string, number> = {
+		one: 1,
+		two: 2,
+		three: 3,
+		four: 4,
+		five: 5,
+		six: 6,
+		seven: 7,
+		eight: 8,
+		nine: 9,
+		ten: 10,
+	};
+
+	return wordToNumber[wordNumber] || 1;
+}
+
 function getVolumeForHarmonics(): string[] {
 	const volumes = Object.entries(allSliders)
 		.map(([key, slider]) => {
@@ -229,6 +252,67 @@ function getVolumeForHarmonics(): string[] {
 		})
 		.filter(Boolean);
 	return volumes as string[];
+}
+
+function handlePlaybackForOscillators() {
+	if (isPlaying) {
+		isPlaying = false;
+		for (let i = 1; i <= 10; i++) {
+			const currentOscillator = allOscillators[i.toString() as NumericKeys];
+			currentOscillator.volume.exponentialRampToValueAtTime(-60, now() + 1);
+			setTimeout(function () {
+				currentOscillator.stop();
+			}, 150);
+		}
+	} else {
+		isPlaying = true;
+		const allVolumes = getVolumeForHarmonics();
+		for (let i = 1; i <= 10; i++) {
+			const currentVolume = Number(allVolumes[i - 1]);
+			const key = i.toString() as NumericKeys;
+			const currentOscillator = allOscillators[key];
+			// hearing a higher harmonic somewhere in the 10 oscillators
+			// only start oscillators with volume above threshold
+			if (currentVolume > 0.05) {
+				// using a small threshold to avoid noise
+				const dbValue = currentVolume * 60 - 60;
+				currentOscillator.volume.value = dbValue;
+				currentOscillator.start();
+			} else {
+				// let's make sure it's not playing
+				currentOscillator.volume.value = -Infinity;
+			}
+		}
+	}
+}
+
+function handleOscillatorForIndividualHarmonic(
+	harmonicNumber: number,
+	volume: number
+) {
+	const selectedOscillator =
+		allOscillators[harmonicNumber as unknown as NumericKeys];
+	selectedOscillator.stop();
+	const dbValue = volume * 60 - 60;
+	if (isPlaying) {
+		// only adjust volume if we're supposed to be playing
+		if (selectedOscillator.state === "stopped") {
+			// if stopped but should be playing, start it
+			selectedOscillator.volume.value = dbValue;
+			selectedOscillator.start();
+		} else {
+			//  already playing just adjust volume
+			selectedOscillator.volume.exponentialRampToValueAtTime(
+				dbValue,
+				now() + 0.1
+			);
+		}
+	} else {
+		// if not playing make sure it's stopped
+		if (selectedOscillator.state === "started") {
+			selectedOscillator.stop();
+		}
+	}
 }
 
 function initialiseCanvas() {
@@ -246,8 +330,21 @@ function initialiseCanvas() {
 	canvasWaveformContext.scale(dpr, dpr);
 }
 
-function intialiseOscillator(frequency: number, type: ToneOscillatorType) {
-	return new Oscillator(frequency, type);
+function intialiseOscillatorsForAllHarmonics() {
+	const fundamentalFrequency =
+		Number(fundamentalFrequencySlider?.getAttribute("value")) || 440;
+	const oscillators: OscillatorsByNumber = {} as OscillatorsByNumber;
+
+	for (let i = 1; i <= 10; i++) {
+		const key = i.toString() as NumericKeys;
+		const osc = new Oscillator(
+			fundamentalFrequency * i,
+			"sine"
+		).toDestination();
+		osc.volume.value = -60;
+		oscillators[key] = osc;
+	}
+	return oscillators;
 }
 
 function prepareDataNeededForWaveformRender(sampleCount: number): number[] {
@@ -259,21 +356,6 @@ function prepareDataNeededForWaveformRender(sampleCount: number): number[] {
 		sampleCount
 	);
 	return samples;
-}
-
-function startOscillator() {
-	oscillator.volume.value = -30; // starts silent
-	oscillator.toDestination().start();
-	setTimeout(function () {
-		oscillator.volume.rampTo(0, 0.1);
-	}, 20);
-}
-
-function stopOscillator() {
-	oscillator.volume.rampTo(-30, 0.1);
-	setTimeout(function () {
-		oscillator.stop();
-	}, 150);
 }
 
 window.addEventListener("resize", function () {

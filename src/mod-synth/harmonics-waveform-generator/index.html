@@ -82,15 +82,135 @@
 						class="text-base md:text-xl lg:text-2xl mb-5 border border-black rounded-lg p-2"
 					>
 						Harmonics Waveform Generator
-						<span class="text-xs">first draft: 31<sup>st</sup> March 2025</span>
+						<span class="text-xs">second draft: 7<sup>th</sup> April 2025</span>
 					</h2>
 				</section>
 				<div>
+					<p>
+						Carefully listen to the sounds around you. The sound of a moving
+						car, someone speaking in the distance, rustling of the tree leaves,
+						birds chirping, all of these sounds that you hear can be recreated
+						mathematically using a sine wave. Hmmm ok but what is a sine wave? A
+						sine wave represents a motion, a motion that moves from a highest
+						point, down through a middle point, to a lowest point and then back
+						up again. Imagine this, you are on giant ferries wheel which takes 8
+						minutes to complete a rotation. It will look like the motion in
+						figure A.
+					</p>
+					<div class="flex flex-col md:flex-row w-full gap-2 my-5">
+						<div class="w-full md:w-1/2">
+							<canvas
+								id="ferries-wheel"
+								class="w-full border border-black rounded-lg"
+								width="500"
+								height="400"
+							></canvas>
+							<p>Figure A: Ferries wheel front view</p>
+						</div>
+						<div class="w-full md:w-1/2">
+							<canvas
+								id="one-dimensional-ferries-wheel"
+								class="w-full border border-black rounded-lg"
+								width="500"
+								height="400"
+							></canvas>
+							<p>Figure B: Ferries wheel side view</p>
+						</div>
+					</div>
+					<p>
+						But let's say instead of looking at the wheel from the front we look
+						at it from the side. Then what you will see as visualised in figure
+						B is a line and the position of the rectangle move up and down the
+						line. The 2 dimensional motion (vertical and horizontal) from the
+						front view is converted to a one dimensional motion (vertical) on
+						the side view. So if we start at time 0 in 2 minutes we reach the
+						top of the wheel, in 4 minutes you're half way around, in 6 minutes
+						you're at the bottom of the wheel and on the 8th minute you come
+						back to where you started completing the full motion. Let's plot the
+						position versus the time on a graph. The curve that you see is a
+						sine wave. It represents a continuous periodic motion. The movement
+						of the rectangle is up and down but when you plot this vertical
+						movement on a time axis that's where the time axis gets its shape. A
+						sine wave oscillates back and froth from the start position to a
+						maximum amount in the either direction which is called its
+						amplitude.
+					</p>
+					<div class="w-full lg:w-1/2 h-72 md:h-80 mx-auto mb-5">
+						<canvas id="large-ferris-wheel-chart"></canvas>
+					</div>
+					<p>
+						Another key concept thing to note here is if you a smaller ferries
+						wheel but it still takes the same amount of time as the bigger wheel
+						and we compare their sine wave with time only their amplitude
+						changes i.e. the smaller wheel has lower amplitude than the bigger
+						one and the wave only gets stretched in the vertical direction the
+						as shown below.
+					</p>
+					<div class="w-full lg:w-1/2 h-72 md:h-80 mx-auto mb-16 text-center">
+						<canvas id="large-small-ferris-wheel-chart"></canvas>
+						<p>Figure C: Large and small ferries wheel motion</p>
+					</div>
+					<p>
+						Secondly, if you have 2 same size wheels but one takes longer to
+						complete a full rotation the sine oscillation gets faster and you'll
+						see that the sine wave only stretches in the horizontal direction
+						i.e. the time axis as shown below.
+					</p>
+					<div class="w-full lg:w-1/2 h-72 md:h-80 mx-auto mb-16 text-center">
+						<canvas id="slow-fast-ferris-wheel-chart"></canvas>
+						<p>Figure D: Slow and fast ferries wheel motion</p>
+					</div>
+					<p>
+						And lastly, there is another way to plot this sine wave motion by
+						plotting it against the position versus the angle of the motion from
+						the start position instead of time. This angle is called phase which
+						is measured in degrees. To conclude, the oscillation of the sine
+						wave repeat over and over as the time goes on.
+					</p>
+					<div class="w-full lg:w-1/2 h-72 md:h-80 mx-auto mb-16 text-center">
+						<canvas id="phase-ferris-wheel-chart"></canvas>
+						<p>Figure E: Phase of the ferries wheel motion</p>
+					</div>
+					<p class="mb-5">
+						An interesting tidbit about the etymology of the word sine: it can
+						be traced back to Sanskrit mathematic word
+						<span class="italic">jīvā</span> or <span class="italic">jyā</span>.
+						The arc of a circle is like a bow and so is called a
+						<span class="italic">dhanu</span> or
+						<span class="italic">chāpa</span> which in Sanskrit means "a bow".
+						The straight line joining the arc of a circle is like the string of
+						a bow and this line is the chord of the circle. This chord is called
+						a <span class="italic">jyā</span> which in Sanskrit means "a bow
+						string". This word in turn is a translation of the Greek khordē “gut
+						string” (which was borrowed into Latin as chorda and is the source
+						of the word chord in English). The Indians borrowed Greek
+						trigonometry and translated khordē literally as jyā, but they used
+						this word not for a chord but for a half-chord. Indian astronomers
+						and mathematicians realised that computations would be more
+						convenient if one used the halves of the chords instead of the full
+						chords and these half-chords were called
+						<span class="italic">ardha-jyā</span> or
+						<span class="italic">jyā-ardha</span>. Aryabhata frequently
+						abbreviated this term to <span class="italic">jyā</span> or its
+						synonym <span class="italic">jiva</span>. The Arabic astronomers
+						inherited this Greek and Indian systems of astronomy and the
+						Sanskrit word <span class="italic">jyā</span> was transcribed as
+						<span class="italic">jīb</span> but Arabic is written without vowels
+						and that the word in question is spelt
+						<span class="italic">jb</span>. In the twelfth century the
+						Arabic-Latin translator Gerard of Cremona from Italy misread the
+						letter as <span class="italic">jyab</span> meaning "breast pocket"
+						and used the Latin equivalent word
+						<span class="italic">sinus</span>. So the word sine is a Greek word
+						first translated into Sanskrit, then transcribed into Arabic, and
+						then mistranslated into Latin.
+					</p>
+				</div>
+				<div>
 					<canvas
-						class="w-full rounded-lg"
+						class="w-full border border-black rounded-lg"
 						height="100"
 						id="final-waveform"
-						style="border: 1px solid black"
 					></canvas>
 				</div>
 				<div>

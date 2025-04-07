@@ -1,3 +1,4 @@
+import Chart from "chart.js/auto";
 import { Oscillator, getDestination, now } from "tone";
 
 type NumericKeys = "1" | "2" | "3" | "4" | "5" | "6" | "7" | "8" | "9" | "10";
@@ -12,6 +13,45 @@ type SlidersByName = MasterSlider & NumericSliders;
 type OscillatorsByNumber = {
 	[key in NumericKeys]: Oscillator;
 };
+
+type FerriesWheelCanvasCoordinates = {
+	centerX: number;
+	centerY: number;
+	radius: number;
+	rectWidth: number;
+	rectHeight: number;
+};
+
+type FerriesWheelLineCanvasCoordinates = {
+	lineX: number;
+	lineStartY: number;
+	lineEndY: number;
+	rectWidth: number;
+	rectHeight: number;
+};
+
+interface FerriesWheelConfig {
+	rotationTimeMinutes: number;
+	amplitude: number;
+	color: string;
+	label: string;
+	phase?: number; // phase in radians (0 to 2π) defaults to 0
+}
+
+interface ChartDisplayOptions {
+	showPhaseOnXAxis?: boolean; // Whether to show phase instead of time on x-axis
+}
+
+type YAxisLabelMap = {
+	[key: number]: string;
+};
+
+type ScaleCallback = (
+	this: any,
+	tickValue: string | number,
+	index: number,
+	ticks: any[]
+) => string | string[] | number | number[] | null | undefined;
 
 const DEFAULT_FUNDAMENTAL_FREQUENCY = 440;
 
@@ -67,6 +107,43 @@ document.addEventListener("DOMContentLoaded", function () {
 	drawStaticWaveform();
 	attachSliderEventListeners(allSliders);
 	getVolumeForHarmonics();
+	drawSyncedFerriesWheels();
+
+	const largeFerriesWheelConfig: FerriesWheelConfig = {
+		rotationTimeMinutes: 8,
+		amplitude: 1.0,
+		color: "#FF6577",
+		label: "Position vs Time (8-Minute Rotation)",
+	};
+
+	drawFerriesWheelChart("large-ferris-wheel-chart", largeFerriesWheelConfig);
+
+	const smallFerriesWheelConfig: FerriesWheelConfig = {
+		rotationTimeMinutes: 8,
+		amplitude: 0.3,
+		color: "#4169E1",
+		label: "Small Wheel (4-Minute Rotation)",
+	};
+	drawFerriesWheelChart("large-small-ferris-wheel-chart", [
+		largeFerriesWheelConfig,
+		smallFerriesWheelConfig,
+	]);
+
+	drawFerriesWheelChart("slow-fast-ferris-wheel-chart", [
+		{
+			...largeFerriesWheelConfig,
+		},
+		{
+			...largeFerriesWheelConfig,
+			color: "#4169E1",
+			rotationTimeMinutes: 4,
+			label: "Position vs Time (4-Minute Rotation)",
+		},
+	]);
+
+	drawFerriesWheelChart("phase-ferris-wheel-chart", largeFerriesWheelConfig, {
+		showPhaseOnXAxis: true,
+	});
 });
 
 function adjustMasterVolume(event: Event) {
@@ -95,6 +172,296 @@ function attachSliderEventListeners(sliders: SlidersByName) {
 	}
 }
 
+function drawSyncedFerriesWheels() {
+	const circleCanvas = document.getElementById(
+		"ferries-wheel"
+	) as HTMLCanvasElement;
+	const lineCanvas = document.getElementById(
+		"one-dimensional-ferries-wheel"
+	) as HTMLCanvasElement;
+
+	const circleContext = circleCanvas.getContext("2d");
+	const lineContext = lineCanvas.getContext("2d");
+
+	if (!circleContext || !lineContext) return;
+
+	const dprCircle = window.devicePixelRatio || 1;
+	const rectCircle = circleCanvas.getBoundingClientRect();
+
+	circleCanvas.width = rectCircle.width * dprCircle;
+	circleCanvas.height = rectCircle.height * dprCircle;
+	circleContext.scale(dprCircle, dprCircle);
+
+	const dprLine = window.devicePixelRatio || 1;
+	const rectLine = lineCanvas.getBoundingClientRect();
+
+	lineCanvas.width = rectLine.width * dprLine;
+	lineCanvas.height = rectLine.height * dprLine;
+	lineContext.scale(dprLine, dprLine);
+
+	const RECT_WIDTH_RATIO = 0.15; // 15% of radius
+	const RECT_HEIGHT_RATIO = 0.1; // 10% of radius
+	const CIRCLE_RADIUS_RATIO = 0.7; // 70% of half the smaller dimension
+
+	const LINE_LENGTH_RATIO = 0.8; // 80% of height
+	const LINE_RECT_WIDTH_RATIO = 0.05; // 5% of canvas width
+	const LINE_RECT_HEIGHT_RATIO = 0.05; // 5% of line length
+
+	// shared animation variables
+	let angle = 0;
+	let speed = 0.02;
+
+	const circleCoords: FerriesWheelCanvasCoordinates = {
+		centerX: rectCircle.width / 2,
+		centerY: rectCircle.height / 2,
+		radius:
+			Math.min(rectCircle.width / 2, rectCircle.height / 2) *
+			CIRCLE_RADIUS_RATIO,
+		rectWidth: 0,
+		rectHeight: 0,
+	};
+	circleCoords.rectWidth = circleCoords.radius * RECT_WIDTH_RATIO;
+	circleCoords.rectHeight = circleCoords.radius * RECT_HEIGHT_RATIO;
+
+	const lineCoords: FerriesWheelLineCanvasCoordinates = {
+		lineX: rectLine.width / 2,
+		lineStartY: (rectLine.height * (1 - LINE_LENGTH_RATIO)) / 2,
+		lineEndY:
+			(rectLine.height * (1 - LINE_LENGTH_RATIO)) / 2 +
+			rectLine.height * LINE_LENGTH_RATIO,
+		rectWidth: rectLine.width * LINE_RECT_WIDTH_RATIO,
+		rectHeight: rectLine.height * LINE_LENGTH_RATIO * LINE_RECT_HEIGHT_RATIO,
+	};
+
+	function drawCircle() {
+		circleContext!.beginPath();
+		const { centerX, centerY, radius } = circleCoords;
+		circleContext!.arc(centerX, centerY, radius, 0, Math.PI * 2);
+		circleContext!.strokeStyle = "#FF6577";
+		circleContext!.lineWidth = 2;
+		circleContext!.stroke();
+	}
+
+	function drawCircleRectangle() {
+		const { centerX, centerY, radius, rectWidth, rectHeight } = circleCoords;
+
+		const x = centerX + radius * Math.cos(angle);
+		const y = centerY + radius * Math.sin(angle);
+
+		circleContext!.save();
+
+		circleContext!.translate(x, y);
+
+		circleContext!.rotate(angle + Math.PI / 2);
+
+		circleContext!.fillStyle = "#ff6600";
+		circleContext!.fillRect(
+			-rectWidth / 2,
+			-rectHeight / 2,
+			rectWidth,
+			rectHeight
+		);
+
+		circleContext!.restore();
+	}
+
+	function drawLine() {
+		const { lineX, lineStartY, lineEndY } = lineCoords;
+
+		lineContext!.beginPath();
+		lineContext!.moveTo(lineX, lineStartY);
+		lineContext!.lineTo(lineX, lineEndY);
+		lineContext!.strokeStyle = "#FF6577";
+		lineContext!.lineWidth = 2;
+		lineContext!.stroke();
+	}
+
+	function drawLineRectangle() {
+		const { lineX, lineStartY, lineEndY, rectWidth, rectHeight } = lineCoords;
+
+		const { centerY, radius } = circleCoords;
+		const circleY = centerY + radius * Math.sin(angle);
+
+		// map the circular Y position to the line position
+		// scale the y-coordinate from circle to line proportionally
+		const lineLength = lineEndY - lineStartY;
+		const circleTotalHeight = 2 * radius;
+
+		// calculate the relative position within the circle's vertical rang,e -radius to +radius from center
+		// then map it to the line's position
+		const relativeCirclePosition =
+			(circleY - (centerY - radius)) / circleTotalHeight;
+		const y = lineStartY + lineLength * relativeCirclePosition;
+
+		lineContext!.fillStyle = "#ff6600";
+		lineContext!.fillRect(
+			lineX - rectWidth / 2,
+			y - rectHeight / 2,
+			rectWidth,
+			rectHeight
+		);
+	}
+
+	// combined animation function
+	function animate() {
+		circleContext!.clearRect(0, 0, rectCircle.width, rectCircle.height);
+		lineContext!.clearRect(0, 0, rectLine.width, rectLine.height);
+
+		drawCircle();
+		drawCircleRectangle();
+
+		drawLine();
+		drawLineRectangle();
+
+		angle -= speed;
+
+		requestAnimationFrame(animate);
+	}
+
+	animate();
+}
+
+function drawFerriesWheelChart(
+	canvasId: string,
+	configs: FerriesWheelConfig | FerriesWheelConfig[],
+	options: ChartDisplayOptions = {}
+): void {
+	const canvas = document.getElementById(canvasId) as HTMLCanvasElement;
+	if (!canvas) {
+		console.error(`Canvas with ID "${canvasId}" not found`);
+		return;
+	}
+
+	const context = canvas.getContext("2d");
+	if (!context) return;
+
+	const { showPhaseOnXAxis = false } = options;
+
+	// Convert single config to array for consistent processing
+	const configArray = Array.isArray(configs) ? configs : [configs];
+
+	// Find max amplitude for Y-axis scaling
+	const maxAmplitude = Math.max(
+		...configArray.map((config) => config.amplitude)
+	);
+
+	// Generate datasets for each configuration
+	const datasets = configArray.map((config) => {
+		const data = generateFerriesWheelData(config, options);
+		return {
+			label: config.label,
+			data: data.map((point) => point.position),
+			borderColor: config.color,
+			backgroundColor: `${config.color}1A`, // 10% opacity
+			borderWidth: 2,
+			tension: 0.4,
+			fill: true,
+			pointRadius: 0,
+		};
+	});
+
+	// Get labels from the first dataset
+	const labels = generateFerriesWheelData(configArray[0], options).map(
+		(point) => point.label
+	);
+
+	// Key points to display on x-axis if showing phase
+	const keyPhasePoints = [0, 90, 180, 270, 360];
+
+	// Configure chart options
+	const xAxisConfig = showPhaseOnXAxis
+		? {
+				title: {
+					display: true,
+					text: "Phase (degrees)",
+				},
+				ticks: {
+					callback: function (
+						this: any,
+						tickValue: string | number,
+						index: number,
+						ticks: any[]
+					) {
+						// Only show ticks for key phase points
+						const degree = index * (360 / 100);
+						if (keyPhasePoints.includes(Math.round(degree))) {
+							return `${Math.round(degree)}°`;
+						}
+						return null; // Hide other tick labels
+					} as ScaleCallback,
+					maxRotation: 0,
+					autoSkip: false,
+				},
+		  }
+		: {
+				title: {
+					display: true,
+					text: "Time (minutes:seconds)",
+				},
+		  };
+	const yAxisLabels: YAxisLabelMap = showPhaseOnXAxis
+		? {
+				1: "Amplitude",
+				0: "Start",
+				[-1]: "-Amplitude",
+		  }
+		: {
+				1: "top",
+				0: "start",
+				[-1]: "bottom",
+		  };
+
+	// Create the chart
+	new Chart(context, {
+		type: "line",
+		data: {
+			labels: labels,
+			datasets: datasets,
+		},
+		options: {
+			responsive: true,
+			maintainAspectRatio: false,
+			plugins: {
+				title: {
+					display: true,
+					text: showPhaseOnXAxis
+						? "Ferris Wheel Position vs Phase"
+						: "Ferris Wheel Position vs Time",
+					font: {
+						size: 16,
+					},
+				},
+				tooltip: {
+					enabled: false,
+				},
+				legend: {
+					display: configArray.length > 1, // Only show legend when multiple datasets
+				},
+			},
+			scales: {
+				x: xAxisConfig,
+				y: {
+					title: {
+						display: true,
+						text: "Vertical Position",
+					},
+					min: -maxAmplitude * 1.1,
+					max: maxAmplitude * 1.1,
+					ticks: {
+						callback: function (value) {
+							// Normalize to the max amplitude
+							const normalizedValue = Number(value) / maxAmplitude;
+							const roundedValue = Math.round(normalizedValue);
+
+							return yAxisLabels[roundedValue] || ""; // Return appropriate label or empty string
+						},
+					},
+				},
+			},
+		},
+	});
+}
+
 function drawStaticWaveform() {
 	if (!canvasWaveformContext) return;
 	const rect = canvasWaveform.getBoundingClientRect();
@@ -120,6 +487,57 @@ function drawStaticWaveform() {
 		}
 	}
 	canvasWaveformContext.stroke();
+}
+
+function generateFerriesWheelData(
+	config: FerriesWheelConfig,
+	options: ChartDisplayOptions = {}
+): {
+	time: number;
+	phase: number;
+	phaseDegrees: number;
+	position: number;
+	label: string;
+}[] {
+	const { rotationTimeMinutes, amplitude } = config;
+	const { showPhaseOnXAxis = false } = options;
+	const totalPoints = 100; // Number of data points to generate
+	const data = [];
+
+	for (let i = 0; i <= totalPoints; i++) {
+		// Always calculate both time and phase values
+		const timeMinutes = (i / totalPoints) * 8;
+		const phase = (i / totalPoints) * 2 * Math.PI;
+		const phaseDegrees = (i / totalPoints) * 360;
+
+		// Calculate angle for position calculation
+		const angle = showPhaseOnXAxis
+			? phase
+			: (i / totalPoints) * (8 / rotationTimeMinutes) * 2 * Math.PI;
+
+		// Calculate vertical position (sine wave for height)
+		const position = amplitude * Math.sin(angle);
+
+		// Format label based on what we're showing on x-axis
+		let label = "";
+		if (showPhaseOnXAxis) {
+			label = `${Math.round(phaseDegrees)}°`;
+		} else {
+			const minutes = Math.floor(timeMinutes);
+			const seconds = Math.floor((timeMinutes % 1) * 60);
+			label = `${minutes}:${seconds.toString().padStart(2, "0")}`;
+		}
+
+		data.push({
+			time: parseFloat(timeMinutes.toFixed(2)),
+			phase: parseFloat(phase.toFixed(2)),
+			phaseDegrees: parseFloat(phaseDegrees.toFixed(0)),
+			position: parseFloat(position.toFixed(2)),
+			label,
+		});
+	}
+
+	return data;
 }
 
 /**

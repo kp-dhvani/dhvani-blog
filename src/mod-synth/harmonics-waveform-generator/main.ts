@@ -337,15 +337,12 @@ function drawFerriesWheelChart(
 
 	const { showPhaseOnXAxis = false } = options;
 
-	// Convert single config to array for consistent processing
 	const configArray = Array.isArray(configs) ? configs : [configs];
 
-	// Find max amplitude for Y-axis scaling
 	const maxAmplitude = Math.max(
 		...configArray.map((config) => config.amplitude)
 	);
 
-	// Generate datasets for each configuration
 	const datasets = configArray.map((config) => {
 		const data = generateFerriesWheelData(config, options);
 		return {
@@ -360,15 +357,12 @@ function drawFerriesWheelChart(
 		};
 	});
 
-	// Get labels from the first dataset
 	const labels = generateFerriesWheelData(configArray[0], options).map(
 		(point) => point.label
 	);
 
-	// Key points to display on x-axis if showing phase
 	const keyPhasePoints = [0, 90, 180, 270, 360];
 
-	// Configure chart options
 	const xAxisConfig = showPhaseOnXAxis
 		? {
 				title: {
@@ -376,18 +370,13 @@ function drawFerriesWheelChart(
 					text: "Phase (degrees)",
 				},
 				ticks: {
-					callback: function (
-						this: any,
-						tickValue: string | number,
-						index: number,
-						ticks: any[]
-					) {
-						// Only show ticks for key phase points
+					callback: function (this: any, index: number) {
+						// only show ticks for key phase points
 						const degree = index * (360 / 100);
 						if (keyPhasePoints.includes(Math.round(degree))) {
 							return `${Math.round(degree)}°`;
 						}
-						return null; // Hide other tick labels
+						return null; // hide other tick labels
 					} as ScaleCallback,
 					maxRotation: 0,
 					autoSkip: false,
@@ -411,7 +400,6 @@ function drawFerriesWheelChart(
 				[-1]: "bottom",
 		  };
 
-	// Create the chart
 	new Chart(context, {
 		type: "line",
 		data: {
@@ -435,7 +423,7 @@ function drawFerriesWheelChart(
 					enabled: false,
 				},
 				legend: {
-					display: configArray.length > 1, // Only show legend when multiple datasets
+					display: configArray.length > 1, // only show legend when multiple datasets
 				},
 			},
 			scales: {
@@ -449,11 +437,11 @@ function drawFerriesWheelChart(
 					max: maxAmplitude * 1.1,
 					ticks: {
 						callback: function (value) {
-							// Normalize to the max amplitude
+							// normalize to the max amplitude
 							const normalizedValue = Number(value) / maxAmplitude;
 							const roundedValue = Math.round(normalizedValue);
 
-							return yAxisLabels[roundedValue] || ""; // Return appropriate label or empty string
+							return yAxisLabels[roundedValue] || ""; // return appropriate label or empty string
 						},
 					},
 				},
@@ -501,24 +489,24 @@ function generateFerriesWheelData(
 }[] {
 	const { rotationTimeMinutes, amplitude } = config;
 	const { showPhaseOnXAxis = false } = options;
-	const totalPoints = 100; // Number of data points to generate
+	const totalPoints = 100; // number of data points to generate
 	const data = [];
 
 	for (let i = 0; i <= totalPoints; i++) {
-		// Always calculate both time and phase values
+		// always calculate both time and phase values
 		const timeMinutes = (i / totalPoints) * 8;
 		const phase = (i / totalPoints) * 2 * Math.PI;
 		const phaseDegrees = (i / totalPoints) * 360;
 
-		// Calculate angle for position calculation
+		// calculate angle for position calculation
 		const angle = showPhaseOnXAxis
 			? phase
 			: (i / totalPoints) * (8 / rotationTimeMinutes) * 2 * Math.PI;
 
-		// Calculate vertical position (sine wave for height)
+		// calculate vertical position (sine wave for height)
 		const position = amplitude * Math.sin(angle);
 
-		// Format label based on what we're showing on x-axis
+		// format label based on what we're showing on x-axis
 		let label = "";
 		if (showPhaseOnXAxis) {
 			label = `${Math.round(phaseDegrees)}°`;

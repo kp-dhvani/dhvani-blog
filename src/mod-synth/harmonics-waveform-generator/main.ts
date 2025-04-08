@@ -39,7 +39,7 @@ interface FerriesWheelConfig {
 }
 
 interface ChartDisplayOptions {
-	showPhaseOnXAxis?: boolean; // Whether to show phase instead of time on x-axis
+	showPhaseOnXAxis?: boolean; // whether to show phase instead of time on x-axis
 }
 
 type YAxisLabelMap = {
@@ -53,9 +53,8 @@ type ScaleCallback = (
 	ticks: any[]
 ) => string | string[] | number | number[] | null | undefined;
 
-const DEFAULT_FUNDAMENTAL_FREQUENCY = 440;
-
 let isPlaying = false;
+let selectedWaveType = "default";
 
 // frequency slider
 const fundamentalFrequencySlider = document.getElementById(
@@ -72,28 +71,6 @@ const canvasWaveform = document.getElementById(
 const canvasWaveformContext = canvasWaveform.getContext("2d");
 
 document.addEventListener("DOMContentLoaded", function () {
-	const fundamentalFrequencySliderLabel = document.getElementById(
-		"fundamental-frequency-value"
-	);
-	fundamentalFrequencySliderLabel!.textContent = `${DEFAULT_FUNDAMENTAL_FREQUENCY} Hz`;
-	// set the default
-	if (fundamentalFrequencySlider) {
-		fundamentalFrequencySlider.setAttribute(
-			"value",
-			DEFAULT_FUNDAMENTAL_FREQUENCY.toString()
-		);
-	}
-
-	// listen to frequency slider
-	// @todo: create new set of oscillators when fundamental frequency changes
-	fundamentalFrequencySlider?.addEventListener(
-		"input",
-		function (event: Event) {
-			const { value } = event.target as HTMLInputElement;
-			fundamentalFrequencySliderLabel!.textContent = `${value} Hz`;
-		}
-	);
-
 	const playbackButton = document.getElementById("playback");
 	playbackButton?.addEventListener("click", function () {
 		handlePlaybackForOscillators();
@@ -103,6 +80,40 @@ document.addEventListener("DOMContentLoaded", function () {
 			this.textContent = "Play";
 		}
 	});
+
+	const playTriangleWaveButton = document.getElementById("playback-triangle");
+	playTriangleWaveButton?.addEventListener("click", function () {
+		if (isPlaying) {
+			this.textContent = "Play Triangle Wave";
+			handlePlaybackForOscillators();
+		} else {
+			playTriangleWave();
+			this.textContent = "Stop Triangle Wave";
+		}
+	});
+
+	const playSawtoothWaveButton = document.getElementById("playback-sawtooth");
+	playSawtoothWaveButton?.addEventListener("click", function () {
+		if (isPlaying) {
+			this.textContent = "Play Sawtooth Wave";
+			handlePlaybackForOscillators();
+		} else {
+			playSawtoothWave();
+			this.textContent = "Stop Sawtooth Wave";
+		}
+	});
+
+	const playSquareWaveButton = document.getElementById("playback-square");
+	playSquareWaveButton?.addEventListener("click", function () {
+		if (isPlaying) {
+			this.textContent = "Play Square Wave";
+			handlePlaybackForOscillators();
+		} else {
+			playSquareWave();
+			this.textContent = "Stop Square Wave";
+		}
+	});
+
 	initialiseCanvas();
 	drawStaticWaveform();
 	attachSliderEventListeners(allSliders);
@@ -203,7 +214,7 @@ function drawSyncedFerriesWheels() {
 	const RECT_HEIGHT_RATIO = 0.1; // 10% of radius
 	const CIRCLE_RADIUS_RATIO = 0.7; // 70% of half the smaller dimension
 
-	const LINE_LENGTH_RATIO = 0.8; // 80% of height
+	const LINE_LENGTH_RATIO = 0.7; // 70% of height
 	const LINE_RECT_WIDTH_RATIO = 0.05; // 5% of canvas width
 	const LINE_RECT_HEIGHT_RATIO = 0.05; // 5% of line length
 
@@ -220,6 +231,7 @@ function drawSyncedFerriesWheels() {
 		rectWidth: 0,
 		rectHeight: 0,
 	};
+
 	circleCoords.rectWidth = circleCoords.radius * RECT_WIDTH_RATIO;
 	circleCoords.rectHeight = circleCoords.radius * RECT_HEIGHT_RATIO;
 
@@ -462,7 +474,10 @@ function drawStaticWaveform() {
 	canvasWaveformContext.beginPath();
 
 	const centerY = displayHeight / 2;
-	const samples = prepareDataNeededForWaveformRender(displayWidth);
+	const samples = prepareDataNeededForWaveformRender(
+		displayWidth,
+		selectedWaveType
+	);
 	const sampleLength = samples.length;
 	for (let i = 0; i < sampleLength; i++) {
 		const x = (i / (sampleLength - 1)) * displayWidth;
@@ -535,13 +550,14 @@ function generateFerriesWheelData(
 function generateSamplesForHarmonicNumber(
 	harmonicNumber: number,
 	harmonicVolume: number,
-	sampleCount: number
+	sampleCount: number,
+	phase: number = 0
 ): number[] {
 	const samples: number[] = [];
 	for (let i = 0; i < sampleCount; i++) {
 		// first calculate the angle for the harmonic number
 		const angle = (i / (sampleCount - 1)) * Math.PI * 2 * harmonicNumber;
-		const y = harmonicVolume * Math.sin(angle + 0); //phase = 0
+		const y = harmonicVolume * Math.sin(angle + phase);
 		samples.push(y);
 	}
 	return samples;
@@ -554,13 +570,13 @@ function generateSamplesForHarmonicNumber(
 function generateCompositeWaveformSamplesOfAllHarmonics(
 	harmonicVolumes: string[],
 	masterVolume: number,
-	sampleCount: number
+	sampleCount: number,
+	waveType: string = "default"
 ): number[] {
 	const compositeSamples: number[] = Array(sampleCount).fill(0);
 
 	// adding higher harmonics increases the amplitude of the final waveform
 	// and pushes it out of the canvas
-
 	// calculate a weighted sum of active harmonics
 	// give higher harmonics more scaling
 	let weightedSum = 0;
@@ -579,10 +595,15 @@ function generateCompositeWaveformSamplesOfAllHarmonics(
 		if (currentHarmonicVolume > 0) {
 			// harmonic number is index + 1
 			const harmonicNumber = h + 1;
+			let phase = 0;
+			if (waveType === "triangle" && harmonicNumber % 2 !== 0) {
+				phase = Math.floor(harmonicNumber / 2) % 2 === 0 ? 0 : Math.PI;
+			}
 			const currentHarmonicSamples = generateSamplesForHarmonicNumber(
 				harmonicNumber,
 				currentHarmonicVolume,
-				sampleCount
+				sampleCount,
+				phase
 			);
 
 			// now let's add each harmonic sample to the composite sample
@@ -599,6 +620,42 @@ function generateCompositeWaveformSamplesOfAllHarmonics(
 	return compositeSamples.map(
 		(sample) => sample * masterVolume * scalingFactor
 	);
+}
+
+function generateSawtoothWaveHarmonics(): string[] {
+	const volumes: string[] = [];
+	for (let i = 1; i <= 10; i++) {
+		const amplitude = 1 / i;
+		volumes.push(amplitude.toFixed(3));
+	}
+	return volumes;
+}
+
+function generateTriangleWaveHarmonics(): string[] {
+	const volumes: string[] = [];
+	for (let i = 1; i <= 10; i++) {
+		if (i % 2 === 1) {
+			// odd harmonic: amplitude follows 1/n²
+			// the actual coefficient is 8/(π²n²)
+			const amplitude = 8 / (Math.PI * Math.PI * i * i);
+			// scale to make it more audible
+			const scaledAmplitude = amplitude * 1.2;
+			volumes.push(Math.min(1, scaledAmplitude).toFixed(3));
+		} else {
+			// even harmonics should be zero
+			volumes.push("0.000");
+		}
+	}
+	return volumes;
+}
+
+function generateSquareWaveHarmonics(): string[] {
+	const volumes: string[] = [];
+	for (let i = 1; i <= 10; i++) {
+		const amplitude = i % 2 === 1 ? 1 / i : 0;
+		volumes.push(amplitude.toFixed(3));
+	}
+	return volumes;
 }
 
 function getAllHarmonicSliders(): SlidersByName {
@@ -736,32 +793,95 @@ function initialiseCanvas() {
 	canvasWaveformContext.scale(dpr, dpr);
 }
 
-function intialiseOscillatorsForAllHarmonics() {
+function intialiseOscillatorsForAllHarmonics(waveType: string = "default") {
 	const fundamentalFrequency =
 		Number(fundamentalFrequencySlider?.getAttribute("value")) || 440;
 	const oscillators: OscillatorsByNumber = {} as OscillatorsByNumber;
 
+	const isTriangle = waveType === "triangle";
+
 	for (let i = 1; i <= 10; i++) {
 		const key = i.toString() as NumericKeys;
+		// for triangle waves we need to alternate the phase for odd harmonics
+		let phase = 0;
+		if (isTriangle) {
+			// dor a triangle wave odd harmonics alternate phase (0 or π)
+			if (i % 2 !== 0) {
+				phase = 1 % 4 === 1 ? 0 : Math.PI;
+			}
+		}
 		const osc = new Oscillator(
 			fundamentalFrequency * i,
 			"sine"
 		).toDestination();
-		osc.volume.value = -60;
+		osc.phase = phase;
+		if (isTriangle && i % 2 === 0) {
+			osc.volume.value = -Infinity;
+		} else {
+			osc.volume.value = -60;
+		}
 		oscillators[key] = osc;
 	}
 	return oscillators;
 }
 
-function prepareDataNeededForWaveformRender(sampleCount: number): number[] {
+function playTriangleWave() {
+	if (isPlaying) {
+		handlePlaybackForOscillators();
+	}
+	selectedWaveType = "triangle";
+	const triangleVolumes = generateTriangleWaveHarmonics();
+	console.log(triangleVolumes);
+	setHarmonicSliderVolumes(triangleVolumes);
+	allOscillators = intialiseOscillatorsForAllHarmonics("triangle");
+	handlePlaybackForOscillators();
+}
+
+function playSawtoothWave() {
+	if (isPlaying) {
+		handlePlaybackForOscillators();
+	}
+	selectedWaveType = "sawtooth";
+	const sawtoothVolumes = generateSawtoothWaveHarmonics();
+	setHarmonicSliderVolumes(sawtoothVolumes);
+	allOscillators = intialiseOscillatorsForAllHarmonics("sawtooth");
+	handlePlaybackForOscillators();
+}
+
+function playSquareWave() {
+	if (isPlaying) {
+		handlePlaybackForOscillators();
+	}
+	selectedWaveType = "square";
+	const squareVolumes = generateSquareWaveHarmonics();
+	setHarmonicSliderVolumes(squareVolumes);
+	handlePlaybackForOscillators();
+}
+
+function prepareDataNeededForWaveformRender(
+	sampleCount: number,
+	waveType: string = "default"
+): number[] {
 	const allVolumes = getVolumeForHarmonics();
 	const masterVolume = Number(allSliders.master.getAttribute("value"));
 	const samples = generateCompositeWaveformSamplesOfAllHarmonics(
 		allVolumes,
 		masterVolume,
-		sampleCount
+		sampleCount,
+		waveType
 	);
 	return samples;
+}
+
+function setHarmonicSliderVolumes(volumes: string[]) {
+	for (let i = 1; i <= volumes.length; i++) {
+		const currentSlider = allSliders[i.toString() as NumericKeys];
+		if (currentSlider) {
+			currentSlider.setAttribute("value", volumes[i - 1]);
+			const event = new Event("input", { bubbles: true });
+			currentSlider.dispatchEvent(event);
+		}
+	}
 }
 
 window.addEventListener("resize", function () {

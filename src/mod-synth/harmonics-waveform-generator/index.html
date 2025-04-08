@@ -82,7 +82,7 @@
 						class="text-base md:text-xl lg:text-2xl mb-5 border border-black rounded-lg p-2"
 					>
 						Harmonics Waveform Generator
-						<span class="text-xs">second draft: 7<sup>th</sup> April 2025</span>
+						<span class="text-xs">published: 8<sup>th</sup> April 2025</span>
 					</h2>
 				</section>
 				<div>
@@ -167,7 +167,9 @@
 						plotting it against the position versus the angle of the motion from
 						the start position instead of time. This angle is called phase which
 						is measured in degrees. To conclude, the oscillation of the sine
-						wave repeat over and over as the time goes on.
+						wave repeat over and over as the time goes on. It's essentially a
+						smooth, repeating up and down motion. It is one of the most
+						fundamental and elegant pattern in nature and mathematics.
 					</p>
 					<div class="w-full lg:w-1/2 h-72 md:h-80 mx-auto mb-16 text-center">
 						<canvas id="phase-ferris-wheel-chart"></canvas>
@@ -208,6 +210,147 @@
 						first translated into Sanskrit, then transcribed into Arabic, and
 						then mistranslated into Latin.
 					</p>
+					<p class="underline">Why sine wave?</p>
+					<p class="mb-5">
+						Ok so we've seen what a sine wave is but why do we need a sine wave
+						to recreate a sound? Well to answer that let's understand what sound
+						is? Sound is a perceived phenomenon resulting from vibrations in our
+						surroundings. For any object to make sound it has to
+						vibrate/oscillate which will produce a disturbance in the air and
+						then that disturbance (air pressure changes) has to reach our ears
+						for us to perceive the sound of that object. When objects vibrate
+						naturally the resulting air pressure variations follow sinusoidal
+						patterns due to the laws of the physics which govern the
+						vibration/oscillation. Sine waves is what nature uses to create
+						sounds. An 18<sup>th</sup> century French mathematician
+						Jean-Baptiste Joseph Fourier proved mathematically that any periodic
+						waveform can be represented as a sum of sine waves. Sine waves are
+						the fundamental components that make all sounds. The mathematical
+						elegance of sine waves as periodic motion helps us to create any
+						existing or new sounds. Not just sounds sine waves show up different
+						instances like: the pendulum motion, alternating current, radio
+						waves, etc.
+					</p>
+					<p class="underline">How do I create sounds from a sine wave?</p>
+					<p class="mb-5">
+						You can't create sounds from just a single sine wave. If you play
+						the demo below with just one harmonic you'll hear the pure tone of
+						440Hz. A sine wave oscillating at 440Hz produces a pure tone which
+						doesn't have a lot of properties. In nature a pure sine does not
+						exist, it actually has harmonics. You'll never hear a pure sine tone
+						of a particular frequency in nature. What differentiates a sine tone
+						from a natural sound is harmonics. Harmonics are the additional
+						frequencies present in natural sounds. Each sine wave corresponds to
+						exactly one frequency which is just one component of the natural
+						sound. By combining different sine waves of different frequencies we
+						can recreate all naturally occurring sounds.
+						<br />
+						Let's take a vibrating string on a guitar as an example. If the
+						guitar string when plucked os vibrating at 440Hz which is called the
+						fundamental frequency, it is not just vibrating at 440Hz but also at
+						880Hz, 1200Hz, 1600Hz, 2000Hz, 2400Hz and so on and so forth till
+						infinity. But what happens is the energy at the higher frequencies
+						is less than the fundamental frequency. The energy at higher
+						frequencies follows the formula: 1/n<sup>2</sup> where n is the
+						fundamental frequency which means the second harmonic 880Hz has 1/4
+						the energy of the fundamental, 1200Hz has 1/9 the energy of the
+						fundamental and so on and so forth. You hear the fundamental
+						frequency the loudest and the higher harmonics add additional timbre
+						to the fundamental frequency which gives each sound its unique
+						fingerprint. The reason you can distinguish between a trumpet and a
+						flute playing the same note is because both instruments have a
+						different distribution of energy on the higher harmonics. Harmonics
+						follow a simple integer relation to the fundamental which makes them
+						pleasing to our ears. But you also find harmonics that are not in
+						this simple relation with the fundamental and such frequencies are
+						called inharmonic frequencies. There is another term used for higher
+						harmonics in the sound called as overtones. Any higher frequency in
+						the sound other than fundamental is called an overtone but only the
+						frequencies that are in the simple integer relation to the
+						fundamental are called harmonics.
+						<span class="underline italic"
+							>All harmonics are overtones but not all overtones are
+							harmonic.</span
+						>
+						<br />
+						The 3 fundamental sound waves that we use to synthesis sounds is
+						triangle, sawtooth, and square waves. These waves can also be
+						created using a bunch of sine waves and carefully maintaining the
+						energy in each harmonic. Let's see how you can create these
+						individual waves from just sine waves.
+					</p>
+					<p class="underline">Sawtooth wave</p>
+					<ol class="mb-5 list-decimal px-8">
+						<li>
+							Start with a fundamental sine wave frequency at your desired
+							frequency: f.
+						</li>
+						<li>
+							Add harmonics at integer multiples of that frequency eg. 2f, 3f,
+							4f,...
+						</li>
+						<li>
+							Set each harmonic's amplitude to be inversely proportional to its
+							number.
+						</li>
+						<li>1<sup>st</sup> harmonic (fundamental) amplitude = 1</li>
+						<li>2<sup>nd</sup> harmonic amplitude = 1/2</li>
+						<li>3<sup>rd</sup> harmonic amplitude = 1/3</li>
+						<li>4<sup>th</sup> harmonic amplitude = 1/4</li>
+						<li>and so on...</li>
+					</ol>
+					<p class="underline">Triangle wave</p>
+					<ol class="mb-2 list-decimal px-8">
+						<li>
+							Start with a fundamental sine wave frequency at your desired
+							frequency: f.
+						</li>
+						<li>Add only odd numbered harmonics e.g 3f, 5f, 7f, etc.</li>
+						<li>
+							Alternate the phase (positive and negative) for each successive
+							harmonic.
+						</li>
+						<li>
+							Set each harmonic's amplitude to be inversely proportional to the
+							square of its number.
+						</li>
+						<li>1<sup>st</sup> harmonic (fundamental) amplitude = 1</li>
+						<li>3<sup>rd</sup> harmonic amplitude = -1/9</li>
+						<li>5<sup>th</sup> harmonic amplitude = 1/25</li>
+						<li>7<sup>th</sup> harmonic amplitude = -1/49</li>
+						<li>and so on...</li>
+					</ol>
+					<p class="mb-5">
+						Triangle waves contain only odd harmonics with rapidly decreasing
+						amplitudes. This gives them a softer, more mellow sound compared to
+						sawtooth waves. The alternating phases (+ and -) are crucial for
+						creating the symmetrical triangular shape.
+					</p>
+					<p class="underline">Square wave</p>
+					<ol class="mb-2 list-decimal px-8">
+						<li>
+							Start with a fundamental sine wave frequency at your desired
+							frequency: f.
+						</li>
+						<li>Add only odd numbered harmonics e.g 3f, 5f, 7f, etc.</li>
+						<li>All harmonics are in phase with the fundamental</li>
+						<li>
+							Set each harmonic's amplitude to be inversely proportional to the
+							square of its number.
+						</li>
+						<li>1<sup>st</sup> harmonic (fundamental) amplitude = 1</li>
+						<li>3<sup>rd</sup> harmonic amplitude = -1/9</li>
+						<li>5<sup>th</sup> harmonic amplitude = 1/25</li>
+						<li>7<sup>th</sup> harmonic amplitude = -1/49</li>
+						<li>and so on...</li>
+					</ol>
+					<p>
+						Square waves contain only odd harmonics with amplitudes that
+						decrease more slowly than triangle waves. This gives them their
+						characteristic bright, hollow sound with strong higher harmonics.
+						The absence of even harmonics creates the symmetrical
+						positive/negative pattern of the square wave.
+					</p>
 				</div>
 				<div>
 					<canvas
@@ -216,28 +359,45 @@
 						id="final-waveform"
 					></canvas>
 				</div>
-				<div>
-					<input
-						type="range"
-						id="fundamental-frequency"
-						name="frequency-value"
-						min="20"
-						max="20000"
-						step="1"
-						class="w-full h-2 rounded-lg appearance-none cursor-pointer bg-accent-color"
-						value="440"
-					/>
-					<label for="frequency-value"
-						>Fundamental Frequency:
-						<span id="fundamental-frequency-value"></span
-					></label>
-				</div>
+				<p>Fundamental Frequency: 440Hz</p>
+				<p>
+					Important: ok so after playing with the triangle, sawtooth and square
+					waves you'll find that they they do not sound like those waves and
+					sound more like a sine tone. Well for now all I have is 10 harmonics
+					which is not enough to make it sound like for example a triangle wave
+					even though the waveform might look like one. To correctly model the
+					sonic properties of these waves we need to have at least 20-30
+					harmonics minimum. Adding individual harmonics to create new sounds is
+					called additive synthesis so maybe I could actually work on making a
+					synthesiser which does that but making a synthesiser as a web app with
+					JS? No Sir! Maybe WASM and JS will make up for interesting project.
+					<br />
+					Anyway just play around with the sliders for now.
+				</p>
 				<div class="flex justify-center mt-5">
 					<button
 						id="playback"
 						class="focus:outline-none text-white bg-accent-color font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2"
 					>
 						Play
+					</button>
+					<button
+						id="playback-triangle"
+						class="focus:outline-none text-white bg-accent-color font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2"
+					>
+						Play Triangle Wave
+					</button>
+					<button
+						id="playback-sawtooth"
+						class="focus:outline-none text-white bg-accent-color font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2"
+					>
+						Play Sawtooth Wave
+					</button>
+					<button
+						id="playback-square"
+						class="focus:outline-none text-white bg-accent-color font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2"
+					>
+						Play Square Wave
 					</button>
 				</div>
 				<div class="harmonics border border-gray-300 rounded-lg p-4 mt-4">
@@ -279,7 +439,7 @@
 									class="rounded-lg appearance-none cursor-pointer bg-accent-color"
 									value="1"
 									orient="vertical"
-									step="0.1"
+									step="0.01"
 								/>
 								<label
 									for="harmonic-one-volume"
@@ -300,7 +460,7 @@
 									class="rounded-lg appearance-none cursor-pointer bg-accent-color"
 									value="0"
 									orient="vertical"
-									step="0.1"
+									step="0.01"
 								/>
 								<label
 									for="harmonic-two-volume"
@@ -321,7 +481,7 @@
 									class="rounded-lg appearance-none cursor-pointer bg-accent-color"
 									value="0"
 									orient="vertical"
-									step="0.1"
+									step="0.01"
 								/>
 								<label
 									for="harmonic-three-volume"
@@ -342,7 +502,7 @@
 									class="rounded-lg appearance-none cursor-pointer bg-accent-color"
 									value="0"
 									orient="vertical"
-									step="0.1"
+									step="0.01"
 								/>
 								<label
 									for="harmonic-four-volume"
@@ -363,7 +523,7 @@
 									class="rounded-lg appearance-none cursor-pointer bg-accent-color"
 									value="0"
 									orient="vertical"
-									step="0.1"
+									step="0.01"
 								/>
 								<label
 									for="harmonic-five-volume"
@@ -384,7 +544,7 @@
 									class="rounded-lg appearance-none cursor-pointer bg-accent-color"
 									value="0"
 									orient="vertical"
-									step="0.1"
+									step="0.01"
 								/>
 								<label
 									for="harmonic-six-volume"
@@ -405,7 +565,7 @@
 									class="rounded-lg appearance-none cursor-pointer bg-accent-color"
 									value="0"
 									orient="vertical"
-									step="0.1"
+									step="0.01"
 								/>
 								<label
 									for="harmonic-seven-volume"
@@ -426,7 +586,7 @@
 									class="rounded-lg appearance-none cursor-pointer bg-accent-color"
 									value="0"
 									orient="vertical"
-									step="0.1"
+									step="0.01"
 								/>
 								<label
 									for="harmonic-eight-volume"
@@ -447,7 +607,7 @@
 									class="rounded-lg appearance-none cursor-pointer bg-accent-color"
 									value="0"
 									orient="vertical"
-									step="0.1"
+									step="0.01"
 								/>
 								<label
 									for="harmonic-nine-volume"
@@ -468,7 +628,7 @@
 									class="rounded-lg appearance-none cursor-pointer bg-accent-color"
 									value="0"
 									orient="vertical"
-									step="0.1"
+									step="0.01"
 								/>
 								<label
 									for="harmonic-ten-volume"

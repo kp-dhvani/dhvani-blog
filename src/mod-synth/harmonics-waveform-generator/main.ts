@@ -831,7 +831,6 @@ function playTriangleWave() {
 	}
 	selectedWaveType = "triangle";
 	const triangleVolumes = generateTriangleWaveHarmonics();
-	console.log(triangleVolumes);
 	setHarmonicSliderVolumes(triangleVolumes);
 	allOscillators = intialiseOscillatorsForAllHarmonics("triangle");
 	handlePlaybackForOscillators();

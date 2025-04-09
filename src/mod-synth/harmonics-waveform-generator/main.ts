@@ -70,6 +70,10 @@ const canvasWaveform = document.getElementById(
 ) as HTMLCanvasElement;
 const canvasWaveformContext = canvasWaveform.getContext("2d");
 
+const playTriangleWaveButton = document.getElementById("playback-triangle");
+const playSawtoothWaveButton = document.getElementById("playback-sawtooth");
+const playSquareWaveButton = document.getElementById("playback-square");
+
 document.addEventListener("DOMContentLoaded", function () {
 	const playbackButton = document.getElementById("playback");
 	playbackButton?.addEventListener("click", function () {
@@ -81,36 +85,62 @@ document.addEventListener("DOMContentLoaded", function () {
 		}
 	});
 
-	const playTriangleWaveButton = document.getElementById("playback-triangle");
 	playTriangleWaveButton?.addEventListener("click", function () {
-		if (isPlaying) {
+		if (isPlaying && selectedWaveType === "triangle") {
+			// already playing triangle wave stop it
+			handlePlaybackForOscillators();
 			this.textContent = "Play Triangle Wave";
-			handlePlaybackForOscillators();
 		} else {
+			// if playing a different wave stop it first
+			if (isPlaying) {
+				handlePlaybackForOscillators();
+			}
+
 			playTriangleWave();
+
 			this.textContent = "Stop Triangle Wave";
+			if (playSawtoothWaveButton)
+				playSawtoothWaveButton.textContent = "Play Sawtooth Wave";
+			if (playSquareWaveButton)
+				playSquareWaveButton.textContent = "Play Square Wave";
 		}
 	});
 
-	const playSawtoothWaveButton = document.getElementById("playback-sawtooth");
 	playSawtoothWaveButton?.addEventListener("click", function () {
-		if (isPlaying) {
-			this.textContent = "Play Sawtooth Wave";
+		if (isPlaying && selectedWaveType === "sawtooth") {
 			handlePlaybackForOscillators();
+			this.textContent = "Play Sawtooth Wave";
 		} else {
+			if (isPlaying) {
+				handlePlaybackForOscillators();
+			}
+
 			playSawtoothWave();
+
 			this.textContent = "Stop Sawtooth Wave";
+			if (playTriangleWaveButton)
+				playTriangleWaveButton.textContent = "Play Triangle Wave";
+			if (playSquareWaveButton)
+				playSquareWaveButton.textContent = "Play Square Wave";
 		}
 	});
 
-	const playSquareWaveButton = document.getElementById("playback-square");
 	playSquareWaveButton?.addEventListener("click", function () {
-		if (isPlaying) {
-			this.textContent = "Play Square Wave";
+		if (isPlaying && selectedWaveType === "square") {
 			handlePlaybackForOscillators();
+			this.textContent = "Play Square Wave";
 		} else {
+			if (isPlaying) {
+				handlePlaybackForOscillators();
+			}
+
 			playSquareWave();
+
 			this.textContent = "Stop Square Wave";
+			if (playTriangleWaveButton)
+				playTriangleWaveButton.textContent = "Play Triangle Wave";
+			if (playSawtoothWaveButton)
+				playSawtoothWaveButton.textContent = "Play Sawtooth Wave";
 		}
 	});
 
@@ -831,6 +861,7 @@ function playTriangleWave() {
 	}
 	selectedWaveType = "triangle";
 	const triangleVolumes = generateTriangleWaveHarmonics();
+
 	setHarmonicSliderVolumes(triangleVolumes);
 	allOscillators = intialiseOscillatorsForAllHarmonics("triangle");
 	handlePlaybackForOscillators();
@@ -854,6 +885,7 @@ function playSquareWave() {
 	selectedWaveType = "square";
 	const squareVolumes = generateSquareWaveHarmonics();
 	setHarmonicSliderVolumes(squareVolumes);
+	allOscillators = intialiseOscillatorsForAllHarmonics("square");
 	handlePlaybackForOscillators();
 }
 

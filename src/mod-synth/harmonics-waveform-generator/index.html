@@ -360,21 +360,7 @@
 					></canvas>
 				</div>
 				<p>Fundamental Frequency: 440Hz</p>
-				<p>
-					Important: ok so after playing with the triangle, sawtooth and square
-					waves you'll find that they they do not sound like those waves and
-					sound more like a sine tone. Well for now all I have is 10 harmonics
-					which is not enough to make it sound like for example a triangle wave
-					even though the waveform might look like one. To correctly model the
-					sonic properties of these waves we need to have at least 20-30
-					harmonics minimum. Adding individual harmonics to create new sounds is
-					called additive synthesis so maybe I could actually work on making a
-					synthesiser which does that but making a synthesiser as a web app with
-					JS? No Sir! Maybe WASM and JS will make up for interesting project.
-					<br />
-					Anyway just play around with the sliders for now.
-				</p>
-				<div class="flex justify-center mt-5">
+				<div class="flex justify-center mt-5 flex-col md:flex-row">
 					<button
 						id="playback"
 						class="focus:outline-none text-white bg-accent-color font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2"
@@ -640,6 +626,20 @@
 						</div>
 					</div>
 				</div>
+				<p class="my-5">
+					Important: ok so after playing with the triangle, sawtooth and square
+					waves you'll find that they they do not sound like those waves and
+					sound more like a sine tone. Well for now all I have is 10 harmonics
+					which is not enough to make it sound like for example a triangle wave
+					even though the waveform might look like one. To correctly model the
+					sonic properties of these waves we need to have at least 20-30
+					harmonics minimum. Adding individual harmonics to create new sounds is
+					called additive synthesis so maybe I could actually work on making a
+					synthesiser which does that but making a synthesiser as a web app with
+					JS? No Sir! Maybe WASM and JS will make up for interesting project.
+					<br />
+					Anyway just play around with the sliders for now.
+				</p>
 			</div>
 		</main>
 		<script src="./main.ts" type="module"></script>

@@ -1,11 +1,10 @@
 import { defineConfig } from "vite";
-import { resolve } from "path";
 import injectHTML from "vite-plugin-html-inject";
 import path from "path";
 import { readdirSync, statSync } from "fs";
 
-const root = resolve(__dirname, "src");
-const outDir = resolve(__dirname, "dist");
+const root = path.resolve(__dirname, "src");
+const outDir = path.resolve(__dirname, "dist");
 const mode = process.env.NODE_ENV;
 
 // function to collect all HTML files recursively
@@ -32,7 +31,7 @@ function collectHtmlFiles(rootDir: string) {
 					const parts = key.split("/");
 					key = parts.length > 2 ? parts[parts.length - 2] : parts[0]; // use the last folder name
 				}
-				htmlFiles[key] = resolve(rootDir, relativePath);
+				htmlFiles[key] = path.resolve(rootDir, relativePath);
 			}
 		});
 	}
@@ -52,6 +51,7 @@ export default defineConfig({
 			"@": path.resolve(__dirname, "src"),
 		},
 	},
+	publicDir: "public",
 	plugins: [
 		injectHTML(),
 		{
@@ -86,9 +86,9 @@ export default defineConfig({
 		emptyOutDir: true,
 		rollupOptions: {
 			input: {
-				main: resolve(root, "index.html"),
-				"404": resolve(root, "404.html"),
-				common: resolve(root, "shared/common.ts"),
+				main: path.resolve(root, "index.html"),
+				"404": path.resolve(root, "404.html"),
+				common: path.resolve(root, "shared/common.ts"),
 				...articles,
 			},
 			output: {

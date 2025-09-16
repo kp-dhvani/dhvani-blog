@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<link rel="icon" type="image/x-icon" href="/favicon.ico" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Smart pointers in C++</title>
+
+		<link href="../../style.css" rel="stylesheet" />
+		<link
+			rel="stylesheet"
+			href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/styles/default.min.css"
+		/>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/highlight.min.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/languages/cpp.min.js"></script>
+	</head>
+	<body class="font-mono">
+		<load src="../../shared/navbar.html" />
+		<main class="flex justify-center mx-5 md:mx-16 rounded-lg">
+			<article class="p-6 w-full">
+				<header class="mb-8">
+					<h1
+						class="text-base md:text-xl lg:text-2xl mb-5 border border-black rounded-lg p-2"
+					>
+						Smart pointers in C++
+						<time datetime="2024-11-23" class="text-xs">
+							started: 12<sup>th</sup> September 2025
+						</time>
+					</h1>
+				</header>
+				<section>
+					<p>
+						Smart pointers sounds like such a cool name to have but why are
+						these pointers smart? Let's try to understand why do we need our
+						pointers to be smart by looking at the following code:
+					</p>
+					<pre
+						class="language-cpp my-5"
+					><code class="border-s-2 border-accent-color">
+
+juce::AudioProcessorValueTreeState::ParameterLayout SimpleEQAudioProcessor::createParameterLayout()
+{
+    juce::AudioProcessorValueTreeState::ParameterLayout layout;
+    layout.add(std::make_unique&lt;juce::AudioParameterFloat&gt;("LowCut Freq", "LowCut Freq", juce::NormalisableRange&lt;float&gt;(20.f, 20000.f, 1.f, 1.f), 20.f));
+    layout.add(std::make_unique&lt;juce::AudioParameterFloat&gt;("HighCut Freq", "HighCut Freq", juce::NormalisableRange&lt;float&gt;(20.f, 20000.f, 1.f, 1.f), 20000.f));
+    layout.add(std::make_unique&lt;juce::AudioParameterFloat&gt;("Peak Freq", "Peak Freq", juce::NormalisableRange&lt;float&gt;(20.f, 20000.f, 1.f, 1.f), 750.f));
+    layout.add(std::make_unique&lt;juce::AudioParameterFloat&gt;("Peak Gain", "Peak Gain", juce::NormalisableRange&lt;float&gt;(-24.f, 24.f, 1.f, 1.f), 0.f));
+    layout.add(std::make_unique&lt;juce::AudioParameterFloat&gt;("Peak Quality", "Peak Quality", juce::NormalisableRange&lt;float&gt;(0.1f, 10.f, 1.f, 0.05f), 1.f));
+    
+    juce::StringArray filterResponseChoices;
+    
+    for (int i = 0; i &lt; 4; ++i) {
+        juce::String choice;
+        choice &lt;&lt; (12 + i * 12);
+        choice &lt;&lt; " db/Oct";
+        filterResponseChoices.add(choice);
+    }
+    
+    layout.add(std::make_unique&lt;juce::AudioParameterChoice&gt;("LowCut Slop", "LowCut Slope", filterResponseChoices, 0));
+    layout.add(std::make_unique&lt;juce::AudioParameterChoice&gt;("HighCut Slop", "HighCut Slope", filterResponseChoices, 0));
+    return layout;
+}
+</code></pre>
+					<p>
+						This is a small snippet of code written with JUCE which is popular
+						framework for audio processing in C++. In this example I am making a
+						simple EQ app which will have 7 parameters to process the audio and
+						apply EQing to the audio. These parameters are specifically for the
+						GUI which will let the user control the amount of EQ applied and
+						then will be mapped to the DSP parameters to do the processing. Once
+						I create these local parameters I will pass them to the JUCE's
+						<em>AudioProcessorValueTreeState::ParameterLayout</em> to add the
+						parameters to the GUI. Passing these local parameters to the
+						<em>ParameterLayout</em> class is where the pointers come into the
+						picture. There are 3 ways to pass data in C++:
+					</p>
+					<ol class="mb-5 list-decimal px-8">
+						<li>
+							Pass by Value: In this method the variable's value is copied and
+							then passed to the function. If you make any changes to the copy
+							the original is not affected. This is a simple way to pass around
+							data but not so efficient since you are creating copies and using
+							a lot more memory.
+						</li>
+						<li>
+							Pass by Reference: In this method you pass the reference of the
+							value in memory. Reference here is like an alias of the original
+							value which gets passed around and making any changes through the
+							reference also modifies the original value.
+						</li>
+						<li>
+							Pass by Pointer: A pointer is a special type of variable which
+							holds the raw memory address of the register where the value is
+							stored physically on the hardware. In this method we pass around
+							the memory address of the value and just like pass by reference
+							any modification done through the pointer updates the value.
+						</li>
+					</ol>
+					<p class="mb-5">
+						Now the first question that can be asked is why use pointers to pass
+						the parameters I am creating to the <em>ParameterLayout</em> class
+						and not just regular variables using pass by value? Just passing
+						simple <em>float</em> variables to the layout class will result in
+						performance degradation. Audio processing is a real time application
+						and works with huge amounts of data. Even a small EQ app can show
+						really slow performance because we are creating so many copies. In a
+						language like C++ which provides access to the lowest memory
+						register, having so many copies of your data is not a smart thing to
+						do.
+						<br />
+						Another issue with this approach is object slicing. Slicing happens
+						when you assign an object of derived class to an instance of a base
+						class thereby losing part of the information. If you copy a derived
+						class object into a base object, only the base class part gets
+						copied and the derived class parts are sliced off by the compiler.
+						If JUCE <em>AudioProcessorValueTreeState::ParameterLayout</em> were
+						to accept parameters using pass by value it would lose the
+						information stored in the derived class.
+					</p>
+					<p>
+						Ok, so we cannot pass the data by value then why not references?
+						Because <em>ParameterLayout</em> would loose access to the data
+						since the parameters needs to live longer than the function that
+						creates them. Let's assume the
+						<em>AudioProcessorValueTreeState::ParameterLayout::add()</em>
+						expects a reference instead so that we can pass a local variable
+						from our function
+						<em>SimpleEQAudioProcessor::createParameterLayout()</em>
+					</p>
+					<pre
+						class="language-cpp my-2"
+					><code class="border-s-2 border-accent-color">
+void addByReference(RangedAudioParameter&amp; parameter); // Hypothetical
+
+juce::AudioProcessorValueTreeState::ParameterLayout SimpleEQAudioProcessor::createParameterLayout()
+{
+    juce::AudioProcessorValueTreeState::ParameterLayout layout;
+    
+    juce::AudioParameterFloat lowCutParam(...); // Local variable
+    
+    layout.addByReference(lowCutParam); // Hypothetical
+    
+    return layout; // lowCutParam goes out of scope and is destroyed
+}
+                    </code></pre>
+					<ol class="mb-5 list-decimal px-8">
+						<li>Function starts ==> local parameters created on stack</li>
+						<li>
+							References stored ==> <em>layout</em> holds references to stack
+							objects
+						</li>
+						<li>Function returns ==> stack objects destroyed!</li>
+						<li>
+							<em>layout</em> survives ==> references now point to garbage
+							memory
+						</li>
+						<li>Later usage ==> crash or data corruption</li>
+					</ol>
+					<p class="mb-5">
+						As soon as the function returns the local variable is removed from
+						the stack memory and is destroyed. This is called a dangling
+						reference and can crash the application and produce undefined
+						behaviour. So, using pass by value in such scenarios would be a
+						complete disaster.
+					</p>
+					<p>
+						No pass by value and no pass by reference! This is where pointers
+						come to rescue. What we need to do in such situations is have our
+						variables live in a space where they are not destroyed once the
+						function that is creating them returns. This space is called the
+						heap memory. In terms of the C language a heap is the portion of
+						memory where dynamically allocated memory resides. The good thing
+						about heap memory is that allocated space will remain unless that
+						memory is freed or the program terminates. So, this gives
+						<em>AudioProcessorValueTreeState::ParameterLayout</em> access to the
+						variables even if
+						<em>SimpleEQAudioProcessor::createParameterLayout()</em> returns
+						after allocating the variables space in heap.
+						<br />
+						To allocates space in heap memory we use <em>new</em> keyword in
+						C++.
+					</p>
+					<pre class="language-cpp my-2">
+                        <code class="border-s-2 border-accent-color">
+juce::AudioProcessorValueTreeState::ParameterLayout SimpleEQAudioProcessor::createParameterLayout()
+{
+    juce::AudioProcessorValueTreeState::ParameterLayout layout;
+    
+    // create raw pointer
+    layout.add(new juce::AudioParameterFloat("LowCut Freq", ...));
+    
+    return layout;
+}
+                        </code>
+                    </pre>
+					<p>
+						Wooohoo! We have solved all the issues for passing data around in
+						C++ and can use pointers to pass them around efficiently!
+					</p>
+					<div class="flex justify-center my-10">
+						<img
+							src="/assets/Well_Yes_But_Actually_No.jpg"
+							alt="Animated pirate captain with elaborate curly beard and tricorn hat making a gesturing motion with his hand, with the caption 'Well yes, but actually no' - a meme format used to express when something is technically correct but practically wrong"
+							class="max-w-full h-auto"
+							loading="lazy"
+						/>
+					</div>
+					<p>
+						Yes, pointers solve the efficiency problem but now we have memory
+						management nightmares! Let me explain what I mean.
+						<br />
+						Remember, memory allocated to the heap stays in it unless someone
+						frees that memory or the program itself terminates. If a piece of
+						code does not free up the memory from the heap it can
+						<em>memory leaks</em>. Memory is a finite resource so it needs to be
+						utilised very carefully. Now imagine your poorly handled memory app
+						is running on someone's computer. Each time your app is run it is
+						asking the operating system for space from the heap and is not
+						returning it back. When the app is running it is using up the space
+						in RAM which slows down the application or crashes it. If you have
+						an app that runs for long times eg. web servers, embedded systems,
+						etc. they can exhaust system memory. For audio applications, this
+						can can cause memory fragmentation and lead to audio dropouts. When
+						you repeatedly allocate memory of different sizes, you end up
+						creating a swiss cheese pattern in the memory i.e. lots of small
+						free blocks of memory scattered around and no large contiguous
+						blocks available. Imagine this Simple EQ app is running in a DAW for
+						hours in a studio and If your EQ plugin leaks memory for hours, it
+						might eventually crash when trying to allocate memory for basic
+						operations like creating new parameter objects or updating the GUI
+						forcing the user to restart the DAW session.
+					</p>
+				</section>
+			</article>
+		</main>
+	</body>
+	<script type="module">
+		document.addEventListener("DOMContentLoaded", () => {
+			hljs.highlightAll();
+		});
+	</script>
+</html>

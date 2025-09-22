@@ -24,7 +24,7 @@
 					>
 						Smart pointers in C++
 						<time datetime="2024-11-23" class="text-xs">
-							started: 12<sup>th</sup> September 2025
+							published: 22<sup>nd</sup> September 2025
 						</time>
 					</h1>
 				</header>
@@ -205,7 +205,7 @@ juce::AudioProcessorValueTreeState::ParameterLayout SimpleEQAudioProcessor::crea
 							loading="lazy"
 						/>
 					</div>
-					<p>
+					<p class="mb-5">
 						Yes, pointers solve the efficiency problem but now we have memory
 						management nightmares! Let me explain what I mean.
 						<br />
@@ -229,6 +229,199 @@ juce::AudioProcessorValueTreeState::ParameterLayout SimpleEQAudioProcessor::crea
 						might eventually crash when trying to allocate memory for basic
 						operations like creating new parameter objects or updating the GUI
 						forcing the user to restart the DAW session.
+					</p>
+					<p>
+						When you use <em>new</em> keyword to create a raw pointer you have
+						to manually deallocate the pointer memory from the heap else you
+						risk memory leaks in your application. You might think well that
+						shouldn't be an issue, if I create a raw pointer I will make sure I
+						deallocate the memory too. Unfortunately, system we work with and
+						especially in C++ are not so simple. Let's try to understand that
+						with an example.
+					</p>
+					<pre class="language-cpp my-2">
+                        <code class="border-s-2 border-accent-color">
+juce::AudioProcessorValueTreeState::ParameterLayout SimpleEQAudioProcessor::createParameterLayout()
+{
+    juce::AudioProcessorValueTreeState::ParameterLayout layout;
+    
+    // raw pointers
+    layout.add(new juce::AudioParameterFloat("LowCut Freq", "LowCut Freq", ...));
+    layout.add(new juce::AudioParameterFloat("HighCut Freq", "HighCut Freq", ...));
+    layout.add(new juce::AudioParameterFloat("Peak Freq", "Peak Freq", ...));
+    // ... rest of the parameters
+    
+    return layout;
+}
+							</code>
+					</pre>
+					<p>
+						Let's assume JUCE <em>ParameterLayout</em> expected raw pointers as
+						parameters and I create the Audio Parameters using raw pointers and
+						pass it to JUCE then who owns the raw pointer? Does JUCE takes the
+						ownership of the pointer or does my code take the ownership? When
+						should the parameter be deleted? If you're working in a big team
+						managing a complex system and you write a piece of module using raw
+						pointers do you take the ownership of the pointer or the consumer of
+						the module? Such ambiguities can lead to bugs and memory leaks. What
+						if you delete the pointer but it was still needed by some other part
+						of the program? What if there is a double deletion of the pointer by
+						you and the consumer of the module?
+					</p>
+					<pre class="language-cpp my-2">
+                        <code class="border-s-2 border-accent-color">
+SimpleEQAudioProcessor::createParameterLayout()
+{
+    ParameterLayout layout;
+    
+    layout.add(new AudioParameterFloat(...));  // memory allocated
+    layout.add(new AudioParameterFloat(...));  // memory allocated
+    
+    someOperation();  // throws exception
+    
+    return layout;
+}
+						</code>
+					</pre>
+					<p class="mb-5">
+						If the method <em>someOperation</em> throws an exception the program
+						exists and the <em>new</em> memory allocation never gets deleted
+						leading to a memory leak. In a big piece of software many programs
+						are inherited from a base class so who takes the responsibility to
+						deallocate the memory: the parent or the child class?
+						<br />
+						Addressing these issues with raw pointers is why the concept of
+						smart pointers was introduced in C++.
+					</p>
+					<p>
+						Smart pointers were formally introduced in C++11 after the concept
+						conceptualised in previous versions. Smart pointers are crucial for
+						the
+						<em>Resource Acquisition Is Initialisation (RAII)</em> programming
+						idiom of C++. If this name does not make sense to you then you're
+						not alone. The naming has been criticised and a better alternative
+						was also introduced which is
+						<em>Scope Bound Resource Management</em> and this might give you a
+						clue on what RAII means. The motive of RAII is to ensure that all
+						resources for the object are created and made ready for use in one
+						line of code. The aim of RAII is to give the ownership of any heap
+						allocated resource to a stack allocated object whose destructor
+						contains the code to free the resource from the heap. With smart
+						pointers you can make sure your programs are free of memory and
+						resource leaks. Ok, but how?
+					</p>
+					<pre class="language-cpp my-2">
+						<code class="border-s-2 border-accent-color">
+void useSmartPointer()
+{
+    // smart pointer on stack and pass it the raw pointer
+    unique_ptr&lt;Resource&gt; resource(new Resource(L"My Resource", L"In Heap"));
+
+    // Use resource
+    string s = resource->is_full;
+    //...
+
+} // resource is deleted automatically here.
+						</code>
+					</pre>
+					<p>
+						The resource is created in the heap memory and then passed to
+						<em>unique_ptr</em> which creates a smart pointer on thr stack. When
+						the function returns the stack unwinding starts where the resource
+						goes out of scope. The unique pointer destructor is called which
+						uses <em>delete</em> keyword to deallocate the memory. A smart
+						pointer is a class template which manages deleting the memory it
+						holds.
+					</p>
+					<pre class="language-cpp my-2">
+						<code class="border-s-2 border-accent-color">
+template&lt;typename T&gt;
+class unique_ptr { // simplified version of the class
+private:
+    T* ptr;
+
+public:
+    ~unique_ptr() {        // destructor called automatically
+        delete ptr;        // deletes the heap object
+        ptr = nullptr;
+    }
+};
+						</code>
+					</pre>
+					<p>
+						There is no separate garbage collector that runs in the background
+						in C++; memory is managed through standard scoping rules so that the
+						C++ runtime is faster and efficient. Going back to the Simple EQ
+						example, it would look like the first code snippet provided but
+						you'll notice that I am not using <em>unique_ptr</em> to create the
+						pointer. A <em>unique_ptr</em> actually cannot be shared; it cannot
+						be copied to another <em>unique_ptr</em>; cannot be passed by value
+						to a function. However, a <em>unique_ptr</em> can be moved which
+						means the ownership of the resource is transferred to another
+						<em>unique_ptr</em> and the original no longer owns it.
+						<em>make_unique</em> is a factory function that creates objects and
+						wraps them in a <em>std::unique_ptr</em>. It allocates memory on the
+						heap, constructs an object with provided arguments and wraps the raw
+						pointer in a <em>std::unique_ptr</em> container and returns it.
+						Well, why use <em>make_unique</em>? This is from the original
+						proposal to introduce <em>make_unique</em> in C++:
+					</p>
+					<blockquote class="p-4 my-4 border-s-4 border-accent-color bg-white">
+						<p class="text-base italic font-medium leading-relaxed">
+							make_unique's presence in the Standard Library will have several
+							wonderful consequences. It will be possible to teach users "never
+							say new/delete /new[]/delete[]" without disclaimers. Additionally,
+							make_unique shares two advantages with make_shared (excluding the
+							third advantage, increased efficiency). First,
+							unique_ptr&lt;LongTypeName&gt; up(new LongTypeName(args)) must
+							mention LongTypeName twice, while auto up =
+							make_unique&lt;LongTypeName&gt;(args) mentions it once. Second,
+							make_unique prevents the unspecified-evaluation-order leak
+							triggered by expressions like foo(unique_ptr&lt;X&gt;(new X),
+							unique_ptr&lt;Y&gt;(new Y)). (Following the advice "never say new"
+							is simpler than "never say new, unless you immediately give it to
+							a named unique_ptr".)
+						</p>
+					</blockquote>
+					<p>
+						The first two points make sense but let's understand the last point.
+						<em
+							>C++ does not specify the order of evaluation for function
+							arguments.</em
+						>
+					</p>
+					<pre class="language-cpp my-2">
+						<code class="border-s-2 border-accent-color">
+void processParameters(std::unique_ptr&lt;AudioParameterFloat&gt; param1, std::unique_ptr&lt;AudioParameterChoice&gt; param2);
+
+// this call is dangerous:
+processParameters(
+    std::unique_ptr&lt;AudioParameterFloat&gt;(new AudioParameterFloat(...)),  // allocation 1
+    std::unique_ptr&lt;AudioParameterChoice&gt;(new AudioParameterChoice(...)) // allocation 2
+);
+						</code>
+					</pre>
+					<ol class="mb-5 list-decimal px-8">
+						<li>new AudioParameterFloat(...) ==> Memory allocated for Float</li>
+						<li>
+							new AudioParameterChoice(...) ==> Memory allocated for Choice
+						</li>
+						<li>
+							unique_ptr&lt;Choice&gt; construction ==> Choice wrapped safely
+						</li>
+						<li>
+							unique_ptr&lt;Float&gt; construction ==> But if this throws
+							exception
+						</li>
+						<li>Memory leak</li>
+					</ol>
+					<p>
+						With <em>make_unique</em> each call is atomic i.e allocation and
+						wrapping happen together so no leaks are possible.
+						<br />
+						So smart pointers offer a better mental model of handling memory
+						allocation and deallocation. Hence in a lower level language like
+						C++ pointers need to be smart!
 					</p>
 				</section>
 			</article>

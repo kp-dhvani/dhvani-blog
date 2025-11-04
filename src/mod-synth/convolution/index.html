@@ -337,6 +337,23 @@
 					equalisers. Without the framework of LTI the elegant simplicity of
 					convolution would fail to produce consistent, predictable results
 					audio engineers and musicians rely on.
+					<br />
+					<br />
+					You cannot combine two signals by adding or multiplying them. I mean
+					yes you can add or multiply signals together but the output you get
+					from such an operation might not be what you are looking for. For eg.
+					consider an audio processor module which provides a reverb effect to
+					the input signal. If you just add the input signals with the reverb
+					module's impulse response you might just get a louder signal at the
+					output. Or, if you just multiply the input signal with the module's
+					impulse response you might change the amplitude of the signal but it
+					won't have the reverb echoes. To actually create the reverb effect
+					with its characteristic echoes and decay, you need to convolve the
+					input signal with the impulse response and that's where convolution
+					comes in. Convolution is a mathematical operation just like
+					multiplication and addition. Convolution takes two signals and
+					produces a third signal but the process works completely different
+					than let's say the addition of two numbers.
 				</p>
 			</div>
 		</main>

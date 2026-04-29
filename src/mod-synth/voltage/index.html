@@ -1,0 +1,183 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<link rel="icon" type="image/x-icon" href="/favicon.ico" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>The pulse of Eurorack: voltage</title>
+
+		<link href="../../style.css" rel="stylesheet" />
+	</head>
+	<body class="font-mono">
+		<load src="../../shared/navbar.html" />
+		<main class="flex justify-center mx-5 md:mx-16 rounded-lg">
+			<article class="p-6 w-full">
+				<header
+					class="text-base md:text-xl lg:text-2xl mb-5 border border-black rounded-lg p-2"
+				>
+					<h1>The pulse of Eurorack: voltage</h1>
+					<time datetime="2026-4-1" class="text-xs"
+						>start: 28<sup>th</sup> April 2026</time
+					>
+				</header>
+				<section>
+					<h2 class="border-b border-gray-400 pb-1 mb-2">
+						The pulse of Eurorack: voltage
+					</h2>
+					<p class="mb-5">
+						Sound is a mechanical pressure wave. To reproduce a sound either
+						electronically or digitally we need to make systems that mimic the
+						nature of real life things. The speaker is the primary interface
+						between the sound and the listener. The speaker has to behave like a
+						resonant body moving stuff around it in a periodic motion - generate
+						pressure waves for our ears to pick up on and convert that piece of
+						information to an auditory experience. That stuff is just the air
+						particles around it. So how does speaker make these movements? We
+						use <em class="italic">voltage</em> to mimic the behaviour or a
+						resonant body vibrating at a
+						<em class="italic">resonant frequency</em>. Why voltage?
+					</p>
+				</section>
+				<section>
+					<h2 class="border-b border-gray-400 pb-1 mb-2">
+						Voltage in electronics
+					</h2>
+					<p class="mb-2">
+						Voltage in electronics is associated with two different behaviours:
+						first, in <em class="italic">Alternating Current (AC)</em> the
+						voltage has <em class="italic">polarity</em> and can alternate
+						between two values; second, in
+						<em class="italic">Direct Current (DC)</em> the
+						<em class="italic">polarity</em> is fixed. In DC, voltage stays on
+						one side of the reference point. It can rise and fall but never
+						crosses to the other side. The polarity lets us do some extra work
+						that DC cannot do: move a speaker. So, let's make a device with a
+						coil sitting in a <em class="italic">magnetic field</em> and pass AC
+						voltage. Then I use this device to move a diaphragm which is a sheet
+						suspended at its edges. When the voltage polarity in the coil goes
+						"positive" the coil pushes outward and when the polarity goes
+						"negative" the coil moves inward. This sheet moves the air around
+						generating the pressure waves which then our ears pick up and send
+						this information to the brain which interprets the information as
+						sound. The diaphragm in our ears does something similar: converts
+						the pressure wave into a mechanical wave. The output in both cases
+						is mechanical motion but from different sources.
+					</p>
+					<p class="mb-2">
+						To generate these pressure waves electronically, we also use AC
+						voltage. When something vibrates between 20 and 20,000 times per
+						second, we perceive those vibrations as pitch (the upper limit
+						varies from person to person). To drive a speaker, we need to feed
+						its coil an AC voltage. So let's build a device that generates one.
+						The key component is a
+						<em class="italic">capacitor</em> — it stores voltage in proportion
+						to how much charge we've pushed into it. By pushing current in and
+						pulling it back out, we make the capacitor's voltage swing up and
+						down, and that swinging voltage is the AC we send to the speaker's
+						coil. To generate a 100Hz tone, we push current into the capacitor
+						so its voltage rises. As soon as it reaches an upper threshold, we
+						discharge it back through the reference point and into negative
+						territory, then bring it back up completing one full cycle. The
+						component that watches the capacitor and decides when to flip is
+						called a <em class="italic">comparator</em>: it continuously
+						compares the capacitor's voltage to the threshold and triggers the
+						reversal at the right moment. The shape of the resulting waveform —
+						how the capacitor rises and falls between the thresholds —
+						determines the <em class="italic">timbre</em>. In Eurorack, audio
+						signals typically swing between +5V and -5V around a reference point
+						of 0V. (The modules themselves run on ±12V rails, but signals on
+						patch cables stay within ±5V.) To generate 100Hz, the voltage
+						completes one full cycle up to +5V, down through 0V to -5V, and back
+						to 0V 100 times per second. And just like that, we have a source of
+						voltage oscillations at a particular frequency.
+					</p>
+					<p class="mb-2">
+						So now I have a sound source playing one pitch at 100Hz. Now what if
+						I want to add <em class="italic">vibrato</em> to the sound? Vibrato
+						is a small regular wobble in pitch like a singer holding a note and
+						letting it shimmer. The pitch doesn't really leave the central note;
+						it just oscillates around it, a few times per second. To do this
+						electronically, I need a way to gently push the oscillator's pitch
+						up and down, repeatedly, in time. Remember: the pitch of our
+						oscillator is set by how fast the capacitor charges. So if I can
+						make that charging rate wobble speed up slightly, slow down
+						slightly, speed up again the pitch will wobble too. What I need is
+						another voltage that varies over time, slow enough that I can hear
+						individual wobbles. About 5Hz works well for musical vibrato. I feed
+						that slow voltage into the oscillator, and the oscillator's pitch
+						follows it up and down. The voltage rises and the pitch rises
+						slightly; the voltage falls and the pitch falls slightly. Vibrato.
+						Any voltage that varies over time can be used to modulate a property
+						of sound.
+					</p>
+					<p class="mb-2">
+						Or instead of wobbling the pitch, what if I want to <em>change</em>
+						it like this: play a 100Hz root, then jump up to a 125Hz which is a
+						major third musical interval of 100Hz as the root note? That's a
+						different musical idea, but mechanically it's the same trick: I need
+						a voltage that controls the oscillator's pitch, and now I need that
+						voltage to hold one value for a while, then jump to another. A bit
+						of music theory first. In Western music, a
+						<em class="italic">major third</em> is a consonant interval where
+						the upper note vibrates 5 times for every 4 vibrations of the lower
+						note — a 5:4 ratio, or 1.25x the root frequency. (Modern keyboards
+						use a slightly squashed version called equal temperament, where the
+						major third comes out to about 1.26x close enough that the
+						difference is mostly inaudible.) So 100Hz x 1.25 = 125Hz. Same
+						interval, an octave up: 200Hz x 1.25 = 250Hz. The ratio is what
+						defines the interval, not the absolute Hz difference. In Eurorack
+						the standard is <em class="italic">1V/octave</em>: every additional
+						volt of control voltage doubles the oscillator's frequency. +1V = up
+						an octave. +2V = up two octaves (4x the frequency). -1V = down an
+						octave. A control voltage (CV) is a DC voltage that controls a
+						parameter of a sound source for eg. the pitch of an oscillator. A
+						major third is the 4<sup>th</sup> of 12 equal tempered tones per
+						octave, so it corresponds to roughly +0.333V. To play 100Hz then
+						jump up to 125Hz, I need a control DC voltage that holds at say,
+						+1.000V for a while then jumps to +1.333V.
+					</p>
+					<p class="mb-2">
+						Now notice something important about this voltage. It rises, it
+						falls, it jumps between values but it stays on one side of zero. It
+						doesn't alternate polarity the way an audio signal does. A 100Hz
+						sine wave coming out of the oscillator swings between +5V and -5V
+						around 0V that's AC. But this control voltage holds at +1.000V, then
+						jumps to +1.333V; the value itself is the information. This is
+						<em class="italic">DC</em>.
+					</p>
+					<p class="mb-5">
+						That's what Eurorack systems do, they use AC voltage to produce
+						sound and use DC voltage to shape the sound in some way. Let's say I
+						have a song with 120BPM so that's 2 beats every second. If I play a
+						note at 100Hz with a voltage going &PlusMinus;1V to generate that
+						pitch for the first 2 beats and then hold the voltage going
+						&PlusMinus;1.3V for the next two beats what I have done is created a
+						small melody. A melody with 2 notes but still a melody.
+					</p>
+					<p>
+						Ok, so what have done so far? We have used AC voltage to generate
+						sound and DC voltage to shape that sound and make it musical. In
+						fact shaping the sound in anyway be it pitch or volume we use a DC
+						control voltage to achieve the desired effect. Interesting right?
+						Makes sense that why voltage is used in electronic circuits but this
+						doesn't tell us The above paragraphs raise more questions like:
+					</p>
+					<p>
+						<em class="italic">what exactly is voltage?</em>
+					</p>
+					<p><em class="italic">what's polarity?</em>,</p>
+					<p><em class="italic">what's current?</em>,</p>
+					<p><em class="italic">what's charging?</em>,</p>
+					<p>
+						<em class="italic"
+							>what's negative and positive about voltage and current?</em
+						>,
+					</p>
+					<p><em>how is voltage able to do these things?</em></p>
+					,
+					<p><em class="italic"></em></p>
+				</section>
+			</article>
+		</main>
+	</body>
+</html>

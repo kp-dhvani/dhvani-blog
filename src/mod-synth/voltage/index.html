@@ -51,18 +51,163 @@
 						<em class="italic">polarity</em> is fixed. In DC, voltage stays on
 						one side of the reference point. It can rise and fall but never
 						crosses to the other side. The polarity lets us do some extra work
-						that DC cannot do: move a speaker. So, let's make a device with a
-						coil sitting in a <em class="italic">magnetic field</em> and pass AC
-						voltage. Then I use this device to move a diaphragm which is a sheet
-						suspended at its edges. When the voltage polarity in the coil goes
-						"positive" the coil pushes outward and when the polarity goes
-						"negative" the coil moves inward. This sheet moves the air around
-						generating the pressure waves which then our ears pick up and send
-						this information to the brain which interprets the information as
-						sound. The diaphragm in our ears does something similar: converts
-						the pressure wave into a mechanical wave. The output in both cases
-						is mechanical motion but from different sources.
+						that DC cannot do: move a speaker.
 					</p>
+					<figure class="my-6">
+						<div
+							class="flex flex-col sm:flex-row justify-center items-center gap-6 max-w-2xl mx-auto"
+						>
+							<div class="w-full sm:flex-1 text-center">
+								<svg
+									xmlns="http://www.w3.org/2000/svg"
+									viewBox="0 0 400 200"
+									role="img"
+									aria-labelledby="ac-title"
+								>
+									<title id="ac-title">
+										Alternating current waveform crossing a reference line
+									</title>
+
+									<!-- Reference axis (horizontal zero line) -->
+									<line
+										x1="20"
+										y1="100"
+										x2="380"
+										y2="100"
+										stroke="#000"
+										stroke-width="1.5"
+										opacity="0.5"
+									/>
+
+									<!-- Vertical axis -->
+									<line
+										x1="20"
+										y1="20"
+										x2="20"
+										y2="180"
+										stroke="#000"
+										stroke-width="1.5"
+										opacity="0.5"
+									/>
+
+									<!-- Sine wave -->
+									<path
+										d="M 20 100 Q 65 20, 110 100 T 200 100  T 290 100 T 380 100"
+										fill="none"
+										stroke="#FF6577"
+										stroke-width="3"
+									/>
+								</svg>
+								<p class="mt-2 text-sm">AC: voltage crosses the reference</p>
+							</div>
+							<div class="w-full sm:flex-1 text-centerw-full text-center">
+								<svg
+									xmlns="http://www.w3.org/2000/svg"
+									viewBox="0 0 400 200"
+									role="img"
+									aria-labelledby="dc-title"
+								>
+									<title id="dc-title">
+										Direct current waveform staying on one side of a reference
+										line
+									</title>
+
+									<!-- Reference axis (horizontal zero line) -->
+									<line
+										x1="20"
+										y1="100"
+										x2="380"
+										y2="100"
+										stroke="#000"
+										stroke-width="1.5"
+										opacity="0.5"
+									/>
+
+									<!-- Vertical axis -->
+									<line
+										x1="20"
+										y1="20"
+										x2="20"
+										y2="180"
+										stroke="#000"
+										stroke-width="1.5"
+										opacity="0.5"
+									/>
+
+									<!-- DC line (flat, above reference) -->
+									<line
+										x1="20"
+										y1="60"
+										x2="380"
+										y2="60"
+										stroke="#FF6577"
+										stroke-width="3"
+									/>
+								</svg>
+								<p class="mt-2 text-sm">DC: voltage stays on one side</p>
+							</div>
+						</div>
+					</figure>
+					<p class="my-5">
+						So, let's make a device with a coil sitting in a
+						<em class="italic">magnetic field</em> and pass AC voltage. Then I
+						use this device to move a diaphragm which is a sheet suspended at
+						its edges. When the voltage polarity in the coil goes "positive" the
+						coil pushes outward and when the polarity goes "negative" the coil
+						moves inward. This sheet moves the air around generating the
+						pressure waves which then our ears pick up and send this information
+						to the brain which interprets the information as sound. The
+						diaphragm in our ears does something similar: converts the pressure
+						wave into a mechanical wave. The output in both cases is mechanical
+						motion but from different sources.
+					</p>
+					<div class="flex items-center justify-center mb-5">
+						<figure class="flex flex-col items-center">
+							<picture>
+								<img
+									src="/assets/loudspeaker_cross_section.jpg"
+									alt="Cross-section diagram of a dynamic loudspeaker. A permanent magnet on the left has its poles arranged so that a north pole sits in the center and south poles surround it, creating a magnetic field across a narrow gap. A voice coil — wire wound in red around a former — sits in this gap. Electrical leads carry an input voltage signal (drawn as an AC waveform) into the coil. The coil is attached to a paper cone, suspended at its outer edge by a flexible cone suspension and held in a chassis. A double-headed arrow shows the cone moving back and forth, displacing air in front of it. Concentric blue arcs to the right represent the resulting sound waves radiating outward."
+									loading="lazy"
+								/>
+							</picture>
+							<figcaption>
+								The full chain from voltage to sound, in cross-section. An
+								<em>input voltage signal</em> (the AC waveform on the lower
+								left) flows through the <em>electrical leads</em> into the
+								<em>voice coil</em> — a cylinder of wire sitting in the gap of a
+								<em>permanent magnet</em>. As the voltage alternates, the
+								current in the coil reverses direction, and the magnetic force
+								on the coil flips with it, pushing the coil out and pulling it
+								back in. The coil is glued to the <em>cone</em>, which moves
+								with it and shoves the air in front of it back and forth. Those
+								pushes and pulls propagate outward as <em>sound waves</em>. The
+								whole speaker is just a transducer turning an AC voltage
+								waveform into matching pressure waves in the air.
+							</figcaption>
+						</figure>
+					</div>
+					<div class="flex items-center justify-center mb-5">
+						<figure class="flex flex-col items-center">
+							<picture>
+								<img
+									src="/assets/speaker_working.gif"
+									alt="Cutaway diagram of a dynamic loudspeaker, with labels pointing to the diaphragm (the wide cone), dust cap (centered on the cone), voice coil (a cylinder of wire wound around a former, sitting in the gap of the magnet), suspension and spider (flexible parts holding the coil centered), basket (the metal frame), and magnet (the disc-shaped permanent magnet at the back). Two leads exit the back of the coil to a + terminal."
+									loading="lazy"
+								/>
+							</picture>
+							<figcaption class="text-center mt-2">
+								A dynamic loudspeaker, cut away to show how it works. AC voltage
+								flows through the <em>voice coil</em> — a cylinder of wire
+								suspended in the gap of the <em>magnet</em>. As the current
+								alternates direction, the magnetic force on the coil reverses,
+								pushing it outward and pulling it inward. The coil is glued to
+								the <em>diaphragm</em>, so the diaphragm moves with it, shoving
+								the air in front of it back and forth. Those pushes and pulls
+								are the pressure waves we hear as sound.
+							</figcaption>
+						</figure>
+					</div>
+
 					<p class="mb-2">
 						To generate these pressure waves electronically, we also use AC
 						voltage. When something vibrates between 20 and 20,000 times per
@@ -85,11 +230,10 @@
 						how the capacitor rises and falls between the thresholds —
 						determines the <em class="italic">timbre</em>. In Eurorack, audio
 						signals typically swing between +5V and -5V around a reference point
-						of 0V. (The modules themselves run on ±12V rails, but signals on
-						patch cables stay within ±5V.) To generate 100Hz, the voltage
-						completes one full cycle up to +5V, down through 0V to -5V, and back
-						to 0V 100 times per second. And just like that, we have a source of
-						voltage oscillations at a particular frequency.
+						of 0V. To generate 100Hz, the voltage completes one full cycle up to
+						+5V, down through 0V to -5V, and back to 0V 100 times per second.
+						And just like that, we have a source of voltage oscillations at a
+						particular frequency.
 					</p>
 					<p class="mb-2">
 						So now I have a sound source playing one pitch at 100Hz. Now what if
@@ -160,22 +304,188 @@
 						fact shaping the sound in anyway be it pitch or volume we use a DC
 						control voltage to achieve the desired effect. Interesting right?
 						Makes sense that why voltage is used in electronic circuits but this
-						doesn't tell us The above paragraphs raise more questions like:
+						doesn't tell us why voltage? OR
+					</p>
+					<p class="italic mb-5">What the hell is voltage?</p>
+				</section>
+				<section>
+					<h2 class="border-b border-gray-400 pb-1 mb-2">
+						The physics of voltage
+					</h2>
+					<p class="mb-2">
+						We are quite familiar with magnets. If you have two magnets and if
+						you bring the north pole of one of the magnets close to the south
+						pole of the other one they attract each other and bring them close
+						enough they stick to each other. Or, put a bar of magnet under a
+						piece of paper and sprinkle iron fillings on the paper and all the
+						iron fillings line up in a pattern showing the field of the magnet.
+						Take a compass and it will align with the magnetic field of the
+						earth. <em class="italic">That's magnetism.</em>
+					</p>
+					<div class="flex lg:flex-row flex-col items-center justify-between">
+						<figure class="flex flex-col items-center">
+							<picture>
+								<img
+									src="/assets/bar_magnetic_field.gif"
+									alt="A horizontal bar magnet with its left half labeled N (red, north pole) and its right half labeled S (blue, south pole). Curved black lines emerge from the north pole, arc outward through the surrounding space, and re-enter the magnet at the south pole. Arrows on the lines point from N to S along the field's external path. A small compass placed near the north end of the magnet aligns with the local field line. The lines are densely packed near the poles and spread out further away, indicating that the field is strongest at the poles and weakens with distance."
+									loading="lazy"
+								/>
+							</picture>
+							<figcaption class="text-center mt-2">
+								A bar magnet's <em>magnetic field</em>, drawn as field lines.
+								The lines emerge from the north pole, curve outward through the
+								surrounding space, and re-enter at the south pole. They aren't
+								physical objects — they're a visual shorthand for the direction
+								a compass needle points at every point in space. Field lines are
+								denser where the field is stronger (close to the poles) and
+								spread out where it's weaker (further away). This is the same
+								kind of field that fills the gap of a speaker's magnet, and it's
+								what the voice coil is sitting in when current pushes it back
+								and forth.
+							</figcaption>
+						</figure>
+
+						<figure class="flex flex-col items-center">
+							<picture>
+								<img
+									src="/assets/earth_magnetic_field.webp"
+									alt="The Earth shown from space against a black background, with the Sun visible at upper left. Yellow curved lines representing magnetic field lines emerge from near the geographic south pole, arc outward through space surrounding the planet, and re-enter near the geographic north pole. Two axes are drawn through the Earth: a vertical white line marks the Earth's rotational axis, with the Geographic North Pole and Geographic South Pole labeled at its ends. A red dashed line, tilted 11.5 degrees from the rotational axis, marks the Earth's magnetic axis, with the North Magnetic Pole and South Magnetic Pole labeled at its ends. A small compass arrow at the Earth's center aligns with the magnetic axis."
+									loading="lazy"
+								/>
+							</picture>
+							<figcaption class="text-center mt-2">
+								The Earth's magnetic field, shown at planetary scale. The
+								pattern is identical to the bar magnet's: field lines emerge
+								from one magnetic pole, arc outward through space, and re-enter
+								at the other. The Earth behaves as if there's a giant bar magnet
+								inside it (there isn't — the field is actually generated by
+								motion in the molten iron core, but the geometry works out the
+								same). Note that the magnetic poles don't line up with the
+								geographic poles — they're tilted by about 11.5°, which is why a
+								compass points to <em>magnetic</em> north, not the rotational
+								axis. Same physics as the bar magnet above; bigger scale.
+							</figcaption>
+						</figure>
+					</div>
+					<p class="mt-5">
+						There's another type of invisible field besides magnetism which is
+						called the <em class="italic">electric field</em> or
+						<em class="italic">electrostatic field</em>. This field is
+						invisible, and can attract or repel objects. However, it is not
+						magnetism. It is <em class="italic">voltage</em>.
 					</p>
 					<p>
-						<em class="italic">what exactly is voltage?</em>
+						Let's backup a little and let's understand what these things are.
+						Our physical reality is governed by four main forces that have been
+						discovered so far: gravity, electromagnetism, the strong nuclear
+						force, and the weak nuclear force. Each force operates through
+						specific quantum fields that mediate the interactions between matter
+						particles. We'll get to those fields later, but for now, think of
+						the forces as the four basic categories of how things can affect
+						each other. But what is a <em class="italic">force</em>? If you push
+						or pull an object, you're applying force to it. Force is what
+						changes <em class="italic">motion</em> of things. A static force
+						keeps things held in place against another force whereas a dynamic
+						force accelerates things. Aristotle thought force was needed to keep
+						things moving and that they eventually come to rest naturally.
+						However, Newton refined this theory and provided his 3 laws of
+						motion. His second law says:
 					</p>
-					<p><em class="italic">what's polarity?</em>,</p>
-					<p><em class="italic">what's current?</em>,</p>
-					<p><em class="italic">what's charging?</em>,</p>
+					<p>F = ma</p>
 					<p>
-						<em class="italic"
-							>what's negative and positive about voltage and current?</em
-						>,
+						<em class="italic">Force is mass times acceleration.</em> However,
+						this doesn't tell you what force is, instead it tells you the
+						relationship between force, mass, and acceleration. Push a book kept
+						on a table. What's pushing the book? Your hand. But the physical
+						interaction is happening between particles. The sensation we feel is
+						the result of that interaction between the atoms of your hand and
+						the book. This repulsive force is one of the four fundamental forces
+						acting through a <em class="italic">field</em>. Think of a field as
+						a region of space surrounding a particle, where the particle's
+						influence reaches out and can act on other particles. The field is
+						the medium through which one particle's existence affects another's.
 					</p>
-					<p><em>how is voltage able to do these things?</em></p>
-					,
-					<p><em class="italic"></em></p>
+
+					<figure class="flex flex-col items-center mb-5">
+						<picture>
+							<img
+								src="/assets/charge.png"
+								alt="The Earth shown from space against a black background, with the Sun visible at upper left. Yellow curved lines representing magnetic field lines emerge from near the geographic south pole, arc outward through space surrounding the planet, and re-enter near the geographic north pole. Two axes are drawn through the Earth: a vertical white line marks the Earth's rotational axis, with the Geographic North Pole and Geographic South Pole labeled at its ends. A red dashed line, tilted 11.5 degrees from the rotational axis, marks the Earth's magnetic axis, with the North Magnetic Pole and South Magnetic Pole labeled at its ends. A small compass arrow at the Earth's center aligns with the magnetic axis."
+								loading="lazy"
+							/>
+						</picture>
+					</figure>
+					<p>
+						Now you might ask, what is <em class="italic">field</em>? This is
+						where things get interesting. To understand field we need to dabble
+						into <em class="italic">Quantum Field Theory (QFT)</em>. In the
+						classical Newtonian physics we understand our reality through
+						<em class="italic">particles</em>. Think of molecules, atoms,
+						electrons, protons, and neutrons. But quantum field theory says our
+						reality is made up of <em class="italic">fields</em> and not
+						<em class="italic">particles</em>. Particles are just
+						<em class="italic">quantised</em> derivative of fields. Remember,
+						light behaves as both particle and wave. So why this duality?
+						<em class="italic">QFT</em> says that's because the fundamental
+						"element" is field in space and
+						<em class="italic">not</em> particles in space. This still does not
+						answer what exactly is a <em class="italic">field</em>. Let me give
+						you an analogy.
+					</p>
+					<figure class="flex flex-col items-center my-5">
+						<picture>
+							<img
+								src="/assets/fish_water.webp"
+								alt="The Earth shown from space against a black background, with the Sun visible at upper left. Yellow curved lines representing magnetic field lines emerge from near the geographic south pole, arc outward through space surrounding the planet, and re-enter near the geographic north pole. Two axes are drawn through the Earth: a vertical white line marks the Earth's rotational axis, with the Geographic North Pole and Geographic South Pole labeled at its ends. A red dashed line, tilted 11.5 degrees from the rotational axis, marks the Earth's magnetic axis, with the North Magnetic Pole and South Magnetic Pole labeled at its ends. A small compass arrow at the Earth's center aligns with the magnetic axis."
+								loading="lazy"
+							/>
+						</picture>
+					</figure>
+					<p class="mb-2">
+						Modern physics tells us that the fabric of the universe is
+						<em class="italic">space time</em>. All electrons in the universe
+						have the same mass, the same charge, the same spin the electron in
+						your banana is identical to one shot out of the sun. How is this
+						possible? These particles behave as if they are a
+						<em class="italic">local</em> manifestation of a single object which
+						fills the whole universe. This single object manifesting itself in
+						different localised elements is the <em class="italic">field</em>.
+						The fish living under the water don't really know that they are
+						surrounded by this fluid called water. Similarly, we are surrounded
+						by this fluid called a field. Field is a function of spacetime. In
+						physics, a field is like a fluid which fills all the spacetime and
+						at each point in this field there's a physical quantity a number, or
+						a direction, or both that we describe mathematically. The field can
+						contain vectors (direction) or scalars (numbers) as objects. In a
+						way a field is a mathematical idea. In abstract sense you assign a a
+						value to every point in space and these points can be described with
+						a scalar or vector. You can also think of field as a function
+						(functions in programming). They take an input and give you an
+						output. The input to field is a point in spae and time and the
+						output could be a number (scalar), vector, or some other complicated
+						objects. The field is a mathematical abstraction, we are using math
+						to describe our physical reality. For example, if we take a charged
+						particle like an electron at some point and time in space we can
+						calculate the force at any given point that will tell us the force
+						another charged particle would feel at that point. The field is a
+						pure mathematical concept but it does describe real behaviour.
+					</p>
+					<p class="mb-5">
+						Think of the weather forecast on TV showing a map of the wind where
+						they draw arrows at different points on the map to show how the wind
+						is blowing. That's a <em class="italic">vector</em> field as it
+						assigns a vector which has magnitude and direction to every point on
+						the map. Now think if the temperature map where they show how hot is
+						ar different points oin the map. This is a
+						<em class="italic">scalar</em> field as it associates every point
+						with a number and that being the temperature. So, field is some map
+						(or function) that takes some coordinates and gives us some other
+						things like scalars, vectors, tensors, etc.
+					</p>
+					<p>
+						The field propagates like waves and hence light behaves like a wave
+						and a particle both.
+					</p>
 				</section>
 			</article>
 		</main>

@@ -17,7 +17,7 @@
 				>
 					<h1>The pulse of Eurorack: voltage</h1>
 					<time datetime="2026-4-1" class="text-xs"
-						>start: 28<sup>th</sup> April 2026</time
+						>published: 18<sup>th</sup> May 2026</time
 					>
 				</header>
 				<section>
@@ -33,7 +33,7 @@
 						pressure waves for our ears to pick up on and convert that piece of
 						information to an auditory experience. That stuff is just the air
 						particles around it. So how does speaker make these movements? We
-						use <em class="italic">voltage</em> to mimic the behaviour or a
+						use <em class="italic">voltage</em> to mimic the behaviour of a
 						resonant body vibrating at a
 						<em class="italic">resonant frequency</em>. Why voltage?
 					</p>
@@ -170,7 +170,7 @@
 									loading="lazy"
 								/>
 							</picture>
-							<figcaption>
+							<figcaption class="text-center mt-2 text-gray-500">
 								The full chain from voltage to sound, in cross-section. An
 								<em>input voltage signal</em> (the AC waveform on the lower
 								left) flows through the <em>electrical leads</em> into the
@@ -195,7 +195,7 @@
 									loading="lazy"
 								/>
 							</picture>
-							<figcaption class="text-center mt-2">
+							<figcaption class="text-center mt-2 text-gray-500">
 								A dynamic loudspeaker, cut away to show how it works. AC voltage
 								flows through the <em>voice coil</em> — a cylinder of wire
 								suspended in the gap of the <em>magnet</em>. As the current
@@ -215,25 +215,26 @@
 						varies from person to person). To drive a speaker, we need to feed
 						its coil an AC voltage. So let's build a device that generates one.
 						The key component is a
-						<em class="italic">capacitor</em> — it stores voltage in proportion
-						to how much charge we've pushed into it. By pushing current in and
-						pulling it back out, we make the capacitor's voltage swing up and
-						down, and that swinging voltage is the AC we send to the speaker's
-						coil. To generate a 100Hz tone, we push current into the capacitor
-						so its voltage rises. As soon as it reaches an upper threshold, we
-						discharge it back through the reference point and into negative
-						territory, then bring it back up completing one full cycle. The
-						component that watches the capacitor and decides when to flip is
-						called a <em class="italic">comparator</em>: it continuously
-						compares the capacitor's voltage to the threshold and triggers the
-						reversal at the right moment. The shape of the resulting waveform —
-						how the capacitor rises and falls between the thresholds —
-						determines the <em class="italic">timbre</em>. In Eurorack, audio
-						signals typically swing between +5V and -5V around a reference point
-						of 0V. To generate 100Hz, the voltage completes one full cycle up to
-						+5V, down through 0V to -5V, and back to 0V 100 times per second.
-						And just like that, we have a source of voltage oscillations at a
-						particular frequency.
+						<em class="italic">capacitor</em> — it stores charge and voltage
+						develops as a consequence. The voltage across it is proportional to
+						that stored charge. By pushing current in and pulling it back out,
+						we make the capacitor's voltage swing up and down, and that swinging
+						voltage is the AC we send to the speaker's coil. To generate a 100Hz
+						tone, we push current into the capacitor so its voltage rises. As
+						soon as it reaches an upper threshold, we discharge it back through
+						the reference point and into negative territory, then bring it back
+						up completing one full cycle. The component that watches the
+						capacitor and decides when to flip is called a
+						<em class="italic">comparator</em>: it continuously compares the
+						capacitor's voltage to the threshold and triggers the reversal at
+						the right moment. The shape of the resulting waveform — how the
+						capacitor rises and falls between the thresholds — determines the
+						<em class="italic">timbre</em>. In Eurorack, audio signals typically
+						swing between +5V and -5V around a reference point of 0V. To
+						generate 100Hz, the voltage completes one full cycle up to +5V, down
+						through 0V to -5V, and back to 0V 100 times per second. And just
+						like that, we have a source of voltage oscillations at a particular
+						frequency.
 					</p>
 					<p class="mb-2">
 						So now I have a sound source playing one pitch at 100Hz. Now what if
@@ -275,10 +276,10 @@
 						an octave. +2V = up two octaves (4x the frequency). -1V = down an
 						octave. A control voltage (CV) is a DC voltage that controls a
 						parameter of a sound source for eg. the pitch of an oscillator. A
-						major third is the 4<sup>th</sup> of 12 equal tempered tones per
-						octave, so it corresponds to roughly +0.333V. To play 100Hz then
-						jump up to 125Hz, I need a control DC voltage that holds at say,
-						+1.000V for a while then jumps to +1.333V.
+						major third is the 4 semitones above the root of 12 equal tempered
+						tones per octave, so it corresponds to roughly +0.333V. To play
+						100Hz then jump up to 125Hz, I need a control DC voltage that holds
+						at say, +1.000V for a while then jumps to +1.333V.
 					</p>
 					<p class="mb-2">
 						Now notice something important about this voltage. It rises, it
@@ -331,7 +332,7 @@
 									loading="lazy"
 								/>
 							</picture>
-							<figcaption class="text-center mt-2">
+							<figcaption class="text-center mt-2 text-gray-500">
 								A bar magnet's <em>magnetic field</em>, drawn as field lines.
 								The lines emerge from the north pole, curve outward through the
 								surrounding space, and re-enter at the south pole. They aren't
@@ -353,7 +354,7 @@
 									loading="lazy"
 								/>
 							</picture>
-							<figcaption class="text-center mt-2">
+							<figcaption class="text-center mt-2 text-gray-500">
 								The Earth's magnetic field, shown at planetary scale. The
 								pattern is identical to the bar magnet's: field lines emerge
 								from one magnetic pole, arc outward through space, and re-enter
@@ -392,10 +393,11 @@
 						the force. A static force keeps things held in place against another
 						force whereas a dynamic force accelerates things. Aristotle thought
 						force was needed to keep things moving and that they eventually come
-						to rest naturally. However, Galileo in the 16<sup>th</sup> century
-						theorised that if we were to completely remove friction an object in
-						motion would continue to move indefinitely. Newton refined this
-						theory and provided his 3 laws of motion. His second law says:
+						to rest naturally. However, Galileo in the late 16<sup>th</sup> and
+						early 17<sup>th</sup> century theorised that if we were to
+						completely remove friction an object in motion would continue to
+						move indefinitely. Newton refined this theory and provided his 3
+						laws of motion. His second law says:
 					</p>
 					<p>F = ma</p>
 					<p>
@@ -412,16 +414,6 @@
 						influence reaches out and can act on other particles. The field is
 						the medium through which one particle's existence affects another's.
 					</p>
-
-					<figure class="flex flex-col items-center mb-5">
-						<picture>
-							<img
-								src="/assets/charge.png"
-								alt="The Earth shown from space against a black background, with the Sun visible at upper left. Yellow curved lines representing magnetic field lines emerge from near the geographic south pole, arc outward through space surrounding the planet, and re-enter near the geographic north pole. Two axes are drawn through the Earth: a vertical white line marks the Earth's rotational axis, with the Geographic North Pole and Geographic South Pole labeled at its ends. A red dashed line, tilted 11.5 degrees from the rotational axis, marks the Earth's magnetic axis, with the North Magnetic Pole and South Magnetic Pole labeled at its ends. A small compass arrow at the Earth's center aligns with the magnetic axis."
-								loading="lazy"
-							/>
-						</picture>
-					</figure>
 					<p>
 						Now you might ask, what is <em class="italic">field</em>? This is
 						where things get interesting. To understand field we need to dabble
@@ -431,7 +423,7 @@
 						electrons, protons, and neutrons. But quantum field theory says our
 						reality is made up of <em class="italic">fields</em> and not
 						<em class="italic">particles</em>. Particles are just
-						<em class="italic">quantised</em> derivative of fields. Remember,
+						<em class="italic">quantised</em> excitations of fields. Remember,
 						light behaves as both particle and wave. So why this duality?
 						<em class="italic">QFT</em> says that's because the fundamental
 						"element" is field in space and
@@ -443,10 +435,18 @@
 						<picture>
 							<img
 								src="/assets/fish_water.webp"
-								alt="The Earth shown from space against a black background, with the Sun visible at upper left. Yellow curved lines representing magnetic field lines emerge from near the geographic south pole, arc outward through space surrounding the planet, and re-enter near the geographic north pole. Two axes are drawn through the Earth: a vertical white line marks the Earth's rotational axis, with the Geographic North Pole and Geographic South Pole labeled at its ends. A red dashed line, tilted 11.5 degrees from the rotational axis, marks the Earth's magnetic axis, with the North Magnetic Pole and South Magnetic Pole labeled at its ends. A small compass arrow at the Earth's center aligns with the magnetic axis."
+								alt="A watercolour cartoon. An older fish on the left swims past two smaller fish and asks, 'How's the water?'' The two smaller fish look back, confused, and reply, 'What the hell is water?'"
 								loading="lazy"
 							/>
 						</picture>
+						<figcaption class="text-center mt-2 text-gray-500">
+							David Foster Wallace's parable, drawn out: the older fish asks the
+							younger ones how the water is, and they don't know what water is
+							because they've never been outside it. Fields are like that for us
+							— they fill all of spacetime, we're made of them and surrounded by
+							them, but they're so total and so foundational that we don't
+							perceive them as a thing.
+						</figcaption>
 					</figure>
 					<p class="mb-2">
 						Modern physics tells us that the fabric of the universe is
@@ -468,7 +468,7 @@
 						value to every point in space and these points can be described with
 						a scalar or vector. You can also think of field as a function
 						(functions in programming). They take an input and give you an
-						output. The input to field is a point in spae and time and the
+						output. The input to field is a point in space and time and the
 						output could be a number (scalar), vector, or some other
 						mathematical object. The field is a mathematical abstraction, we are
 						using math to describe our physical reality. The field is a pure
@@ -480,7 +480,7 @@
 						is blowing. That's a <em class="italic">vector</em> field as it
 						assigns a vector which has magnitude and direction to every point on
 						the map. Now think if the temperature map where they show how hot is
-						ar different points oin the map. This is a
+						are different points on the map. This is a
 						<em class="italic">scalar</em> field as it associates every point
 						with a number and that being the temperature. So, field is some map
 						(or function) that takes some coordinates and gives us some other
@@ -499,21 +499,32 @@
 						is the energy you can put into a field. The minimum energy is one
 						quantum i.e. particle and you can add energy in multiples of that
 						quantum. You cannot have half, 3/4th, etc. of excitation. There are
-						close to 25 fields theorised and electromagnetic (EM) is one of
-						them. In fact, EM is also a force that exists in that field. A
-						photon does not have mass and hence it can travel at the speed of
-						light. Now if you think about it the speed of light is the speed of
-						the photon propagating in the EM field, that is where the
-						<em class="italic">c</em> the speed of light comes from.
+						around 17-37 fields depending on how you count and electromagnetic
+						(EM) is one of them. In fact, EM is also a force that exists in that
+						field. A photon does not have mass and hence it can travel at the
+						speed of light. Any massless particle is forced to travel at c;
+						photons travel at c because they're massless.
 					</p>
 					<figure class="flex flex-col items-center my-5">
 						<picture>
 							<img
 								src="/assets/EM-Wave.gif"
-								alt="The Earth shown from space against a black background, with the Sun visible at upper left. Yellow curved lines representing magnetic field lines emerge from near the geographic south pole, arc outward through space surrounding the planet, and re-enter near the geographic north pole. Two axes are drawn through the Earth: a vertical white line marks the Earth's rotational axis, with the Geographic North Pole and Geographic South Pole labeled at its ends. A red dashed line, tilted 11.5 degrees from the rotational axis, marks the Earth's magnetic axis, with the North Magnetic Pole and South Magnetic Pole labeled at its ends. A small compass arrow at the Earth's center aligns with the magnetic axis."
+								alt="A 3D diagram of an electromagnetic wave travelling along the x-axis. The electric field vector E (blue) oscillates up and down along y. The magnetic field vector B (red) oscillates side to side along z. The two fields are perpendicular to each other and to the direction of travel, oscillating in phase."
 								loading="lazy"
 							/>
 						</picture>
+						<figcaption class="text-center mt-2 text-gray-500">
+							An electromagnetic wave in motion. The electric field (E, blue)
+							oscillates along y; the magnetic field (B, red) oscillates along
+							z; the whole pattern travels along x at the speed of light. The
+							two fields stay perpendicular to each other and to the direction
+							of travel, locked in phase — a changing E generates a B, a
+							changing B generates an E, and the structure walks itself across
+							space. This is what light actually is. Visible light, radio,
+							X-rays, the Wi-Fi signal in your room — same field, different
+							wavelengths. A photon is one quantised excitation of this same
+							field.
+						</figcaption>
 					</figure>
 					<p class="mb-2">
 						So we have fields which exert force in the field. Any fundamental
@@ -521,11 +532,7 @@
 						photons, the electron is a quantum of another field called the
 						<em class="italic">electron field</em>. This field is categories as
 						<em class="italic">matter field</em> as it has mass. An electron is
-						simply an energy increment of a spread out electron field. There is
-						another field called <em class="italic">Higgs</em> field which
-						actually is responsible for providing mass to particles. Particles
-						inherently do not have mass, their mass comes from the interaction
-						with the Higgs field.
+						simply an energy increment of a spread out electron field.
 					</p>
 					<p class="mb-5">
 						Ok, so we have fields which give rise to particles and these
@@ -545,27 +552,33 @@
 						Imagine rotating a circle, - it still looks the same no matter how
 						you turn it. Physics looks for similar kinds of symmetries in how
 						the laws of nature work. Charge comes from a symmetry called
-						<em class="italic">U(1)</em> which says the laws of physics stay the
-						same even if we change certain things in specific ways. Another
-						theorem called <em class="italic">Noether's Theorem</em> states that
-						every symmetry comes with a conserved quantity - something that
-						doesn't change over time. In this case,w e call this conserved
-						quantity an "electric charge" which means charge can move around but
-						it can't just appear or disappear, it is always conserved. Imagine a
-						tub of water. It looks smooth and continuous to us from our point of
-						reference. This water in the tub has flow, pressure, and density. We
-						deal with these quantities at a macroscopic level but if we zoom in
-						far enough that picture starts to change and we find that water is
-						made of molecules which behave completely different than what those
-						molecules form: water. Another idea in physics known as
-						<em class="italic">Renormalisation</em> tells us that we don;t need
-						to know the microscopic physics to describe the macroscopic
-						behaviour. We instead figure out which features survive for us on
-						the macroscopic level. The surviving features are emergent - they
-						come from averaging the small stuff happening at the microscopic
-						levels. Similarly, the U(1) symmetry of electromagnetism comes from
-						small scale physics very far away from our eyes and ability to
-						directly study it.
+						<em class="italic">U(1)</em>.Here's the idea: in quantum mechanics,
+						every charged particle has an internal angle associated with it —
+						think of it like the phase of an oscillator, an angle that runs
+						around a circle. Nothing observable about the particle depends on
+						what that angle is in absolute terms; only differences between
+						phases matter. So if you took every charged particle in the universe
+						and shifted its phase by the same amount, nothing physical would
+						change. That invariance is the U(1) symmetry. Another theorem called
+						<em class="italic">Noether's Theorem</em> states that every symmetry
+						comes with a conserved quantity - something that doesn't change over
+						time. In this case, we call this conserved quantity an "electric
+						charge" which means charge can move around but it can't just appear
+						or disappear, it is always conserved. Imagine a tub of water. It
+						looks smooth and continuous to us from our point of reference. This
+						water has flow, pressure, and density — quantities we deal with at a
+						macroscopic level. But zoom in far enough and that picture changes:
+						water is made of molecules that behave completely differently from
+						what they collectively form. Another idea in physics,
+						renormalisation, tells us we don't need to know the microscopic
+						physics to describe the macroscopic behaviour we figure out which
+						features survive at the scale we care about. This is why we can talk
+						about voltage, current, and charge in everyday terms without
+						invoking quantum fields every time, even though those fields are
+						what underlies it all. The U(1) symmetry that produces charge,
+						though, isn't a macroscopic averaging it's exact at every scale we
+						can probe, which is part of why electric charge is so precisely
+						conserved.
 					</p>
 					<p>
 						Physicists in the late 1700s and early 1800s were trying to figure
@@ -583,7 +596,7 @@
 						Electrons are negative; protons are positive. To charges of the same
 						sign repel each other; two charges of the opposite signs attract.
 						The fact there are two kinds of charges and they cancel each other
-						is why EM force despite being 10<sup>36</sup> to 10<sup>38</sup>
+						is why EM force despite being 10<sup>36</sup> to 10<sup>42</sup>
 						times stronger than gravitational force, EM force cancels out at
 						large scales while gravity does not. Gravitational force unlike
 						electromagnetism, has only one "sign" - all masses attract each
@@ -591,9 +604,10 @@
 					</p>
 					<p>
 						Another property of charges is that they create an electric field
-						around them.
+						around them. Use the simulator below and place either the proton (+1
+						nC) or the electron (-1 nC) in the box.
 					</p>
-					<div class="flex justify-center content-center">
+					<div class="flex justify-center content-center mb-5">
 						<iframe
 							title="Phet Interactive simulations - Charges and Fields"
 							src="https://phet.colorado.edu/sims/html/charges-and-fields/latest/charges-and-fields_en.html"
@@ -603,6 +617,180 @@
 						>
 						</iframe>
 					</div>
+					<p class="mb-2">
+						Once you place a charge you'll be able to see the field lines. If
+						you drop a proton in the box you'll see field lines going outwards
+						from the charge and if you drop an electron you'll see the field
+						lines going inwards. This is a standard convention where the
+						direction of the electric field is defined as the direction a
+						positive charge will be accelerated. So if you were to place another
+						positive charge near a proton, that charge will be repelled away and
+						hence the field lines go outwards. Remember, field just a numerical
+						value assigned to every point in space. In the electrical field that
+						assigned numerical value is the <em class="italic">voltage</em>.
+						Voltage is a way of using numbers to describe an electric field.
+						Electric fields are measured in volts over a distance. There is
+						another way to intuitively understand voltage and that is to
+						understand how height relates to gravity.
+					</p>
+				</section>
+				<section>
+					<h2 class="border-b border-gray-400 pb-1 mb-2">
+						Voltage: the potential to do work
+					</h2>
+					<p class="mb-2">
+						Does a rock at the top of the hill have height? Well yes sure it's
+						at the top of the hill but more precisely
+						<em class="italic">the position of the rock is high</em>. The height
+						belongs to the location, not the rock. Move the rock somewhere else
+						and its height changes not because the rock has changed but because
+						its location has changed. Different rock same spot and you get the
+						same height. Height is the property of where you are in the space,
+						not of what's there. Same with voltage. Gravity force is an
+						attractive force. It never repels unlike electromagnetic force. This
+						attractive property of the gravitational force can be used to do
+						work. Dams are a good example of this. Most hydroelectric power
+						comes from the <em class="italic">potential energy</em> of damned
+						water driving a turbine and a generator.
+					</p>
+					<p class="mb-2">
+						So let's say hypothetically you want to use a boulder going down the
+						hill for doing some work. Let's roll the boulder on a hill and by
+						rolling it up at a particular height what you have done is stored
+						potential energy into the boulder by the virtue of its height.
+						Remember, the boulder itself does not store that potential energy,
+						it merely has access to that because of its height. Once you let it
+						go down the hill the potential energy is converted into
+						<em class="italic">kinetic energy</em>, but the hill is still there.
+						The height of the hill has potential energy not that the hill is
+						made of potential energy.
+					</p>
+					<p class="mb-2">
+						Coming back to voltage, electric field and voltage are basically the
+						same thing. If e-field is like the slope of a hill then the volts
+						are like the various heights of each different spot on the mountain.
+						Voltage and e-fields are two ways to describe the same basic
+						concept. Voltage is a bit like altitude; it is a measurement made
+						between two things. Question: what's my distance? This sounds
+						bizarre because I didn't ask my distance from what. My altitude is
+						let's say 300m above sea level but simultaneously is 2m from the
+						floor and 150 million kilometers from the sun. If you start at the
+						negative end of a battery and call that end zero volts and so the
+						other end, the positive one must be 9V (for a 9V battery). What if
+						you start at the positive end instead? Then the positive terminal is
+						zero volts and the negative terminal is negative 9V. What if you
+						start half way between the two terminals? The one terminal has +4.5V
+						and the other has -4.5V. This begs the question: what is the real
+						voltage of the positive terminal only? We don't know, the terminal
+						can have several voltages and the same time. We can easily imagine
+						the distance between two points and we can imagine the voltage
+						between two points. Single objects don't have altitude and single
+						objects don't have voltage.
+					</p>
+					<p>
+						In the word "electromagnetism" the term
+						<em class="italic">electro</em> does not refer to electricity, it
+						actually refers to voltage! Electromagnetism has two sides:
+						magnetism and voltage. Voltage isn't the only thing on the electric
+						side; it's the most accessible
+						<em class="italic">measurement</em> of it. Pick up some nails with a
+						magnet and that's an example of magnetism. Now pick up some bits of
+						paper with a plastic comb rubbed with wool and that's an example of
+						what voltage represents: separated charge exerting force across
+						space.
+					</p>
+					<figure class="my-5">
+						<picture class="flex content-center justify-center">
+							<img
+								src="/assets/dipole_charges.png"
+								alt="A 2D visualisation of the electric field around two opposite point charges. A yellow positive charge sits on the left, a blue negative charge on the right. Green arrows fill the space showing the direction and strength of the electric field at every point — pointing from the positive charge toward the negative one along the central axis and curving outward in loops above and below. White curves trace lines of constant voltage, forming closed loops around each charge."
+								loading="lazy"
+								class="md:w-1/2"
+							/>
+						</picture>
+						<figcaption class="text-center mt-2 text-gray-500">
+							An electric dipole — positive charge on the left, negative on the
+							right. The green arrows show the electric field at every point in
+							space: each arrow tells you which way and how hard a positive test
+							charge would be pushed if you placed it there. The white curves
+							are equipotential lines — lines of constant voltage, the contours
+							of the voltage landscape. Together, the arrows and the contours
+							are two ways of drawing the same thing: the voltage field around
+							these charges.
+						</figcaption>
+					</figure>
+					<p class="mb-5">
+						Voltage is associated with electrical energy and so is magnetism. In
+						mechanical physics both the kinetic energy and potential energy are
+						part of matter. The relative motion of an objects stores kinetic
+						energy while potential energy is stored in stretched or compressed
+						objects. In a similar way, electrical kinetic energy appears
+						whenever charges flow. The flow of charges is called electric
+						current and it causes magnetism. Electrical potential appears
+						whenever positive charges are taken away to a distance from their
+						corresponding negative charge. This is called "net electrostatic
+						charge" and it causes voltage. Electrical KE is associated with
+						current and electrical PE is associated with voltage. However, there
+						is a small caveat to this point. Calling voltage as a type of
+						potential energy is not fully accurate. Voltage can exist in space
+						by itself with no charges. Remember in the hill analogy: once the
+						boulder has rolled down the hill, the hill is still there. The hill
+						is like voltage, the height of the hill has "gravitational
+						potential" but the hill is not made of "potential energy" since we
+						need both the hill and the boulder to create potential energy. PE
+						belongs to the system (boulder + Earth's gravitational field), not
+						to the hill alone or the boulder alone. Similarly, with voltage if
+						we want to store any
+						<em class="italic">electrical potential energy</em> we need some
+						charges but we also need some space filling voltage fields through
+						which we can push our charges. The charges are like the boulder
+						while the voltage is the like the hill. You can push an electron up
+						a voltage hill and if you let it go it will roll down the hill; take
+						away that electron and the voltage-hill is still there.
+					</p>
+					<p>
+						Now let's synthesize all of the information provided above and see
+						what exactly is voltage doing when I turn on my oscillator.
+						Oscillator works by charging and discharging a capacitor. Think of
+						capacitor like a battery which can hold some charge (A battery
+						stores voltage, but a capacitor stores charge). By pushing current
+						in and pulling it back out, we make the capacitor's voltage swing up
+						and down, and that swinging voltage is the AC we send to the
+						speaker's coil. We define current moving from positive to negative
+						terminals on a battery but physically the positive end is the
+						<em class="italic">absence</em> of electrons and the negative end is
+						the <em class="italic">surplus</em> of electrons. Electrons drift
+						through the circuit from battery's negative terminal to its positive
+						terminal. Think of tube full of marbles. If you push the marbles at
+						one end of the tube marbles come out of the other end. However, the
+						marble coming out of the tube is not the same marble as the one
+						being inserted. This is how electrons work in a wire. They don't
+						travel in the circuit, they just drift and this drift leads to
+						electric current. But how are these electrons moving? They are
+						moving because of voltage! In the early days of electricity, voltage
+						was called <em class="italic">Electromotive force</em> and you'll
+						sometimes see <em>E</em> being used to denote voltage in a
+						mathematical equation. An oscillator does not use the AC voltage
+						coming directly from the wall socket. The socket provides AC at
+						roughly ±325V peak, oscillating at 50Hz. The voltage of the socket
+						varies in different parts of the world. North America, parts of
+						Japan, etc. peak around &PlusMinus;170V at 60Hz. An oscillator
+						cannot work with this it's too high, and it's AC, not DC. What
+						actually happens is the AC from the socket passes through a
+						<em class="italic">power supply</em>, which uses a
+						<em class="italic">transformer</em> to step the voltage down,
+						<em class="italic">diodes</em> to convert AC to DC, and capacitors
+						to smooth out the ripple. The output is steady &PlusMinus;12V DC.
+						This DC rail acts as the reservoir of potential energy for the
+						oscillator. A <em class="italic">transistor</em> based current
+						source meters out a controlled trickle of current from this rail
+						onto the timing capacitor's plate, charging it linearly over time.
+						The charging and discharging of the capacitor forms the alternating
+						pattern of oscillations that we associate with sound. The voltage of
+						the capacitor drives current in the speaker's coil which in turn
+						moves the diaphragm which pushes the air around it creating a
+						mechanical wave in the atmosphere which we perceive as sound.
+					</p>
 				</section>
 			</article>
 		</main>

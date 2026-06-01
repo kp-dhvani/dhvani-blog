@@ -3,12 +3,136 @@ document.addEventListener("DOMContentLoaded", function () {
 	const height = 500;
 	const canvas = <HTMLCanvasElement>document.getElementById("wave-canvas");
 	const context = canvas?.getContext("2d");
+	const lissajousCanvas = <HTMLCanvasElement>(
+		document.getElementById("lissajous-canvas")
+	);
+	const lissajousCanvasContext = lissajousCanvas?.getContext("2d");
+
+	const polygonCanvas = <HTMLCanvasElement>(
+		document.getElementById("polygon-canvas")
+	);
+	const polygonCanvasContext = polygonCanvas?.getContext("2d");
+
+	const frequency = 3;
+	const resolution = 10;
+	const amplitude = height * 0.45;
+	const wavelength = 100;
+
 	if (context) {
 		for (let x = 0; x < width; x++) {
-			const amplitude = height * 0.25;
-			const y = height / 2 + Math.sin(x) * amplitude;
-			context.lineTo(x, y);
+			const y =
+				height / 2 +
+				Math.sin((x / width) * Math.PI * 2 * frequency) * amplitude;
+			context.lineTo(x, height - y);
 		}
 		context.stroke();
 	}
+
+	function drawSineWave(
+		x0: number,
+		y0: number,
+		x1: number,
+		y1: number,
+		frequency: number,
+		amplitude: number,
+	) {
+		const dx = x1 - x0;
+		const dy = y1 - y0;
+		const distance = Math.sqrt(dx * dx + dy * dy);
+		const angle = Math.atan2(dy, dx);
+		context?.save();
+		context?.translate(x0, y0);
+		context?.rotate(angle);
+		context?.beginPath();
+		context?.moveTo(0, 0);
+		for (let x = 0; x < distance; x++) {
+			const y = Math.sin((x / distance) * frequency * Math.PI * 2) * amplitude;
+			context?.lineTo(x, -y);
+		}
+		context?.stroke();
+		context?.restore();
+	}
+
+	drawSineWave(100, 100, 700, 400, 10, 40);
+
+	function drawTanCurve() {
+		const amplitude = 10;
+		const frequency = 2;
+		context?.save();
+		for (let x = 0; x < width; x++) {
+			const y =
+				height / 2 + Math.tan((x / width) * Math.PI * frequency) * amplitude;
+			context?.lineTo(x, height - y);
+		}
+		context?.stroke();
+		context?.restore();
+	}
+
+	drawTanCurve();
+
+	// const cx = width / 2;
+	// const cy = height / 2;
+	// const radius = 200;
+
+	// for (let t = 0; t < Math.PI * 2; t += 0.01) {
+	// 	circleCanvasContext?.lineTo(
+	// 		cx + Math.cos(t) * radius,
+	// 		cy + Math.sin(t) * radius,
+	// 	);
+	// }
+	// circleCanvasContext?.closePath();
+	// circleCanvasContext?.stroke();
+
+	function drawPolygon(
+		x: number,
+		y: number,
+		radius: number,
+		sides: number,
+		rotation: number,
+	) {
+		const resolution = (Math.PI * 2) / sides;
+		polygonCanvasContext?.save();
+		// polygonCanvasContext?.beginPath();
+		polygonCanvasContext?.moveTo(0, 0);
+
+		for (let i = 0; i < Math.PI * 2; i += resolution) {
+			polygonCanvasContext?.lineTo(
+				x + Math.cos(i + rotation) * radius,
+				y + Math.sin(i + rotation) * radius,
+			);
+		}
+		polygonCanvasContext?.closePath();
+	}
+
+	let polygonAngle = 0;
+	for (let r = 5; r <= 255; r += 10) {
+		drawPolygon(300, 300, r, 5, polygonAngle);
+		polygonAngle += 0.05;
+	}
+	polygonCanvasContext?.stroke();
+
+	function drawLissajousCurve(
+		cx: number,
+		cy: number,
+		A: number,
+		B: number,
+		a: number,
+		b: number,
+		d: number,
+	) {
+		const resolution = 0.01;
+		lissajousCanvasContext?.beginPath();
+		for (let t = 0; t < Math.PI * 2; t += resolution) {
+			const x = cx + Math.sin(a * t + d) * A;
+			const y = cy + Math.sin(b * t) * B;
+			lissajousCanvasContext?.lineTo(x, y);
+		}
+		lissajousCanvasContext?.closePath();
+		lissajousCanvasContext?.stroke();
+	}
+
+	// drawLissajousCurve(300, 300, 250, 250, 1, 1, Math.PI / 2);
+	drawLissajousCurve(300, 300, 250, 250, 2, 1, 0);
+	drawLissajousCurve(300, 300, 250, 250, 2, 3, 0);
+	drawLissajousCurve(300, 300, 100, 250, 10, 11, 0.5);
 });

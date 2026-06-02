@@ -1,6 +1,23 @@
+import { Bezier } from "bezier-js";
+
+class Pointer {
+	x: number;
+	y: number;
+	constructor(x: number, y: number) {
+		this.x = x;
+		this.y = y;
+	}
+}
+
 document.addEventListener("DOMContentLoaded", function () {
 	const width = 800;
 	const height = 500;
+
+	const harmonicWaveCanvas = <HTMLCanvasElement>(
+		document.getElementById("harmonic-wave-canvas")
+	);
+	const harmonicWaveContext = harmonicWaveCanvas?.getContext("2d");
+
 	const canvas = <HTMLCanvasElement>document.getElementById("wave-canvas");
 	const context = canvas?.getContext("2d");
 	const lissajousCanvas = <HTMLCanvasElement>(
@@ -17,6 +34,37 @@ document.addEventListener("DOMContentLoaded", function () {
 	const resolution = 10;
 	const amplitude = height * 0.45;
 	const wavelength = 100;
+
+	const length = 100;
+	const y = harmonicWaveCanvas.height / 2;
+	const margin = 0;
+	const x0 = margin;
+	const y0 = harmonicWaveCanvas.height / 2;
+	const x1 = harmonicWaveCanvas.width - margin;
+	const y1 = y;
+	const cx = x0 + y0 / 2;
+	const string = new Bezier(x0, y, cx, y, x1, y);
+	function drawHarmonicWaveString() {
+		const points = string.getLUT(1);
+		console.log(string.length());
+		harmonicWaveContext?.beginPath();
+		harmonicWaveContext?.moveTo(points[0].x, points[0].y);
+		for (const p of points) harmonicWaveContext?.lineTo(p.x, p.y);
+		harmonicWaveContext!.strokeStyle = "#FF6577";
+		harmonicWaveContext!.lineWidth = 3;
+
+		harmonicWaveContext?.stroke();
+	}
+
+	harmonicWaveCanvas.addEventListener("click", function (e: PointerEvent) {
+		const rect = harmonicWaveCanvas.getBoundingClientRect();
+		const mouseX = (e.clientX - rect.left) * (canvas.width / rect.width);
+		const mouseY = (e.clientY - rect.top) * (canvas.height / rect.height);
+		const hit = string.project({ x: mouseX, y: mouseY });
+		console.log(hit);
+	});
+
+	drawHarmonicWaveString();
 
 	if (context) {
 		for (let x = 0; x < width; x++) {

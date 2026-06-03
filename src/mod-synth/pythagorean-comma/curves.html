@@ -22,15 +22,20 @@
 				</header>
 				<section>
 					<h2 class="border-b border-gray-400 pb-1 mb-2">Pythagorean Comma</h2>
-					<div class="w-full aspect-[1.6]">
-						<canvas
-							id="harmonic-wave-canvas"
-							class="border-x border-gray-400 block h-full w-full"
-						/>
+					<div>
+						<canvas id="wave-canvas" width="800" height="500" />
+					</div>
+
+					<div class="my-5">
+						<canvas id="polygon-canvas" width="800" height="500" />
+					</div>
+
+					<div class="mt-10">
+						<canvas id="lissajous-canvas" width="600" height="600" />
 					</div>
 				</section>
 			</article>
 		</main>
-		<script src="./main.ts" type="module"></script>
+		<script src="./curves.ts" type="module"></script>
 	</body>
 </html>

@@ -20,7 +20,6 @@
     "vite-plugin-html-inject": "^1.1.2"
   },
   "dependencies": {
-    "bezier-js": "^6.1.4",
     "chart.js": "^4.4.6",
     "tone": "^15.0.4"
   }

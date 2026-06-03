@@ -1,6 +1,4 @@
-import { Bezier } from "bezier-js";
-
-class Pointer {
+class Point {
 	x: number;
 	y: number;
 	constructor(x: number, y: number) {
@@ -9,178 +7,246 @@ class Pointer {
 	}
 }
 
+function getLinearInterPolationValue(
+	startValue: number,
+	endValue: number,
+	ratio: number,
+) {
+	return startValue + (endValue - startValue) * ratio;
+}
+
+function getLinearInterpolationPoint(
+	startPoint: Point,
+	endPoint: Point,
+	ratio: number,
+) {
+	return new Point(
+		getLinearInterPolationValue(startPoint.x, endPoint.x, ratio),
+		getLinearInterPolationValue(startPoint.y, endPoint.y, ratio),
+	);
+}
+
+function getPointOnQuadraticBezierCurve(
+	startPoint: Point,
+	controlPoint: Point,
+	endPoint: Point,
+	ratio: number,
+) {
+	return getLinearInterpolationPoint(
+		getLinearInterpolationPoint(startPoint, controlPoint, ratio),
+		getLinearInterpolationPoint(controlPoint, endPoint, ratio),
+		ratio,
+	);
+}
+
 document.addEventListener("DOMContentLoaded", function () {
-	const width = 800;
-	const height = 500;
+	let harmonicWaveCanvasHeight = 0;
+	let harmonicWaveCanvasWidth = 0;
 
 	const harmonicWaveCanvas = <HTMLCanvasElement>(
 		document.getElementById("harmonic-wave-canvas")
 	);
 	const harmonicWaveContext = harmonicWaveCanvas?.getContext("2d");
 
-	const canvas = <HTMLCanvasElement>document.getElementById("wave-canvas");
-	const context = canvas?.getContext("2d");
-	const lissajousCanvas = <HTMLCanvasElement>(
-		document.getElementById("lissajous-canvas")
-	);
-	const lissajousCanvasContext = lissajousCanvas?.getContext("2d");
-
-	const polygonCanvas = <HTMLCanvasElement>(
-		document.getElementById("polygon-canvas")
-	);
-	const polygonCanvasContext = polygonCanvas?.getContext("2d");
-
-	const frequency = 3;
-	const resolution = 10;
-	const amplitude = height * 0.45;
-	const wavelength = 100;
-
-	const length = 100;
-	const y = harmonicWaveCanvas.height / 2;
-	const margin = 0;
-	const x0 = margin;
-	const y0 = harmonicWaveCanvas.height / 2;
-	const x1 = harmonicWaveCanvas.width - margin;
-	const y1 = y;
-	const cx = x0 + y0 / 2;
-	const string = new Bezier(x0, y, cx, y, x1, y);
-	function drawHarmonicWaveString() {
-		const points = string.getLUT(1);
-		console.log(string.length());
+	function drawNHarmonicWaveString(harmonic: number) {
+		const amplitude = 80;
+		const restY = harmonicWaveCanvasHeight / 2;
+		// n = 2 archWidth = 400
+		const archWidth = harmonicWaveCanvasWidth / harmonic; // each harmonic width is L/n
 		harmonicWaveContext?.beginPath();
-		harmonicWaveContext?.moveTo(points[0].x, points[0].y);
-		for (const p of points) harmonicWaveContext?.lineTo(p.x, p.y);
+
+		for (let i = 0; i < harmonic; i++) {
+			const curveStartX = archWidth * i; // n = 2 400 * 2 = 800
+			const curveEndX = curveStartX + archWidth; // n = 2 800 + 800 = 1600
+			const startPoint = new Point(curveStartX, restY);
+			const endPoint = new Point(curveEndX, restY);
+
+			// canvas y points down so up is negative
+			const direction = i % 2 === 0 ? -1 : 1;
+
+			const controlPoint = new Point(
+				(curveStartX + curveEndX) / 2,
+				restY + direction * 4 * amplitude,
+			);
+			for (let j = 0; j <= 60; j++) {
+				const point = getPointOnQuadraticBezierCurve(
+					startPoint,
+					controlPoint,
+					endPoint,
+					j / 60,
+				);
+				i === 0 && j === 0
+					? harmonicWaveContext?.moveTo(point.x, point.y)
+					: harmonicWaveContext?.lineTo(point.x, point.y);
+			}
+		}
 		harmonicWaveContext!.strokeStyle = "#FF6577";
 		harmonicWaveContext!.lineWidth = 3;
 
 		harmonicWaveContext?.stroke();
 	}
 
-	harmonicWaveCanvas.addEventListener("click", function (e: PointerEvent) {
-		const rect = harmonicWaveCanvas.getBoundingClientRect();
-		const mouseX = (e.clientX - rect.left) * (canvas.width / rect.width);
-		const mouseY = (e.clientY - rect.top) * (canvas.height / rect.height);
-		const hit = string.project({ x: mouseX, y: mouseY });
-		console.log(hit);
-	});
-
-	drawHarmonicWaveString();
-
-	if (context) {
-		for (let x = 0; x < width; x++) {
-			const y =
-				height / 2 +
-				Math.sin((x / width) * Math.PI * 2 * frequency) * amplitude;
-			context.lineTo(x, height - y);
-		}
-		context.stroke();
-	}
-
-	function drawSineWave(
-		x0: number,
-		y0: number,
-		x1: number,
-		y1: number,
-		frequency: number,
-		amplitude: number,
-	) {
-		const dx = x1 - x0;
-		const dy = y1 - y0;
-		const distance = Math.sqrt(dx * dx + dy * dy);
-		const angle = Math.atan2(dy, dx);
-		context?.save();
-		context?.translate(x0, y0);
-		context?.rotate(angle);
-		context?.beginPath();
-		context?.moveTo(0, 0);
-		for (let x = 0; x < distance; x++) {
-			const y = Math.sin((x / distance) * frequency * Math.PI * 2) * amplitude;
-			context?.lineTo(x, -y);
-		}
-		context?.stroke();
-		context?.restore();
-	}
-
-	drawSineWave(100, 100, 700, 400, 10, 40);
-
-	function drawTanCurve() {
-		const amplitude = 10;
-		const frequency = 2;
-		context?.save();
-		for (let x = 0; x < width; x++) {
-			const y =
-				height / 2 + Math.tan((x / width) * Math.PI * frequency) * amplitude;
-			context?.lineTo(x, height - y);
-		}
-		context?.stroke();
-		context?.restore();
-	}
-
-	drawTanCurve();
-
-	// const cx = width / 2;
-	// const cy = height / 2;
-	// const radius = 200;
-
-	// for (let t = 0; t < Math.PI * 2; t += 0.01) {
-	// 	circleCanvasContext?.lineTo(
-	// 		cx + Math.cos(t) * radius,
-	// 		cy + Math.sin(t) * radius,
-	// 	);
-	// }
-	// circleCanvasContext?.closePath();
-	// circleCanvasContext?.stroke();
-
-	function drawPolygon(
-		x: number,
-		y: number,
-		radius: number,
-		sides: number,
-		rotation: number,
-	) {
-		const resolution = (Math.PI * 2) / sides;
-		polygonCanvasContext?.save();
-		// polygonCanvasContext?.beginPath();
-		polygonCanvasContext?.moveTo(0, 0);
-
-		for (let i = 0; i < Math.PI * 2; i += resolution) {
-			polygonCanvasContext?.lineTo(
-				x + Math.cos(i + rotation) * radius,
-				y + Math.sin(i + rotation) * radius,
+	function drawHarmonicWave() {
+		const stringStart = new Point(0, harmonicWaveCanvasHeight / 2);
+		const stringEnd = new Point(
+			harmonicWaveCanvasWidth,
+			harmonicWaveCanvasHeight / 2,
+		);
+		const amplitude = 80;
+		const firstHarmonicControlPoint = new Point(
+			harmonicWaveCanvasWidth / 2,
+			harmonicWaveCanvasHeight / 2 - 5 * amplitude,
+		);
+		harmonicWaveContext?.beginPath();
+		for (let i = 0; i <= 60; i++) {
+			const controlPoint = getPointOnQuadraticBezierCurve(
+				stringStart,
+				firstHarmonicControlPoint,
+				stringEnd,
+				i / 60,
 			);
+			i === 0
+				? harmonicWaveContext?.moveTo(controlPoint.x, controlPoint.y)
+				: harmonicWaveContext?.lineTo(controlPoint.x, controlPoint.y);
 		}
-		polygonCanvasContext?.closePath();
-	}
 
-	let polygonAngle = 0;
-	for (let r = 5; r <= 255; r += 10) {
-		drawPolygon(300, 300, r, 5, polygonAngle);
-		polygonAngle += 0.05;
-	}
-	polygonCanvasContext?.stroke();
-
-	function drawLissajousCurve(
-		cx: number,
-		cy: number,
-		A: number,
-		B: number,
-		a: number,
-		b: number,
-		d: number,
-	) {
-		const resolution = 0.01;
-		lissajousCanvasContext?.beginPath();
-		for (let t = 0; t < Math.PI * 2; t += resolution) {
-			const x = cx + Math.sin(a * t + d) * A;
-			const y = cy + Math.sin(b * t) * B;
-			lissajousCanvasContext?.lineTo(x, y);
+		const secondHarmonicLerp = getLinearInterpolationPoint(
+			stringStart,
+			firstHarmonicControlPoint,
+			0.5,
+		);
+		for (let i = 0; i <= 60; i++) {
+			const controlPoint = getPointOnQuadraticBezierCurve(
+				stringStart,
+				secondHarmonicLerp,
+				firstHarmonicControlPoint,
+				i / 60,
+			);
+			i === 0
+				? harmonicWaveContext?.moveTo(controlPoint.x, controlPoint.y)
+				: harmonicWaveContext?.lineTo(controlPoint.x, controlPoint.y);
 		}
-		lissajousCanvasContext?.closePath();
-		lissajousCanvasContext?.stroke();
+		harmonicWaveContext!.strokeStyle = "#FF6577";
+		harmonicWaveContext!.lineWidth = 3;
+
+		harmonicWaveContext?.stroke();
 	}
 
-	// drawLissajousCurve(300, 300, 250, 250, 1, 1, Math.PI / 2);
-	drawLissajousCurve(300, 300, 250, 250, 2, 1, 0);
-	drawLissajousCurve(300, 300, 250, 250, 2, 3, 0);
-	drawLissajousCurve(300, 300, 100, 250, 10, 11, 0.5);
+	/**
+	 *
+	 * @param harmonic
+	 * @param restY resting horizontal string line
+	 * @param amplitude
+	 */
+	function drawNthHarmonic(harmonic: number, restY: number, amplitude: number) {
+		/**
+		 * cut the string into harmonic equal pieces
+		 * each piece is one arch
+		 */
+		const archWidth = harmonicWaveCanvasWidth / harmonic; // each harmonic width is L/n
+		harmonicWaveContext?.beginPath();
+
+		// outer loop once per arch
+		for (let i = 0; i < harmonic; i++) {
+			/**
+			 * X positions of the two nodes
+			 */
+			const curveStartX = archWidth * i;
+			const curveEndX = curveStartX + archWidth;
+
+			/**
+			 * X, Y of the start and end points
+			 * Y stays the same since we want the
+			 * harmonic centered horizontally
+			 */
+			const startPoint = new Point(curveStartX, restY);
+			const endPoint = new Point(curveEndX, restY);
+
+			/**
+			 * canvas y points down so up is negative
+			 * flips to +1, -1, +1, -1...
+			 * for the antinodes to go up and down
+			 */
+			const direction = i % 2 === 0 ? -1 : 1;
+
+			/**
+			 * this is what we will use to draw the arch. Y is calculated based on direction and the position of the control point
+			 * if restY is 250 half of height and i want to keep some margin between the curve and the border let's say amplitude peaking at y = 100
+			 * 250 - 100 = 150px above restY so actual amplitude is 150
+			 * ratio 0.5 for first harmonic using de Casteljau makes the peak halfway so the control point has to be 2 * amplitude
+			 */
+			const controlPoint = new Point(
+				(curveStartX + curveEndX) / 2,
+				restY + direction * 2 * amplitude,
+			);
+
+			/**
+			 *
+			 */
+			for (let j = 0; j <= 60; j++) {
+				const point = getPointOnQuadraticBezierCurve(
+					startPoint,
+					controlPoint,
+					endPoint,
+					j / 60,
+				);
+				i === 0 && j === 0
+					? harmonicWaveContext?.moveTo(point.x, point.y)
+					: harmonicWaveContext?.lineTo(point.x, point.y);
+			}
+		}
+		harmonicWaveContext!.strokeStyle = "#FF6577";
+		harmonicWaveContext!.lineWidth = 3;
+
+		harmonicWaveContext?.stroke();
+	}
+
+	function drawAllHarmonics(count: number) {
+		harmonicWaveContext?.clearRect(
+			0,
+			0,
+			harmonicWaveCanvasWidth,
+			harmonicWaveCanvasHeight,
+		);
+		const amplitude = harmonicWaveCanvasHeight * 0.4;
+		const restY = harmonicWaveCanvasHeight / 2;
+		harmonicWaveContext?.beginPath();
+		// harmonicWaveContext?.setLineDash([5, 5]);
+		harmonicWaveContext?.moveTo(0, harmonicWaveCanvasHeight / 2);
+		harmonicWaveContext!.lineWidth = 3;
+
+		harmonicWaveContext?.lineTo(
+			harmonicWaveCanvasWidth,
+			harmonicWaveCanvasHeight / 2,
+		);
+		harmonicWaveContext?.stroke();
+		harmonicWaveContext?.setLineDash([]);
+		for (let h = 1; h <= count; h++) {
+			drawNthHarmonic(h, restY, amplitude);
+		}
+	}
+
+	drawAllHarmonics(4);
+
+	function resizeHarmonicWaveCanvas(cssW: number, cssH: number) {
+		const dpr = window.devicePixelRatio || 1;
+
+		harmonicWaveCanvasWidth = cssW;
+		harmonicWaveCanvasHeight = cssH;
+
+		harmonicWaveCanvas.width = Math.round(cssW * dpr);
+		harmonicWaveCanvas.height = Math.round(cssH * dpr);
+		harmonicWaveContext?.setTransform(dpr, 0, 0, dpr, 0, 0);
+	}
+
+	function renderHarmonicWave() {
+		drawAllHarmonics(4);
+	}
+
+	const harmonicWaveResizeObserver = new ResizeObserver(([entry]) => {
+		const { width, height } = entry.contentRect;
+		resizeHarmonicWaveCanvas(width, height);
+		renderHarmonicWave();
+	});
+	harmonicWaveResizeObserver.observe(harmonicWaveCanvas);
 });

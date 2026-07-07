@@ -21,10 +21,10 @@
 					<p class="underline mb-2">A brief history of drums</p>
 					<p>
 						Drums play an important role in the rhythmic structure of every
-						genre of music. From Kettle drums, Bass drums, Snare drums, etc. in
-						the Western music to Tabla, Dhol, Mridangam, Dholak, etc. in the
-						Indian music to the Persian Zerbaghali to Tanggu in China, drums
-						have existed in all major civilisations in one form or the other for
+						genre of music. From k drums, bass drums, snare drums, etc. in the
+						Western music to tabla, dhol, mridangam, dholak, etc. in the Indian
+						music to the Persian zerbaghali to tanggu in China, drums have
+						existed in all major civilisations in one form or the other for
 						musical and non-musical purposes. First earliest evidence of drums
 						comes from the idiophones (produce sound via the vibration of the
 						entire instrument) made from mammoth bones found in present day
@@ -286,7 +286,7 @@
 					large displacement of the drumhead when you strike a drum harder.
 					<span class="italic"
 						>The fundamental frequency is related to the displacement of the
-						membrane in some way.</span
+						membrane.</span
 					>
 				</p>
 				<figure class="flex flex-col items-center justify-center my-10 w-full">
@@ -303,17 +303,19 @@
 					</picture>
 				</figure>
 				<p>
-					The head that you strike is called the drum head of the batter head
+					The head that you strike is called the drum head or the batter head
 					and the other is resonating or carry head. With the air trapped inside
-					2 membranes a drum bass has 3 coupled resonators. Due to the trapped
-					air the membrane's vibrations are affected in such a way that we see 2
-					frequencies each for the first 2 modes.
+					2 membranes a drum bass has 3 coupled resonators.
 				</p>
 				<p>
-					A modern kick drum is not exactly like a bass drum. A kick drum which
-					evolved from a bass drum is modified specifically for modern music. A
-					kick drum does not have 2 complete membranes instead there is a hole
-					in the carry head which has several purposes like:
+					A modern kick drum is not exactly like a bass drum. A bass drum is
+					something you might see in a marching band being played by hands while
+					a kick drum is meant to be played by "foot" using a kick pedal (might
+					as well call it a foot drum). All kick drums are bass drums but not
+					all bass drums are kick drums. A kick drum which evolved from a bass
+					drum is modified specifically for modern music. A kick drum does not
+					have 2 complete membranes instead there is a hole in the carry head
+					which has several purposes like:
 				</p>
 				<ul class="list-disc pl-8 space-y-2 mb-2">
 					<li>
@@ -338,28 +340,14 @@
 						frequencies with a large number of densely packed enharmonic
 						frequencies at mid and higher frequencies.</span
 					>
-					However a drum sound has not only these low frequencies almost
-					harmonic components, it generates partials between 250Hz and 1Khz so
-					we must also consider this in our synthesis. We can use Frequency
-					Modulation to generate the partials. Frequency modulation works by
-					having one oscillator (modulator) affect the frequency of the other
-					oscillator (carrier). When the modulation happens in the audio range
-					(above 20Hz) it creates sidebands i.e. additional frequencies above
-					and below the carrier frequency. [More on frequency modulation in a
-					different article soon].
-					<br />
-					Now that we have the frequency content of the sound let's understand
-					the amplitude levels of the sound. The amplitude at the lower modes
-					are the highest hence loudest and the amplitude decreases rapidly at
-					higher modes of vibration producing higher frequency components. So a
-					triangle wave or a sawtooth wave will be ideal for the synthesis [more
-					on this in different article]. After this there are 2 more components
-					that we need to take into account while synthesising the sound: the
-					frequency shift and the sound of the beater head 'click'.
-					<br />
-					The carry head of the kick drum has more freedom to vibrate because of
-					the hole in the drum. But what causes the pitch change? Remember, the
-					pitch is entirely dependent on the tension of the membrane.
+				</p>
+				<p>
+					After this there are 2 more components that we need to take into
+					account while synthesising the sound: the frequency shift and the
+					'click' sound of the beater head. The carry head of the kick drum has
+					more freedom to vibrate because of the hole in the drum. But what
+					causes the pitch change? Remember, the pitch is entirely dependent on
+					the tension of the membrane.
 				</p>
 				<div class="flex flex-col items-center justify-center">
 					<div class="w-full max-w-4xl">
@@ -432,7 +420,7 @@
 					couple of semitones from start to finish and we need consider this in
 					our synthesis for a more natural drum sound.
 				</p>
-				<p>
+				<p class="mb-5">
 					The click comes from the beater hitting the drumhead which sends a
 					shockwave across the membrane of the drum which travel outwards from
 					the point of the impact. Due to this several high frequency partials
@@ -441,10 +429,64 @@
 					mass of both the beater and the impact point of the drumhead determine
 					which higher frequencies get more excited.
 				</p>
-				<p>
+				<p class="mb-5">
+					Now that we have the frequency content of the sound let's understand
+					the amplitude levels of the sound. The amplitude at the lower modes
+					are the highest hence loudest and the amplitude decreases rapidly at
+					higher modes of vibration producing higher frequency components. When
+					a percussive instrument is struck, you introduce a high level of
+					energy into the system and this initial high energy produces a high
+					amplitude. The attack is instant and injects maximum energy in zero
+					time. So the amplitude is loudest at this point. As soon as all the
+					energy is transferred into the system, it starts to vibrate and starts
+					to lose that energy. The energy loss is proportional to what the
+					current energy in the system is. This is an exponential decay. A
+					vibrating membrane in this case loses energy because of damping
+					through friction, air resistance, radiating sound, etc. The loss of
+					energy is fractional of what current energy is and not an absolute
+					value.
+					<em class="italic">A constant ratio.</em> Energy and amplitude both
+					decay exponentially but at different rates since energy &propto;
+					amplitude<sup>2</sup> which means energy decays twice as fast as
+					amplitude.
+				</p>
+				<p class="mb-2">
 					Now that we have know the frequency content and the amplitude levels
-					of a bass drum we can think about synthesising the basic sound. To
-					model the sound this is what we will do:
+					of a bass drum we can think about synthesising the basic sound. As we
+					just saw, the physics of the bass drum sound is quite complex. There
+					are 3 resonators in the system which produce multiple frequencies for
+					a mode. The sound is "unpitched" for a bass drum because of these
+					inharmonic frequencies. A pitched sound has a solid high energy
+					fundamental frequency which our brain uses to recognise the pitch.
+					Another factor for the brain to recognise pitch is the harmonic
+					relationship of the frequencies. For a pitched sound all the
+					frequencies are related to the fundamental frequency with the
+					relationship <em class="italic">n * fundamental frequency</em> which
+					is an integer ratio. This makes the harmonics of the sound to be
+					separated evenly with each other. For a pitched sound of 50Hz, the
+					fundamental is 50Hz which is the first harmonic, the second harmonic
+					is 2 * 50 = 100Hz, the third harmonic is 3 * 50 = 150Hz, so on and so
+					forth until infinity. However, a bass drum's acoustics does not behave
+					like that. For a drum vibrating, something called Bessel function
+					determines the harmonic relationship with the fundamental. So if the
+					fundamental is 50Hz the first harmonic is 1 * 50 = 50Hz, the second
+					harmonic is 1.59 * 50 = 79.5Hz, the third harmonic is 2.14 * 50 =
+					107Hz, the fourth harmonic is 2.30 * 50 = 115Hz. So each harmonic is
+					in a non-integer relationship with the fundamental. Since the
+					harmonics are not placed evenly in the spectrum our brains can't
+					really put a pitch on the sound. This causes bass drums to not have a
+					stable pitch. However, what matters more for a bass drum is the timbre
+					and not the pitch.
+				</p>
+				<p>
+					So, now the question is how do we synthesis these complex modes? The
+					answer is we don't!
+					<em class="italic"
+						>Sound synthesis targets perceptual goals and not the acoustic
+						goals.</em
+					>
+					The aim is not to reproduce the physical phenomena but reproduce the
+					perceptual effects.
 				</p>
 				<section>
 					<div class="mb-10 mr-0 md:mr-4 w-full flex justify-center">

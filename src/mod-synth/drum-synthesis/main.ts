@@ -20,7 +20,7 @@ Chart.register(
 );
 
 const FREQ_START = 150;
-const FREQ_END = 50;
+const FREQ_END = 60;
 const TAU_PITCH = 12; // pitch decay in ms
 const TAU_AMP = 85; // amp decay in ms
 const DURATION = 200; // ms window to plot

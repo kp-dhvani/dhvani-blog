@@ -20,7 +20,7 @@ Chart.register(
 );
 
 const FREQ_START = 150;
-const FREQ_END = 60;
+const FREQ_END = 50;
 const TAU_PITCH = 12; // pitch decay in ms
 const TAU_AMP = 85; // amp decay in ms
 const DURATION = 200; // ms window to plot
@@ -136,7 +136,15 @@ function drawCharts() {
 				},
 			],
 		},
-		options: getBaseOptions("Hz", 40, 160),
+		options: {
+			...getBaseOptions("Hz", 40, 160),
+			plugins: {
+				title: {
+					text: "Exponentially decaying pitch",
+					display: true,
+				},
+			},
+		},
 	});
 
 	mount("waveform-chart", {
@@ -165,7 +173,15 @@ function drawCharts() {
 				},
 			],
 		},
-		options: getBaseOptions("", -1.1, 1.1),
+		options: {
+			...getBaseOptions("", -1.1, 1.1),
+			plugins: {
+				title: {
+					text: "Exponentially decaying volume",
+					display: true,
+				},
+			},
+		},
 	});
 }
 

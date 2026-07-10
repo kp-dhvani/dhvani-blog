@@ -21,10 +21,10 @@
 					<p class="underline mb-2">A brief history of drums</p>
 					<p>
 						Drums play an important role in the rhythmic structure of every
-						genre of music. From k drums, bass drums, snare drums, etc. in the
-						Western music to tabla, dhol, mridangam, dholak, etc. in the Indian
-						music to the Persian zerbaghali to tanggu in China, drums have
-						existed in all major civilisations in one form or the other for
+						genre of music. From kick drums, bass drums, snare drums, etc. in
+						the Western music to tabla, dhol, mridangam, dholak, etc. in the
+						Indian music to the Persian zerbaghali to tanggu in China, drums
+						have existed in all major civilisations in one form or the other for
 						musical and non-musical purposes. First earliest evidence of drums
 						comes from the idiophones (produce sound via the vibration of the
 						entire instrument) made from mammoth bones found in present day
@@ -86,8 +86,9 @@
 						pitched and un-pitched sounds. pitched membranophones include tabla,
 						timpani, talking drum from West Africa, etc. unoitched
 						membranophones include snare drum, bass drum, tom-toms, etc.
-						<br />
-						pitched idiophones include bells, xylophones, glockenspiel, etc.
+					</p>
+					<p>
+						Pitched idiophones include bells, xylophones, glockenspiel, etc.
 						unpitched idiophones include cymbals, hi-hats, triangle, wood
 						blocks, tambourine, etc.
 						<br />
@@ -486,8 +487,62 @@
 						goals.</em
 					>
 					The aim is not to reproduce the physical phenomena but reproduce the
-					perceptual effects.
+					perceptual effects. A bass drum when struck generates high frequency
+					partials which die out pretty quickly. The whole process is so quick
+					that our brains can't even discern a pitch from that sound. The higher
+					mode partials die out in tens of milliseconds and settle into the
+					fundamental. Our auditory cortex takes somewhere around 200-300ms to
+					fully process an incoming sound and discern the pitch of the sound.
+					Hence, a bass drum has this tight punch like *thwack* and then a
+					simple body sonically. Most of the energy is around the fundamental
+					which rings for hundred of milliseconds one the beater hits the
+					membrane.
 				</p>
+				<figure class="flex flex-col items-center justify-center my-10 w-full">
+					<picture class="flex justify-center w-full flex-col">
+						<img
+							src="/assets/bass_drum_waveform.png"
+							alt="waveform of a bass drum"
+							loading="lazy"
+						/>
+						<figcaption class="text-center mt-2">
+							A bass drum waveform
+						</figcaption>
+					</picture>
+				</figure>
+				<div class="text-center my-10">
+					<audio
+						controls
+						preload="none"
+						class="mx-auto border border-accent-color bg-accent-color rounded-3xl"
+						id="audio-1"
+					>
+						<source src="/assets/bass_drum.wav" type="audio/wav" />
+					</audio>
+					<label for="audio-1">Audio of the bass drum</label>
+				</div>
+				<section>
+					<p>
+						Let's look at the waveform. This is taken from a recording of a bass
+						drum. Notice the spacing between the wave cycles at the start.
+						That's a high pitched sound and hence the cycles are so close. This
+						is the initial transient of the kick which sits at a really high
+						pitch when the beater hits the membrane. The initial transient is so
+						tightly packed that it almost looks like noise and slowly the
+						spacing starts to increase between each cycle and as we discussed
+						earlier now you can see that the higher partials introduced in the
+						membrane die out quick and slowly settle into the actual fundamental
+						of the tone. Now let's look at the amplitude, the volume. The
+						waveform is tallest at the start and slowly starts to decrease in
+						height until it dies completely. This the exponentially decaying
+						amplitude of the bass drum. The volume follows the decaying path of
+						the energy introduced in the membrane. Energy and hence the
+						amplitude decays exponentially. So to synthesise the sound the two
+						things we need to model is the pitch (frequency) and volume
+						(amplitude) decaying exponentially. Let's model the two behaviours
+						on a chart and see what that looks like.
+					</p>
+				</section>
 				<section>
 					<div class="mb-10 mr-0 md:mr-4 w-full flex justify-center">
 						<canvas
@@ -497,6 +552,24 @@
 							class="max-sm:w-full my-3"
 						></canvas>
 					</div>
+					<p>
+						Let's start with the pitch. This is what an exponentially decaying
+						pitch looks like if we plot the pitch against time. The membrane has
+						a vibrational fundamental mode where it resonates strongly and has
+						the highest level of energy. The beater hitting the membrane
+						instantly transfers a a big amount of energy into the higher
+						partials of the vibrational modes for the first few milliseconds yet
+						the fundamental frequency still has the highest energy. This makes
+						the pitch of the tone start at a high frequency and as the energy
+						dissipates what you hear is the fundamental frequency of the tone.
+						So when synthesising the drum sound we will start with a high pitch
+						which then slowly exponentially settles to its fundamental. The
+						pitch shift for the drum at the start is around 2-3 semitones so
+						that's the amount of shift we need to introduce while synthesising
+						the sound. In this graph I have exaggerated the pitch shift just to
+						draw the chart because 2-3 semitones would not show up properly on
+						the graph.
+					</p>
 					<div class="mb-10 mr-0 md:mr-4 w-full flex justify-center">
 						<canvas
 							id="waveform-chart"
@@ -505,6 +578,108 @@
 							class="max-sm:w-full my-3"
 						></canvas>
 					</div>
+					<p class="mb-5">
+						Looking at the volume graph you can see the same exponential
+						relationship as the pitch. The sound starts at a high volume and
+						slowly decays into silence. The amplitude starts at its maximum and
+						then starts to decrease as the energy dissipates away. Drawing the
+						waveform here also show how the pitch is high at the start and then
+						slowly settles down to its fundamental.
+					</p>
+				</section>
+				<section>
+					<h2 class="border-b border-gray-400 pb-1 mb-2">
+						Synthesising a kick drum
+					</h2>
+					<p>
+						Now that we have modeled the frequency and the amplitude of the
+						sound, how do we synthesis it? So far I have tried two different
+						methods on my modular rig trying to find a workflow for a punchy
+						kick drum. We will be synthesising a kick drum and not a bass drum
+						since a kick drum has more punch which I really like in my tracks.
+						For the two workflows this is what we need:
+					</p>
+					<ul class="list-disc pl-8 space-y-2 my-2">
+						<li>Resonant filters</li>
+						<li>Voltage controlled amplifiers</li>
+						<li>Low pass gate (optional)</li>
+						<li>A noise source</li>
+						<li>Mixer</li>
+						<li>A sequencer to trigger the sound</li>
+						<li>
+							Some utility modules that provide overdrive, saturation,
+							distortion, clipping, etc.
+						</li>
+					</ul>
+					<p>
+						You'll notice there's no oscillators in this list since in sound
+						synthesis an oscillator is the primary source of sound but here I
+						have chosen not to use an oscillator since I have only one
+						oscillator which I want to keep for making basslines for my tracks.
+						I'll explain why we can skip oscillators in this workflow and just
+						stick to filters but instead of using filters oscillators can also
+						be used in the two workflows. These are the two workflows that I use
+						for kicks:
+					</p>
+					<ul class="list-disc pl-8 space-y-2 my-2">
+						<li>Self damping pinged filter</li>
+						<li>Self oscillating filter</li>
+					</ul>
+					<p>
+						Why filters? To be specific, we are using resonant filters. Resonant
+						filters start to resonate at their cutoff frequency when their
+						resonance all the way up.
+					</p>
+					<figure class="flex flex-col items-center my-10">
+						<picture class="md:w-1/2">
+							<img
+								src="/assets/morgasmatron.webp"
+								alt="Intellijel Morgasmatron multimode filter"
+								loading="lazy"
+							/>
+						</picture>
+						<figcaption class="text-center mt-2">
+							Intellijel Morgasmatron multimode filter
+						</figcaption>
+					</figure>
+					<p>
+						This is the filter I am using as a source of sound for the kicks I
+						synthesise. Ok, so why use self oscillating or self damping resonant
+						filters? The sound of a bass drum is quite simple in terms of
+						harmonics. There is one fundamental which has the highest energy and
+						some high frequency partials in the transient but the fundamental
+						tone is where most of the energy is concentrated. A self oscillating
+						filter gives us a sine wave whose fundamental is determined by the
+						cutoff frequency. If I keep the cutoff frequency at 50Hz and crank
+						the resonance all the way up the filter outputs a sine wave at 50Hz
+						at its output without needing to patch an input to the filter. This
+						sine wave of 50Hz is where most of the energy resides which works
+						well for us since it simulates the energy density of a bass drum.
+						You can get this sine wave from an oscillator too but like I
+						mentioned I have only oscillator and two different filters (one
+						analog and the other digital) so I chose the filter as my primary
+						sound source. Another good thing about the Morgasmatron is that it
+						has a
+						<em>Q-Drive</em> built into it which overdrives the resonance when
+						it's turned all the way up. It has no effect if the resonance is
+						less than 100%. So I don't need a separate overdrive module to add
+						additional harmonics to the sound.
+					</p>
+					<p class="mb-5">Now let's understand each of the workflows.</p>
+				</section>
+				<section>
+					<h2 class="border-b border-gray-400 pb-1 mb-2">
+						Self damping pinged filter
+					</h2>
+					<p>
+						What's a self damping filter? To make a filter self resonate you
+						turn up its resonance all the way and this pushes the filter to self
+						oscillate at the cutoff frequency. This gives you an oscillator
+						which is continuously emitting a sine wave. Every sound that we hear
+						has a start and an end but an oscillator is constantly screaming and
+						putting out energy. So we need to gate the output of the oscillator
+						and only open the gate when we want to sound to be produced.
+					</p>
 				</section>
 			</div>
 		</main>

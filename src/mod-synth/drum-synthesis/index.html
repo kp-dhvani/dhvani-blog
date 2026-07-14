@@ -20,9 +20,9 @@
 					</h2>
 					<p class="underline mb-2">A brief history of drums</p>
 					<p>
-						Drums play an important role in the rhythmic structure of every
-						genre of music. From kick drums, bass drums, snare drums, etc. in
-						the Western music to tabla, dhol, mridangam, dholak, etc. in the
+						Drums play an important role in the rhythmic structure of almost
+						every genre of music. From kick drums, bass drums, snare drums, etc.
+						in the Western music to tabla, dhol, mridangam, dholak, etc. in the
 						Indian music to the Persian zerbaghali to tanggu in China, drums
 						have existed in all major civilisations in one form or the other for
 						musical and non-musical purposes. First earliest evidence of drums
@@ -36,7 +36,7 @@
 						affairs of the Sumerians. The first metal drum dates back to Bronze
 						age in present day Vietnam. Drums can be seen in the sculptural
 						artwork of Greece and Rome indicating the use of the instrument for
-						cultural and military endeavours. The history of drums to Europe
+						cultural and military endeavors. The history of drums to Europe
 						through Greece trace their roots to Danbara from ancient Persia
 						imported with the name Tympanon. It was also know as Tympanum in the
 						Roman culture. In Europe Tabor a portable snare drum played either
@@ -107,10 +107,10 @@
 						membranes. eg. snare drum, bass drum, etc.
 					</li>
 				</ul>
-				<p>
+				<p class="mb-5">
 					Various such subdivisions are possible for percussion instruments.
-					<br />
-					<br />
+				</p>
+				<p>
 					Consider this a vibrating string has one dimension: its length, it can
 					only vibrate in one dimension across the length of the string. Other
 					properties such as its density and tension affect it but in a 3D world
@@ -126,10 +126,9 @@
 					frequencies. These patterns arise due to the standing waves across the
 					surface of the membrane. Each mode has a unique spatial pattern and
 					the number of nodes points where the displacement is zero and
-					antinodes points where displacement is at maximum varies. [should i go
-					into the superposition principle here?]
-					<br />
-					<br />
+					antinodes points where displacement is at maximum varies.
+				</p>
+				<p>
 					Let's say you hit the drum exactly in the center. It will vibrate up
 					and down just like the fundamental frequency of a vibrating string
 					called w<sub>01</sub> mode of the membrane. The modes of vibration can
@@ -293,13 +292,13 @@
 				<figure class="flex flex-col items-center justify-center my-10 w-full">
 					<picture class="flex justify-center w-full flex-col">
 						<img
-							src="/assets/bass_drum_anatomy.jpg"
-							alt="anatomy of a bass drum"
+							src="/assets/kick_drum_anatomy.jpg"
+							alt="anatomy of a kick drum"
 							class="h-auto md:w-1/2 mx-auto"
 							loading="lazy"
 						/>
 						<figcaption class="text-center mt-2">
-							Anatomy of a bass drum
+							Anatomy of a kick drum
 						</figcaption>
 					</picture>
 				</figure>
@@ -314,9 +313,11 @@
 					a kick drum is meant to be played by "foot" using a kick pedal (might
 					as well call it a foot drum). All kick drums are bass drums but not
 					all bass drums are kick drums. A kick drum which evolved from a bass
-					drum is modified specifically for modern music. A kick drum does not
-					have 2 complete membranes instead there is a hole in the carry head
-					which has several purposes like:
+					drum is modified specifically for modern music. We will be
+					synthesising a kick drum and not a bass drum since a kick drum has
+					more punch which I really like in my tracks. A kick drum does not have
+					2 complete membranes instead there is a hole in the carry head which
+					has several purposes like:
 				</p>
 				<ul class="list-disc pl-8 space-y-2 mb-2">
 					<li>
@@ -501,25 +502,22 @@
 				<figure class="flex flex-col items-center justify-center my-10 w-full">
 					<picture class="flex justify-center w-full flex-col">
 						<img
-							src="/assets/bass_drum_waveform.png"
+							src="/assets/kick_drum_waveform.png"
 							alt="waveform of a bass drum"
 							loading="lazy"
 						/>
 						<figcaption class="text-center mt-2">
-							A bass drum waveform
+							A kick drum waveform
 						</figcaption>
 					</picture>
 				</figure>
-				<div class="text-center my-10">
-					<audio
-						controls
-						preload="none"
-						class="mx-auto border border-accent-color bg-accent-color rounded-3xl"
-						id="audio-1"
-					>
-						<source src="/assets/bass_drum.wav" type="audio/wav" />
+				<div
+					class="mx-auto w-full max-w-md p-2 rounded-3xl border border-accent-color bg-accent-color overflow-hidden text-center text-white"
+				>
+					<audio controls preload="none" class="w-full block">
+						<source src="/assets/kick_drum.wav" type="audio/wav" />
 					</audio>
-					<label for="audio-1">Audio of the bass drum</label>
+					<label>Audio of the kick drum</label>
 				</div>
 				<section>
 					<p>
@@ -595,9 +593,7 @@
 						Now that we have modeled the frequency and the amplitude of the
 						sound, how do we synthesis it? So far I have tried two different
 						methods on my modular rig trying to find a workflow for a punchy
-						kick drum. We will be synthesising a kick drum and not a bass drum
-						since a kick drum has more punch which I really like in my tracks.
-						For the two workflows this is what we need:
+						kick drum. For the two workflows this is what we need:
 					</p>
 					<ul class="list-disc pl-8 space-y-2 my-2">
 						<li>Resonant filters</li>
@@ -662,8 +658,8 @@
 						has a
 						<em>Q-Drive</em> built into it which overdrives the resonance when
 						it's turned all the way up. It has no effect if the resonance is
-						less than 100%. So I don't need a separate overdrive module to add
-						additional harmonics to the sound.
+						anything less than 100%. So I don't need a separate overdrive module
+						to add additional harmonics to the sound.
 					</p>
 					<p class="mb-5">Now let's understand each of the workflows.</p>
 				</section>
@@ -671,15 +667,273 @@
 					<h2 class="border-b border-gray-400 pb-1 mb-2">
 						Self damping pinged filter
 					</h2>
-					<p>
+					<p class="mb-2">
 						What's a self damping filter? To make a filter self resonate you
 						turn up its resonance all the way and this pushes the filter to self
 						oscillate at the cutoff frequency. This gives you an oscillator
 						which is continuously emitting a sine wave. Every sound that we hear
 						has a start and an end but an oscillator is constantly screaming and
-						putting out energy. So we need to gate the output of the oscillator
-						and only open the gate when we want to sound to be produced.
+						putting out energy. So, we need to gate the output of the oscillator
+						and only open the gate when we want the sound to be produced. We do
+						this gating using VCAs. We patch the oscillator to the VCA and send
+						a <em>control voltage</em> to open the gate and emit the sound and
+						once the control voltage drops the gate closes and the sound goes
+						silent. However, if we use a resonant filter as a self damping sound
+						source then the sound decays into silence by itself. This is
+						actually the technique used by Roland's 808 kick drum sound. In an
+						R&D for a drum synthesiser their aim was to keep the cost of the
+						machine less than $1000 hence they chose this technique as it uses
+						less components than the traditional way of synthesis at that time.
+						The same reason I used this technique as my setup is still small. If
+						I chose to synthesise my own kicks live then I won't have enough
+						components left to patch other sounds in my mix. Ok, why not sample
+						the kick? That will make the other components free for doing other
+						stuff. I do have a fantastic sampler but don't have enough space in
+						my rack to use it. Also, I am exploring different techniques to
+						synthesise kick drums and this is a decent enough to get some good
+						sounds out of a filter.
 					</p>
+					<p class="mb-2">
+						So how do you get a self damping sine wave out of a filter? Start
+						with a low pass filter (The 808 used a bandpass filter but I used a
+						low pass since I am not trying to make a 808 bass drum). Set the
+						Q/resonance to around 80-90%. If you keep the resonance full it will
+						start to self oscillate and not dampen on its own. If you keep it
+						50% or less the sine wave won't have a body, the output would just
+						be the input transient and the kick would not have a body. Now we
+						need to excite this filter so we'll use an envelope with zero attack
+						and a bit of decay and patch it to the input of the filter. The
+						attack is 0ms and the decay maybe 50-80ms. You can keep the decay
+						longer and see what kind of sine wave that results to. Now you
+						trigger the envelope which excites the filter. Resonance is a
+						feedback loop. A copy of the filter output is fed back to its input
+						and this feeds to the natural resonating frequency of the filter
+						circuit which is determined by the cutoff. So when we excite the
+						filter with a quick transient that energy is fed back to the input.
+						The input is a quick impulse, an instantaneous spike, a broadband.
+					</p>
+					<p class="mb-2">
+						A <em>broadband</em> is a term to describe the span of frequencies
+						present in a signal. The higher the frequency content, wider the
+						bandwidth. A single sine wave as only one frequency, zero bandwidth.
+						A wide bandwidth contains a broad range of frequencies. So when you
+						feed it let's say a pulse wave or a envelope with 0 attack and a bit
+						of decay like a blip you generate a broadband.
+					</p>
+					<p>
+						A wide broadband has energy at every frequency. So when you patch in
+						a broadband to the filter whose cutoff is set to let's say 50Hz and
+						the resonance is around 80-90% the filter uses the broadband's
+						energy at 50Hz and starts ringing while ignoring the rest. So, the
+						aim to feed a signal with a wide range of energy to excite a
+						resonator which resonates at a particular frequency. Now the
+						question arises, why a broadband? Why not feed the filter a signal
+						of 50Hz if the cutoff is at 50Hz? You can! This is modular
+						synthesis, you can patch anything to everything but the resulting
+						sound might not be what you want.
+					</p>
+					<p class="mb-2">
+						Think of how the drum bass is hit to make it sound. A quick hit with
+						the beater and the membrane starts to resonate at its natural
+						frequency. It's a percussive instrument which is resonated by a
+						quick hit, that puts energy in the membrane which is then used to
+						move the air around it to generate the sound. It's not a violin
+						where you need a sustained sound (although violin strings can be
+						plucked, that's not how the instrument is mostly played). Feeding
+						the filter a 50Hz signal will not result in a decaying sound, it
+						will result in a sustained sound which is not a bass drum sound. A
+						bass drum sound eventually decays after a few milliseconds. Ok, you
+						might say why not feed it a signal of 50Hz but which is not
+						sustained and is more like a blip. That works too but needs more
+						modules to get that signal. Also, this signal is now frequency
+						dependent while a broadband is frequency agnostic. If you change the
+						filter cutoff to a different frequency you'll need to tune the
+						exciting signal to that cutoff frequency. Besides the trigger output
+						of any sequencer is a broadband, it's a pulse wave, a straight line:
+						instantaneous jump to the highest value. A broadband takes care a
+						lot of things in this workflow which otherwise you'll have to manage
+						manually.
+					</p>
+					<p>
+						So, we excite the filter with a broadband and the filter takes the
+						energy at 50Hz and starts ringing. Since the input is not a
+						continuous signal the output will automatically start to decay. The
+						resonance has a big responsibility here. Without thr resonance
+						feeding back some of the output back to the input the filter can't
+						hold the energy from the excitation for long. The output will be a
+						short blip just like the input. Resonance takes the energy from the
+						output and feeds it back to the input on every cycle. However since
+						the resonance is not set to unity, that is 100% on each subsequent
+						cycle, the amount of energy being fed back to the input reduces
+						proportionally, <em>exponentially</em>. And ultimately it runs out
+						of energy which leads to the sine wave decay to silence and this is
+						how it looks like.
+					</p>
+					<figure
+						class="flex flex-col items-center justify-center my-10 w-full"
+					>
+						<picture class="flex justify-center w-full flex-col">
+							<img
+								src="/assets/pinged_filter_50hz_clean.png"
+								alt="Self damping sine wave"
+								class="h-auto md:w-1/2 mx-auto"
+								loading="lazy"
+							/>
+							<figcaption class="text-center mt-2">
+								Self damping sine wave
+							</figcaption>
+						</picture>
+					</figure>
+					<p>Let's also hear what this sounds like.</p>
+					<div
+						class="mx-auto w-full max-w-md p-2 rounded-3xl border border-accent-color bg-accent-color overflow-hidden text-center text-white"
+					>
+						<audio controls preload="none" class="w-full block">
+							<source
+								src="/assets/pinged_filter_50hz_clean.wav"
+								type="audio/wav"
+							/>
+						</audio>
+						<label>Self damping sine wave kick</label>
+					</div>
+					<figure
+						class="flex flex-col items-center justify-center my-10 w-full"
+					>
+						<picture class="flex justify-center w-full flex-col">
+							<img src="/assets/pinged_filter_50hz_clean.gif" loading="lazy" />
+							<figcaption class="text-center mt-2">
+								Kick drum analysis
+							</figcaption>
+						</picture>
+					</figure>
+					<p class="my-5">
+						It's quite soft but feels muffled and it's not punchy enough.
+						Compare this to the recoding of the kick drum above, the punch is
+						missing. Look the gif above, there's no energy at the higher
+						partials. This is because we have not introduced the pitch shift
+						yet. You might notice that in the waveform the initial first few
+						cycles are packed tightly and slowly the spacing increases. This is
+						because of the transient that rings the filter. The transient is the
+						high energy broadband which starts with a high peak and then dies
+						out instantly. Hence, the filter frequency starts high and slowly
+						decays into silence. This is where that slight pump of the kick
+						comes from. But we can make it more punchy. To do that we apply the
+						same 0 attack minimum decay envelope to the FM input of the filter.
+					</p>
+					<figure
+						class="flex flex-col items-center justify-center my-10 w-full"
+					>
+						<picture class="flex justify-center w-full flex-col">
+							<img src="/assets/pinged_filter_50hz_fm.gif" loading="lazy" />
+							<figcaption class="text-center mt-2">
+								Kick drum with FM analysis
+							</figcaption>
+						</picture>
+					</figure>
+					<p>
+						Look at the gif above. There's more energy at the higher partials
+						now. Starting from around 2kHz dropping all the way around 100Hz
+						there's an instant energy spike that dies quickly, just like our
+						bass drum membrane's vibrational modes. Now let's hear it.
+					</p>
+					<div
+						class="mx-auto w-full max-w-md p-2 rounded-3xl border border-accent-color bg-accent-color overflow-hidden text-center text-white"
+					>
+						<audio controls preload="none" class="w-full block">
+							<source
+								src="/assets/pinged_filter_50hz_fm.wav"
+								type="audio/wav"
+							/>
+						</audio>
+						<label>Self damping sine wave kick with FM</label>
+					</div>
+					<p>Sounds much better to me! Much more punchy!</p>
+					<div class="flex lg:flex-row flex-col items-center gap-4">
+						<figure class="flex flex-col items-center">
+							<picture>
+								<img
+									src="/assets/pinged_filter_50hz_clean.png"
+									alt="Zero nodes for a vibrating membrane in 3D"
+									loading="lazy"
+								/>
+							</picture>
+							<figcaption class="text-center mt-2">
+								Self damping sine wave
+							</figcaption>
+						</figure>
+
+						<figure class="flex flex-col items-center">
+							<picture>
+								<img
+									src="/assets/pinged_filter_50hz_fm.png"
+									alt="Two nodes for a vibrating membrane in 3D"
+									loading="lazy"
+								/>
+							</picture>
+							<figcaption class="text-center mt-2">
+								Self damping sine wave with FM
+							</figcaption>
+						</figure>
+					</div>
+					<p class="my-5">
+						If we compare the two waveforms side by side, we see that the
+						waveform with FM is tighter and has fewer cycles compared to the
+						waveform without FM. But more importantly, look at the min and max
+						voltage of the waveforms. With FM, the pitch envelope drives the
+						cutoff high at the onset. This does three things at once: the
+						resonant is initially much larger &PlusMinus;5V vs &PlusMinus;0.8V;
+						the higher cutoff decays faster, so the ring is shorter with fewer
+						cycles; and as the envelope falls, the cutoff and hence the pitch
+						glides down from a high pitch to the cutoff 50Hz, giving the attack
+						its beater snap. The punch comes from this quickly dying higher
+						partials spreading energy from a high pitch to the actual
+						fundamental. For a final touch I am going to apply some EQ to it to
+						shape the sound even further and this is the final result of our
+						excursion.
+					</p>
+					<div
+						class="mx-auto w-full max-w-md p-2 rounded-3xl border border-accent-color bg-accent-color overflow-hidden text-center text-white"
+					>
+						<audio controls preload="none" class="w-full block">
+							<source
+								src="/assets/pinged_filter_50hz_fm_eq.wav"
+								type="audio/wav"
+							/>
+						</audio>
+						<label>Self damping sine wave kick with FM and EQ</label>
+					</div>
+					<p class="my-5">
+						I like the softness combined with the tight punch of the kick.
+						Almost feels like a basketball bouncing on the floor! Now let's try
+						out the other technique and hear what kick sounds can we get out of
+						it.
+					</p>
+				</section>
+				<section>
+					<h2 class="border-b border-gray-400 pb-1 mb-2">
+						Self oscillating filter
+					</h2>
+					<p>
+						In this technique, the resonance is cranked all the way up which
+						reaches unity and the filter starts to self oscillate without any
+						input! Here unity means 1. Resonance is not gain so, the amount of
+						output is proportional to the input but never higher than the input
+						so 1 is the mathematical equivalent of it. So when we turn the
+						resonance all the way up it feeds back 100% of the output to the
+						filter input and it starts to self oscillate. But if there's no
+						input to the filter how can where is it getting the energy to self
+						oscillate? Remember, we are dealing with analog electronic circuits.
+						These circuits have built in noise due to the nature of the
+						components. For a filter like Morgasmatron the noise comes from the
+						following sources:
+					</p>
+					<ul class="list-disc pl-8 space-y-2 my-5">
+						<li>
+							Thermal noise: Also known as <em>Johnson-Nyquist noise</em>. Every
+							charge carrier (usually electrons in the electrical circuits)
+							generate noise while flowing through the conductor.
+						</li>
+					</ul>
 				</section>
 			</div>
 		</main>

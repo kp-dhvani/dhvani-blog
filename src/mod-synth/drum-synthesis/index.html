@@ -240,7 +240,9 @@
 								loading="lazy"
 							/>
 						</picture>
-						<figcaption class="text-center mt-2">Zero nodes</figcaption>
+						<figcaption class="text-center text-sm text-gray-600 mt-4">
+							Zero nodes
+						</figcaption>
 					</figure>
 
 					<figure class="flex flex-col items-center">
@@ -251,7 +253,9 @@
 								loading="lazy"
 							/>
 						</picture>
-						<figcaption class="text-center mt-2">Two nodes</figcaption>
+						<figcaption class="text-center text-sm text-gray-600 mt-4">
+							Two nodes
+						</figcaption>
 					</figure>
 
 					<figure class="flex flex-col items-center">
@@ -262,7 +266,9 @@
 								loading="lazy"
 							/>
 						</picture>
-						<figcaption class="text-center mt-2">Four nodes</figcaption>
+						<figcaption class="text-center text-sm text-gray-600 mt-4">
+							Four nodes
+						</figcaption>
 					</figure>
 				</div>
 				<p class="my-5">
@@ -297,7 +303,7 @@
 							class="h-auto md:w-1/2 mx-auto"
 							loading="lazy"
 						/>
-						<figcaption class="text-center mt-2">
+						<figcaption class="text-center text-sm text-gray-600 mt-4">
 							Anatomy of a kick drum
 						</figcaption>
 					</picture>
@@ -425,11 +431,11 @@
 				<p class="mb-5">
 					The click comes from the beater hitting the drumhead which sends a
 					shockwave across the membrane of the drum which travel outwards from
-					the point of the impact. Due to this several high frequency partials
-					are formed for a very less amount of time since high frequencies
-					dampen quickly due to the material of the membrane. The stiffness and
-					mass of both the beater and the impact point of the drumhead determine
-					which higher frequencies get more excited.
+					the point of the impact. Due to this several high frequency inharmonic
+					partials are formed for a very less amount of time since high
+					frequencies dampen quickly due to the material of the membrane. The
+					stiffness and mass of both the beater and the impact point of the
+					drumhead determine which higher frequencies get more excited.
 				</p>
 				<p class="mb-5">
 					Now that we have the frequency content of the sound let's understand
@@ -489,15 +495,15 @@
 					>
 					The aim is not to reproduce the physical phenomena but reproduce the
 					perceptual effects. A bass drum when struck generates high frequency
-					partials which die out pretty quickly. The whole process is so quick
-					that our brains can't even discern a pitch from that sound. The higher
-					mode partials die out in tens of milliseconds and settle into the
-					fundamental. Our auditory cortex takes somewhere around 200-300ms to
-					fully process an incoming sound and discern the pitch of the sound.
-					Hence, a bass drum has this tight punch like *thwack* and then a
-					simple body sonically. Most of the energy is around the fundamental
-					which rings for hundred of milliseconds one the beater hits the
-					membrane.
+					inharmonic partials which die out pretty quickly. The whole process is
+					so quick that our brains can't even discern a pitch from that sound.
+					The higher mode inharmonic partials die out in tens of milliseconds
+					and settle into the fundamental. Our auditory cortex takes somewhere
+					around 200-300ms to fully process an incoming sound and discern the
+					pitch of the sound. Hence, a bass drum has this tight punch like
+					*thwack* and then a simple body sonically. Most of the energy is
+					around the fundamental which rings for hundred of milliseconds one the
+					beater hits the membrane.
 				</p>
 				<figure class="flex flex-col items-center justify-center my-10 w-full">
 					<picture class="flex justify-center w-full flex-col">
@@ -506,7 +512,7 @@
 							alt="waveform of a bass drum"
 							loading="lazy"
 						/>
-						<figcaption class="text-center mt-2">
+						<figcaption class="text-center text-sm text-gray-600 mt-4">
 							A kick drum waveform
 						</figcaption>
 					</picture>
@@ -528,13 +534,13 @@
 						pitch when the beater hits the membrane. The initial transient is so
 						tightly packed that it almost looks like noise and slowly the
 						spacing starts to increase between each cycle and as we discussed
-						earlier now you can see that the higher partials introduced in the
-						membrane die out quick and slowly settle into the actual fundamental
-						of the tone. Now let's look at the amplitude, the volume. The
-						waveform is tallest at the start and slowly starts to decrease in
-						height until it dies completely. This the exponentially decaying
-						amplitude of the bass drum. The volume follows the decaying path of
-						the energy introduced in the membrane. Energy and hence the
+						earlier now you can see that the higher inharmonic partials
+						introduced in the membrane die out quick and slowly settle into the
+						actual fundamental of the tone. Now let's look at the amplitude, the
+						volume. The waveform is tallest at the start and slowly starts to
+						decrease in height until it dies completely. This the exponentially
+						decaying amplitude of the bass drum. The volume follows the decaying
+						path of the energy introduced in the membrane. Energy and hence the
 						amplitude decays exponentially. So to synthesise the sound the two
 						things we need to model is the pitch (frequency) and volume
 						(amplitude) decaying exponentially. Let's model the two behaviours
@@ -556,17 +562,17 @@
 						a vibrational fundamental mode where it resonates strongly and has
 						the highest level of energy. The beater hitting the membrane
 						instantly transfers a a big amount of energy into the higher
-						partials of the vibrational modes for the first few milliseconds yet
-						the fundamental frequency still has the highest energy. This makes
-						the pitch of the tone start at a high frequency and as the energy
-						dissipates what you hear is the fundamental frequency of the tone.
-						So when synthesising the drum sound we will start with a high pitch
-						which then slowly exponentially settles to its fundamental. The
-						pitch shift for the drum at the start is around 2-3 semitones so
-						that's the amount of shift we need to introduce while synthesising
-						the sound. In this graph I have exaggerated the pitch shift just to
-						draw the chart because 2-3 semitones would not show up properly on
-						the graph.
+						inharmonic partials of the vibrational modes for the first few
+						milliseconds yet the fundamental frequency still has the highest
+						energy. This makes the pitch of the tone start at a high frequency
+						and as the energy dissipates what you hear is the fundamental
+						frequency of the tone. So when synthesising the drum sound we will
+						start with a high pitch which then slowly exponentially settles to
+						its fundamental. The pitch shift for the drum at the start is around
+						2-3 semitones so that's the amount of shift we need to introduce
+						while synthesising the sound. In this graph I have exaggerated the
+						pitch shift just to draw the chart because 2-3 semitones would not
+						show up properly on the graph.
 					</p>
 					<div class="mb-10 mr-0 md:mr-4 w-full flex justify-center">
 						<canvas
@@ -634,7 +640,7 @@
 								loading="lazy"
 							/>
 						</picture>
-						<figcaption class="text-center mt-2">
+						<figcaption class="text-center text-sm text-gray-600 mt-4">
 							Intellijel Morgasmatron multimode filter
 						</figcaption>
 					</figure>
@@ -643,19 +649,19 @@
 						synthesise. Ok, so why use self oscillating or self damping resonant
 						filters? The sound of a bass drum is quite simple in terms of
 						harmonics. There is one fundamental which has the highest energy and
-						some high frequency partials in the transient but the fundamental
-						tone is where most of the energy is concentrated. A self oscillating
-						filter gives us a sine wave whose fundamental is determined by the
-						cutoff frequency. If I keep the cutoff frequency at 50Hz and crank
-						the resonance all the way up the filter outputs a sine wave at 50Hz
-						at its output without needing to patch an input to the filter. This
-						sine wave of 50Hz is where most of the energy resides which works
-						well for us since it simulates the energy density of a bass drum.
-						You can get this sine wave from an oscillator too but like I
-						mentioned I have only oscillator and two different filters (one
-						analog and the other digital) so I chose the filter as my primary
-						sound source. Another good thing about the Morgasmatron is that it
-						has a
+						some high frequency inharmonic partials in the transient but the
+						fundamental tone is where most of the energy is concentrated. A self
+						oscillating filter gives us a sine wave whose fundamental is
+						determined by the cutoff frequency. If I keep the cutoff frequency
+						at 50Hz and crank the resonance all the way up the filter outputs a
+						sine wave at 50Hz at its output without needing to patch an input to
+						the filter. This sine wave of 50Hz is where most of the energy
+						resides which works well for us since it simulates the energy
+						density of a bass drum. You can get this sine wave from an
+						oscillator too but like I mentioned I have only oscillator and two
+						different filters (one analog and the other digital) so I chose the
+						filter as my primary sound source. Another good thing about the
+						Morgasmatron is that it has a
 						<em>Q-Drive</em> built into it which overdrives the resonance when
 						it's turned all the way up. It has no effect if the resonance is
 						anything less than 100%. So I don't need a separate overdrive module
@@ -779,7 +785,7 @@
 								class="h-auto md:w-1/2 mx-auto"
 								loading="lazy"
 							/>
-							<figcaption class="text-center mt-2">
+							<figcaption class="text-center text-sm text-gray-600 mt-4">
 								Self damping sine wave
 							</figcaption>
 						</picture>
@@ -801,7 +807,7 @@
 					>
 						<picture class="flex justify-center w-full flex-col">
 							<img src="/assets/pinged_filter_50hz_clean.gif" loading="lazy" />
-							<figcaption class="text-center mt-2">
+							<figcaption class="text-center text-sm text-gray-600 mt-4">
 								Kick drum analysis
 							</figcaption>
 						</picture>
@@ -810,31 +816,32 @@
 						It's quite soft but feels muffled and it's not punchy enough.
 						Compare this to the recoding of the kick drum above, the punch is
 						missing. Look the gif above, there's no energy at the higher
-						partials. This is because we have not introduced the pitch shift
-						yet. You might notice that in the waveform the initial first few
-						cycles are packed tightly and slowly the spacing increases. This is
-						because of the transient that rings the filter. The transient is the
-						high energy broadband which starts with a high peak and then dies
-						out instantly. Hence, the filter frequency starts high and slowly
-						decays into silence. This is where that slight pump of the kick
-						comes from. But we can make it more punchy. To do that we apply the
-						same 0 attack minimum decay envelope to the FM input of the filter.
+						inharmonic partials. This is because we have not introduced the
+						pitch shift yet. You might notice that in the waveform the initial
+						first few cycles are packed tightly and slowly the spacing
+						increases. This is because of the transient that rings the filter.
+						The transient is the high energy broadband which starts with a high
+						peak and then dies out instantly. Hence, the filter frequency starts
+						high and slowly decays into silence. This is where that slight pump
+						of the kick comes from. But we can make it more punchy. To do that
+						we apply the same 0 attack minimum decay envelope to the FM input of
+						the filter.
 					</p>
 					<figure
 						class="flex flex-col items-center justify-center my-10 w-full"
 					>
 						<picture class="flex justify-center w-full flex-col">
 							<img src="/assets/pinged_filter_50hz_fm.gif" loading="lazy" />
-							<figcaption class="text-center mt-2">
+							<figcaption class="text-center text-sm text-gray-600 mt-4">
 								Kick drum with FM analysis
 							</figcaption>
 						</picture>
 					</figure>
 					<p>
-						Look at the gif above. There's more energy at the higher partials
-						now. Starting from around 2kHz dropping all the way around 100Hz
-						there's an instant energy spike that dies quickly, just like our
-						bass drum membrane's vibrational modes. Now let's hear it.
+						Look at the gif above. There's more energy at the higher inharmonic
+						partials now. Starting from around 2kHz dropping all the way around
+						100Hz there's an instant energy spike that dies quickly, just like
+						our bass drum membrane's vibrational modes. Now let's hear it.
 					</p>
 					<div
 						class="mx-auto w-full max-w-md p-2 rounded-3xl border border-accent-color bg-accent-color overflow-hidden text-center text-white"
@@ -857,7 +864,7 @@
 									loading="lazy"
 								/>
 							</picture>
-							<figcaption class="text-center mt-2">
+							<figcaption class="text-center text-sm text-gray-600 mt-4">
 								Self damping sine wave
 							</figcaption>
 						</figure>
@@ -870,7 +877,7 @@
 									loading="lazy"
 								/>
 							</picture>
-							<figcaption class="text-center mt-2">
+							<figcaption class="text-center text-sm text-gray-600 mt-4">
 								Self damping sine wave with FM
 							</figcaption>
 						</figure>
@@ -886,7 +893,7 @@
 						cycles; and as the envelope falls, the cutoff and hence the pitch
 						glides down from a high pitch to the cutoff 50Hz, giving the attack
 						its beater snap. The punch comes from this quickly dying higher
-						partials spreading energy from a high pitch to the actual
+						inharmonic partials spreading energy from a high pitch to the actual
 						fundamental. For a final touch I am going to apply some EQ to it to
 						shape the sound even further and this is the final result of our
 						excursion.
@@ -934,6 +941,218 @@
 							generate noise while flowing through the conductor.
 						</li>
 					</ul>
+					<p>
+						So now that we have a self oscillating sine wave, we'll need to gate
+						its output and only open the gate when we want the kick to make its
+						sound and hence we use a VCA to gate the output of the self
+						oscillating filter. We'll need to patch a separate envelope to the
+						VCA to shape the volume of the kick. Remember, the volume decays
+						exponentially so we patch a decaying envelope to the VCA to open the
+						gate. However, there is one difference between the two envelopes for
+						pitch and amplitude. Keeping the amplitude envelope as tight and
+						short as the pitch envelope produces just a click. The pitch shift
+						decays really fast compared to the overall volume of the sound and
+						hence the envelope patched to the VCA will have a longer decay than
+						the pitch envelope. The energy introduced to the membrane is
+						instantaneous and hence the pitch rises and quickly and decays but
+						the membrane still has energy at the lower partials and keeps
+						resonating. This leads to a slower decay of volume compared to the
+						pitch.
+					</p>
+					<p>
+						So we patch a tight short decay to the FM input of the self
+						oscillating filter for that quick pitch sweep and a longer decay
+						envelope to the VCA to make sure the kick doesn't just sound like a
+						click. Compare this to the method we discussed above. The filter's
+						output is self damping, it doesn't need an exponential envelope to
+						make the decay happen. This time I am applying the FM and VCA
+						envelopes and recording the kick. Let's hear and analyse the
+						resulting kick from this technique.
+					</p>
+					<figure
+						class="flex flex-col items-center justify-center my-10 w-full"
+					>
+						<picture class="flex justify-center w-full flex-col">
+							<img
+								src="/assets/resonant_filter_vca_kick_50hz_fm.gif"
+								loading="lazy"
+							/>
+							<figcaption class="text-center text-sm text-gray-600 mt-4">
+								Self oscillating kick drum with FM and gated VCA analysis
+							</figcaption>
+						</picture>
+					</figure>
+					<p>And this is what it sounds like.</p>
+					<div
+						class="mx-auto w-full max-w-md p-2 rounded-3xl border border-accent-color bg-accent-color overflow-hidden text-center text-white my-5"
+					>
+						<audio controls preload="none" class="w-full block">
+							<source
+								src="/assets/resonant_filter_vca_kick_50hz_fm.wav"
+								type="audio/wav"
+							/>
+						</audio>
+						<label
+							>Self oscillating kick drum with FM and gated VCA sound</label
+						>
+					</div>
+					<p class="mt-5">
+						This kick is punchy but in my opinion too punchy that it sounds more
+						like a thud than a punch. It has the punch of a 909 kick but is
+						missing its body. Also, if you notice the waveform, it keeps
+						flipping every few kicks and this is one of the flaws that can't be
+						rectified when using a self oscillating filter. Think of it, the
+						filter's output which is constantly emitting a sine wave is patched
+						to a VCA. The VCA is an external multiplier. Without an envelope to
+						the VCA if the outout knob is completely shut, the VCA multiplies
+						the sine output with zero and hence nothing comes out. Now slowly
+						start turning the output knob and based on the knob it will start to
+						multiply the output with a fraction. So let's say the knob is turned
+						upto 50%, the output of the filter is multiplied with 0.5 and you
+						hear low amplitude continuous sine wave. Turn the output knob all
+						the way up 100% and the VCA multiplies the sine wave output by 1 and
+						you hear the sine wave at its highest amplitude. Despite its name
+						<em class="italic">Voltage Controlled Amplifier</em>, a VCA is not
+						an amplifier in the traditional sense.
+						<em class="italic">The output of a VCA never crosses unity.</em> The
+						output is never more than input. There's no
+						<em class="italic">gain</em> in the VCA for it to
+						<em class="italic">amplify</em> the signal power more than the power
+						of the input. Whereas, guitar amps amplify the input with respect to
+						its input and make it sound louder than input levels. The reason the
+						waveform flips its phase is because the VCA does not know where in
+						the cycle the sine wave is when the sequencer trigger the envelope
+						with in turn triggers the VCA. So with each new trigger the waveform
+						could be in a completely different phase when the VCA triggers to
+						make the sound and that's what you see in the analyser. This makes
+						each new trigger sound a bit different than the last one. This might
+						not be fully obvious here since the kick is just a simple sine wave.
+					</p>
+					<p>
+						This can be easily rectified with a
+						<em>Voltage Controlled Oscillator</em> (VCO) since most of them have
+						a sync input which can be used to sync its cycle to let's say a
+						sequencer which triggers the envelope. So patching the same
+						sequencer output to the oscillator's sync input and every time the
+						kick triggers the oscillator drops the current cycle and starts
+						again. This makes sure that with every trigger the kick sounds the
+						same. But since I am using a filter which has none such sync
+						capability.
+					</p>
+					<p>
+						However, to make the sound a bit more interesting I can use the
+						filter's Q-Drive which drives the resonance and adds more harmonincs
+						to the sine wave. I can also apply some EQ to the kick. Here is what
+						is sounds with Q-Drive close to 80% without distorting the wave and
+						the same EQ as used above with the kick from the previous technique.
+					</p>
+					<div
+						class="mx-auto w-full max-w-md p-2 rounded-3xl border border-accent-color bg-accent-color overflow-hidden text-center text-white my-5"
+					>
+						<audio controls preload="none" class="w-full block">
+							<source
+								src="/assets/resonant_filter_vca_kick_50hz_fm_eq.wav"
+								type="audio/wav"
+							/>
+						</audio>
+						<label
+							>Self oscillating kick drum with FM, gated VCA, Q-Drive and
+							EQ</label
+						>
+					</div>
+					<p class="mb-5">
+						This has a bit more body to it and has a solid punch. EQing the kick
+						is something that needs to be as per taste and based on the
+						track/mix that you're doing. The kicks I have synthesised here are
+						not part of any tracks so I am just applying EQ to taste without
+						thinking of how the sound might fix in a mix.
+					</p>
+				</section>
+				<section>
+					<h2 class="border-b border-gray-400 pb-1 mb-2">Closing thoughts</h2>
+					<p class="mb-2">
+						If you might have noticed, I did not layer the click noise at the
+						start of the sound. Honestly, in my exploration, I did layer the
+						click however it did not do much to the initial transient of the
+						kick. I have a noise source in my rack and high passed the noise,
+						patched to a VCA to make it sound like a click and mixed it with my
+						kick. This however did not bring a big change to the sound of my
+						kick.
+					</p>
+					<div class="flex lg:flex-row flex-col items-center gap-4">
+						<figure class="flex flex-col items-center">
+							<picture>
+								<img
+									src="/assets/noise_click.png"
+									alt="Zero nodes for a vibrating membrane in 3D"
+									loading="lazy"
+								/>
+							</picture>
+							<figcaption class="text-center text-sm text-gray-600 mt-4">
+								Short noise click
+							</figcaption>
+						</figure>
+
+						<figure class="flex flex-col items-center">
+							<picture>
+								<img
+									src="/assets/pinged_filter_50hz_noise_click.png"
+									alt="Two nodes for a vibrating membrane in 3D"
+									loading="lazy"
+								/>
+							</picture>
+							<figcaption class="text-center text-sm text-gray-600 mt-4">
+								Self damping sine wave with FM and noise click
+							</figcaption>
+						</figure>
+					</div>
+					<p class="my-5">Let's hear it without and with the click.</p>
+					<div class="flex lg:flex-row flex-col items-center gap-4">
+						<div
+							class="mx-auto w-full max-w-md p-2 rounded-3xl border border-accent-color bg-accent-color overflow-hidden text-center text-white my-5"
+						>
+							<audio controls preload="none" class="w-full block">
+								<source
+									src="/assets/pinged_filter_50hz_no_noise_click_eq.wav"
+									type="audio/wav"
+								/>
+							</audio>
+							<label
+								>Self damping sine wave kick with FM, EQ, and no noise
+								click</label
+							>
+						</div>
+						<div
+							class="mx-auto w-full max-w-md p-2 rounded-3xl border border-accent-color bg-accent-color overflow-hidden text-center text-white my-5"
+						>
+							<audio controls preload="none" class="w-full block">
+								<source
+									src="/assets/pinged_filter_50hz_noise_click_eq.wav"
+									type="audio/wav"
+								/>
+							</audio>
+							<label
+								>Self damping sine wave kick with FM, EQ, and noise click</label
+							>
+						</div>
+					</div>
+					<p>
+						The noise click is clearly audible and since noise is stochastic its
+						energy varies on every trigger. This sort of ties to how a natural
+						kick drum sounds since it's a human playing it every kick sounds
+						different in a way. Also, adding this noise helps with playback on
+						speakers which can't reproduce the low ends properly so the noise
+						acts like a kick and cuts through the track on low quality speakers.
+						But for now I am skipping the noise click for my kicks. I have a
+						multiband saturator which can be used to saturate or overdrive the
+						lows, the mids, and the highs separately of the same input signal.
+						So I can add saturation in the highs for that noise click sound
+						2-3kHz that will be not stochastic in nature since the click comes
+						from the kick and not an external signal. But this is new module
+						that I got and I haven't explored it fully. Maybe once I explore it
+						with different sounds I can come back here and add the saturated
+						kicks.
+					</p>
 				</section>
 			</div>
 		</main>

@@ -931,16 +931,75 @@
 						input to the filter how can where is it getting the energy to self
 						oscillate? Remember, we are dealing with analog electronic circuits.
 						These circuits have built in noise due to the nature of the
-						components. For a filter like Morgasmatron the noise comes from the
-						following sources:
+						components. For a filter like Morgasmatron the noise can come from
+						the following sources:
 					</p>
 					<ul class="list-disc pl-8 space-y-2 my-5">
 						<li>
-							Thermal noise: Also known as <em>Johnson-Nyquist noise</em>. Every
-							charge carrier (usually electrons in the electrical circuits)
-							generate noise while flowing through the conductor.
+							Thermal noise: Also known as <em>Johnson-Nyquist noise</em>. The
+							free electrons in the metal conductor are randomly moving
+							throughout the conductor. The reason metals conduct is because of
+							these free electrons. The heat from the environment makes the
+							atoms unstable and that moves the electrons move in random
+							direction. These electrons have momentum, in different directions.
+							Nothing coordinates these electrons so the sum of their random
+							motion is never zero. Precisely, zero is one outcome of many
+							possible answers but rarely it is zero. Think of it this way, if
+							you were to toss a coin 100 times you'd guess that the result will
+							be 50 heads and 50 tails but that is not what happens. The wobble
+							is around &PlusMinus;10 i.e. &Sqrt;100. This is the standard
+							result for a sum of N random events. So at any point because of
+							this movement the electrons create a separation and a separation
+							of charges creates a potential difference i.e. voltage. The metal
+							stays neutral but the charges are separated and that creates a
+							potential difference. This scattering of electrons is random and
+							changes every instant. Randomly wandering voltage is noise. One
+							special characteristic of this noise is that it's white noise
+							which means every frequency in the noise has equal power.
+						</li>
+						<li>
+							Flicker noise: Also known as 1/f noise and pink noise. Unlike
+							white noise which has equal power at all frequencies in the
+							spectrum, pink noise dominates at lower frequencies. The
+							relationship is inversely proportional. This noise comes from the
+							imperfections in the semiconductor crystals used in the active
+							electronic components like transistors, transconductance chips,
+							etc. In such crystals there are defect sites which capture the
+							charge carriers from the current flow and eventually release it.
+							So, the current through the device has tiny interruptions. This
+							mainly affects the active electronic components using transistors.
+						</li>
+						<li>
+							Noise from power supply: Most power supplies have coils such as
+							transformers and inductors that are used to convert the incoming
+							AC signal to DC. Due to the varying electromagnetic fields the
+							coil can start physically vibrating and introduce noise.
 						</li>
 					</ul>
+					<p class="mb-2">
+						All analog circuits have varying level of noise built into them. An
+						analog oscillator output is never clean as it has built in noise.
+						Look at a sine wave from an analog oscillator and it will not be a
+						pure sine wave of one frequency and will contain some higher
+						harmonics too. This noise is what gave this warmth to the sound. So,
+						even when the there's no input at the filter this noise floor is
+						constantly present in its circuit. A passive filter can only
+						attenuate the signal, chain a bunch of them and you'll see that the
+						output is tiny. This is where active circuits come as they use a
+						device called op amp to add gain to the signal. They also handle the
+						resonance operation. The resonance is a feedback loop via the op
+						amp. So when you have no input to the filter, the noise floor
+						provides the seed for the self oscillating filter. If the cutoff is
+						50Hz, the filter picks up energy from 50Hz and feeds it to the op
+						amp which adds gain to it. Once the resonance is 100% the circuit
+						hits its limit and the filter starts to self oscillate. The sine
+						wave produced from this self oscillation is never a clean pure sine.
+						Remember, this is an analog circuit which has noise built into it.
+						Not all filters use an op amp though. The classic Moog Ladder filter
+						uses transistors for the gain. The point is for a filter to be
+						resonant it needs an active circuit to add gain. So, crank up the
+						resonance and you filter turns into an oscillator.
+					</p>
 					<p>
 						So now that we have a self oscillating sine wave, we'll need to gate
 						its output and only open the gate when we want the kick to make its
@@ -1028,7 +1087,7 @@
 						each new trigger sound a bit different than the last one. This might
 						not be fully obvious here since the kick is just a simple sine wave.
 					</p>
-					<p>
+					<p class="mb-2">
 						This can be easily rectified with a
 						<em>Voltage Controlled Oscillator</em> (VCO) since most of them have
 						a sync input which can be used to sync its cycle to let's say a
@@ -1040,11 +1099,12 @@
 						capability.
 					</p>
 					<p>
-						However, to make the sound a bit more interesting I can use the
-						filter's Q-Drive which drives the resonance and adds more harmonincs
-						to the sine wave. I can also apply some EQ to the kick. Here is what
-						is sounds with Q-Drive close to 80% without distorting the wave and
-						the same EQ as used above with the kick from the previous technique.
+						So back to the kick. Now to make the sound a bit more full I can use
+						the filter's Q-Drive which drives the resonance and adds more
+						harmonics to the sine wave. I can also apply some EQ to the kick.
+						Here is what is sounds with Q-Drive close to 80% without distorting
+						the wave and the same EQ as used above with the kick from the
+						previous technique.
 					</p>
 					<div
 						class="mx-auto w-full max-w-md p-2 rounded-3xl border border-accent-color bg-accent-color overflow-hidden text-center text-white my-5"
@@ -1156,6 +1216,6 @@
 				</section>
 			</div>
 		</main>
-		<script src="./main.ts" type="module"></script>
+		<script type="module" src="./main.ts"></script>
 	</body>
 </html>
